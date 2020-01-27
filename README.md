@@ -30,6 +30,8 @@ This game features:
 * Platform
   * Variables
     * X, Y, X - axonometric variables where Y is perpendicular to the horizontal plane and X and Y are 30° from horizonal plane
+  * Functions
+    
    
 
 
