@@ -47,7 +47,7 @@ This game features:
 * Jumper (inherits from Object)
   * Functions
     * CalculateNewPos - takes a prev X<sup>0</sup> and a Velocity and calculates a new position. 
-    * Jump - Takes a prev X<sup>0</sup>, Y<sup>0</sup> and a New X<sup>1</sup>, Y<sup>1</sup> and updates the game to have the figure travel along a curved path from the former to the latter. TBD How isometric jumping will image the following formulas:  
+    * Jump - Takes a prev X<sup>0</sup>, Y<sup>0</sup> and a New X<sup>1</sup>, Y<sup>1</sup> and updates the game to have the figure travel along a curved path from the former to the latter. TBD How conversion from cartesian system to the isometric projection will impact the following formulas:  
       * Vars 
          * DeltaT - time passed between re-renders / updates to the frame
          * Velocity - determined by the user on mouse-down
