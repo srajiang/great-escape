@@ -56,8 +56,10 @@ This game features:
          * Update position: J<sup>1</sup> = J + DeltaT * Velocity (every frame position changes)
          * Update velocity: V<sup>1</sup> = V + DeltaT * Gravity  (every frame velocity changes)    
 
+## UI Components
 
+* 3D game assets rendered in 3.js
+* Sounds
 
-   
 
 
