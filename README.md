@@ -21,17 +21,43 @@ This game features:
 ## Game Components
 
 * GameManager
+  * Variables 
+      * Game
+      * Game Started
+      * Game Ended
+  * Functions
+      * Responsible for intializing a new game, starting and ending the game when the Score maxes or when player falls.     
+* Game
   * Variables
-      * Score, with a max 99,999
+      * TotalScore, with a max 99,999
       * Streak, no max. +1 when user leaps to center of a platform. Resets on all other cases
   * Functions
       * Starts and ends the game
-      * Adds to the score on successful land Total score = Prev Score + ( 2^f ), where f is the streak value. 
-* Platform
+      * Adds to the score on successful land total score = Prev Score + ( 2^f ), where f is the streak value. 
+     
+* Object (Parent) 
   * Variables
-    * X, Y, X - axonometric variables where Y is perpendicular to the horizontal plane and X and Y are 30° from horizonal plane
+    * H, W, D - axonometric variables where H is perpendicular to the horizontal plane and W and D are 30° from horizonal plane
+    * Position (X, Y) - Position of the center of the flat part of the box on the game canvas. 
   * Functions
-    
+    * TBD
+  * See example here: 
+<img width="596" alt="Screen Shot 2020-01-27 at 10 14 25 AM" src="https://user-images.githubusercontent.com/55667998/73203685-617bfb80-40f2-11ea-8a4b-d48631ad927e.png">
+ 
+* Jumper (inherits from Object)
+  * Functions
+    * CalculateNewPos - takes a prev X<sup>0</sup> and a Velocity and calculates a new position. 
+    * Jump - Takes a prev X<sup>0</sup>, Y<sup>0</sup> and a New X<sup>1</sup>, Y<sup>1</sup> and updates the game to have the figure travel along a curved path from the former to the latter. TBD How isometric jumping will image the following formulas:  
+      * Vars 
+         * DeltaT - time passed between re-renders / updates to the frame
+         * Velocity - determined by the user on mouse-down
+         * Gravity - Gravity vector 
+      * Formulas for jump action: 
+         * Update position: J<sup>1</sup> = M + DeltaT * Velocity (every frame position changes)
+         * Update velocity: V<sup>1</sup> = V + DeltaT * Gravity  (every frame velocity changes)    
+
+
+
    
 
 
