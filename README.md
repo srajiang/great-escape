@@ -53,7 +53,7 @@ This game features:
          * Velocity - determined by the user on mouse-down
          * Gravity - Gravity vector 
       * Formulas for jump action: 
-         * Update position: J<sup>1</sup> = M + DeltaT * Velocity (every frame position changes)
+         * Update position: J<sup>1</sup> = J + DeltaT * Velocity (every frame position changes)
          * Update velocity: V<sup>1</sup> = V + DeltaT * Gravity  (every frame velocity changes)    
 
 
