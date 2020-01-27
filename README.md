@@ -1,6 +1,6 @@
 # Great Bento Escape
 
-You are a little tamago roll trying to escape the bento. Don't fall off the sushi platters and get points for leaping successfuly to freedom. 
+You are a little tamago roll trying to escape the bento. Get points for leaping successfully from platter to platter in a bid for your freedom. Don't fall off the sushi platters! 
 
 ## Background
 
