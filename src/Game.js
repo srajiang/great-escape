@@ -61,7 +61,6 @@ Game.prototype.addPlatforms = function() {
 
   for (let i = 0; i < PLATFORM_COUNT; i++ ) {
 
-    console.log('adding platform');
     platforms.push( new Platform());
 
   }

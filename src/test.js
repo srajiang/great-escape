@@ -4,7 +4,7 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass'
 import Game from "./Game";
 
-function init({ platforms }) {
+function init({ platforms, player }) {
 
   // --------------------------------------------------CANVAS / RENDERER / SCENE
   
@@ -44,14 +44,11 @@ function init({ platforms }) {
   plane.position.set(0,-.575,0);
   scene.add( plane );
 
-  // -------------------------------------------------------------------- ACTORS
+  // ---------------------------------------------------------- RENDER PLATFORMS
 
-  console.log('testing', platforms);
   let geometry, material, mesh; 
 
   for (let platform of platforms) {
-
-    console.log('testing');
 
     geometry = new THREE.BoxGeometry(platform.W, platform.H, platform.D);
     material = new THREE.MeshPhongMaterial({ color: platform.col });
@@ -63,35 +60,19 @@ function init({ platforms }) {
 
   }
 
-  // ---------- define geometry of test box
-  // const geometry = new THREE.BoxGeometry(platform.W, platform.H, platform.D);
+  // ------------------------------------------------------------- RENDER PLAYER
 
-  // ---------- test box 2
+  let playerGeometry, playerMaterial, playerMesh; 
 
-  // const boxWidth2 = 0.20;
-  // const boxHeight2 = 0.15;
-  // const boxDepth2 = 0.20;
-  // const geometry2 = new THREE.BoxGeometry(boxWidth2, boxHeight2, boxDepth2);
+  playerGeometry = new THREE.CylinderGeometry(player.RT, player.RB, player.H, 32);
+  playerMaterial = new THREE.MeshLambertMaterial({ color: player.col });
+  playerMesh = new THREE.Mesh(playerGeometry, playerMaterial);
 
-  // // ---------- make a basic material for the test box
-  // // const material = new THREE.MeshPhongMaterial({ color: platform.col });
-  // const material2 = new THREE.MeshPhongMaterial({ color: 0x67E0F0 });
+  playerMesh.castShadow = true;
+  playerMesh.receiveShadow = false;
+  scene.add(playerMesh);
 
-  // // ---------- combine or mesh the geometry (shape) and the material
-  // // const cube = new THREE.Mesh(geometry, material);
-  // const cube2 = new THREE.Mesh(geometry2, material2);
-
-  // // ------------- Make cubes cast shadows
-  // cube.castShadow = true;
-  // cube.receiveShadow = false;
-  // cube2.castShadow = true;
-  // cube2.receiveShadow = false;
-
-  // // ---------- add cubes to the scene
-  // scene.add(cube);
-  // cube.position.set(platform.X, platform.Y, platform.Z);
-  // scene.add(cube2);
-  // cube2.position.set(0, Y, -.5);
+  playerMesh.position.set(player.X, player.Y, player.Z);
 
 
   // -------------------------------------------------------------------- LIGHTS

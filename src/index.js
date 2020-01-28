@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 // -------------------------------------------------- KEYBOARD ACTIONS
-document.addEventListener('keydown', (e) => currentGame.registerSpaceBarKeyPress(e));
-document.addEventListener('keyup', (e) => currentGame.registerSpaceBarKeyPress(e));
+document.addEventListener('keydown', (e) => game.registerSpaceBarKeyPress(e));
+document.addEventListener('keyup', (e) => game.registerSpaceBarKeyPress(e));
 
 
