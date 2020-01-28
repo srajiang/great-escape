@@ -1,0 +1,22 @@
+{
+  "name": "jump-jump",
+  "version": "1.0.0",
+  "description": "App for jumping",
+  "main": "jump.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/srajiang/jumpjump.git"
+  },
+  "author": "Sarah Jiang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/srajiang/jumpjump/issues"
+  },
+  "homepage": "https://github.com/srajiang/jumpjump#readme",
+  "dependencies": {
+    "three": "^0.112.1"
+  }
+}

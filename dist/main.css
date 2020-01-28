@@ -1,0 +1,45 @@
+body {
+  font-family: 'Open Sans Condensed', sans-serif;
+
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+}
+
+#c {
+  border-radius: .5rem;
+  background-image: linear-gradient(#95ACFF 50%, lightpink)
+}
+
+.canvas-wrapper {
+
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 5vh;
+
+}
+
+.canvas-wrapper p {
+  font-size: 1.5rem;
+}
+
+.game-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-image: linear-gradient(#FCF5DD, #FFEAEE);
+}
+
+.score {
+  font-size: 5rem;
+  position: absolute;
+  left: calc(50vw - (80 / 2)px);
+  top: 5rem;
+  color: white;
+  letter-spacing: .3rem;
+}
