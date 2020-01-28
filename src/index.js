@@ -3,17 +3,15 @@ import Game from './Game';
 
 
 // ----------------------------------------------- GAME STATE VARIABLES
-var currentGame = new Game();
-console.log('game stats:', currentGame.score, currentGame.streak);
-console.log(currentGame.isOver());
+var game = new Game();
+console.log('game stats:', game.score, game.streak);
+console.log(game.isOver());
 
 // --------------------------------------------------------- INIT GAME 
 document.addEventListener('DOMContentLoaded', () => {
-  init(currentGame);
+  init(game);
   
 })
-
-
 
 // -------------------------------------------------- KEYBOARD ACTIONS
 document.addEventListener('keydown', (e) => currentGame.registerSpaceBarKeyPress(e));
