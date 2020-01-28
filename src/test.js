@@ -1,41 +1,53 @@
 import * as THREE from "three";
+import Game from './Game';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
+import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass'
 
-function test3DScene() {
+function init({ platform }) {
+
+  // --------------------------------------------------CANVAS / RENDERER / SCENE
+  
   // ----------- set basic width and height
   const width = 600;
   const height = 1000;
   const aspect = width / height;
   const D = 1;
+  const Y = -.5;
 
   //  ---------- make a canvas and a renderer
   const canvas = document.getElementById("c");
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
   renderer.shadowMap.enabled = true;
-  renderer.shadowMap.tpe = THREE.PCFSoftShadowMap;
-
+  renderer.shadowMap.type = THREE.BasicShadowMap;
+  
   renderer.setSize(width, height)
 
-  // ---------- make a perspective camera
-
-  // const fov = 75;
-  // const aspect = 2; // the canvas default
-  // const near = 0.1;
-  // const far = 5;
-  // const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-
+  // ---------- make an orthographic camera
   const camera = new THREE.OrthographicCamera(-D*aspect, D*aspect, D, -D, 1, 1000);
-
-  // ---------- place camera at the origin
-  // camera.position.z = 2;
 
   // ---------- create a scene, the root of a form of scene graph
   const scene = new THREE.Scene();  
 
+
+  // --------------------------------------------------------------------- FLOOR
+
+
+  // -------- Create a plane that receives shadows (but does not cast them)
+
+  var planeGeometry = new THREE.PlaneBufferGeometry( 1000, 1000, 100, 100 );
+  var planeMaterial = new THREE.ShadowMaterial()
+  var plane = new THREE.Mesh( planeGeometry, planeMaterial );
+  plane.receiveShadow = true;
+  plane.castShadow = false;
+  plane.rotation.set(-1.5,0,0);
+  plane.position.set(0,-.575,0);
+  scene.add( plane );
+
+  // -------------------------------------------------------------------- ACTORS
+
   // ---------- define geometry of test box
-  const boxWidth = .3;
-  const boxHeight = .15;
-  const boxDepth = .3;
-  const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+  const geometry = new THREE.BoxGeometry(platform.W, platform.H, platform.D);
 
   // ---------- test box 2
 
@@ -48,7 +60,7 @@ function test3DScene() {
   const material = new THREE.MeshPhongMaterial({ color: 0xb847c9 });
   const material2 = new THREE.MeshPhongMaterial({ color: 0x67E0F0 });
 
-  // ---------- combine or mesh the geometry (shape) and the material (how to draw, what color, texture etc)
+  // ---------- combine or mesh the geometry (shape) and the material
   const cube = new THREE.Mesh(geometry, material);
   const cube2 = new THREE.Mesh(geometry2, material2);
 
@@ -58,42 +70,51 @@ function test3DScene() {
   cube2.castShadow = true;
   cube2.receiveShadow = false;
 
-  // ---------- add two shiny new cube to the scene and then tell the renderer to render the object
+  // ---------- add cubes to the scene
   scene.add(cube);
-  cube.position.set(-.3,-.5,0);
+  cube.position.set(.5, Y,0);
   scene.add(cube2);
-  cube2.position.set(.3,-.5,0);
+  cube2.position.set(0, Y, -.5);
 
-  //Create a plane that receives shadows (but does not cast them)
-  var planeGeometry = new THREE.PlaneBufferGeometry( 20, 20, 32, 32 );
-  var planeMaterial = new THREE.MeshStandardMaterial( { color: 0x00ff00 } )
-  var plane = new THREE.Mesh( planeGeometry, planeMaterial );
-  plane.receiveShadow = true;
-  // scene.add( plane );
 
+
+
+  // -------------------------------------------------------------------- LIGHTS
 
   // ---------- create the lights
   const color = 0xffffff;
   const intensity = 1;
   const light = new THREE.DirectionalLight(color, intensity);
-  // light.position.set(-1, 2, 4);
-  light.position.set(3, 4, 2);
-  light.castShadow = true;
+  light.position.set(-3, 4, -1.5);
+  // light.castShadow = true;
   scene.add(light);
 
   // --------------- Set up shadow properties for the light
-  light.shadow.mapSize.width = 512;  // default
-  light.shadow.mapSize.height = 512; // default
+  light.shadow.mapSize.width = 2048;  // default
+  light.shadow.mapSize.height = 2048; // default
   light.shadow.camera.near = 0.5;    // default
   light.shadow.camera.far = 500;     // default
 
 
+  // -------------------------------------------------------------------- CAMERA  
   // ---------- set the camera
-  camera.position.set(20, 20, 20);
+  camera.position.set(-20, 20, -20);
   camera.lookAt(scene.position);
 
-  console.log('about to render the scene')
+
+  //  ------------------------------------------------------------------- ACTION
   renderer.render(scene, camera);
+
+
+
+  // ----------------------------------------------------------- POST PROCESSING
+  // var composer = new EffectComposer(renderer);
+  // composer.addPass(new RenderPass(scene, camera));
+  // var pass = new SMAAPass(
+  //   window.innerWidth * renderer.getPixelRatio(),
+  //   window.innerHeight * renderer.getPixelRatio()
+  // );
+  // composer.addPass(pass);
 
 
   // ----------- make the objects spin!
@@ -103,6 +124,8 @@ function test3DScene() {
 
   //   cube.rotation.x = time;
   //   cube.rotation.y = time;
+  //   cube2.rotation.x = time;
+  //   cube2.rotation.y = time;
 
   //   renderer.render(scene, camera);
 
@@ -115,4 +138,4 @@ function test3DScene() {
 
 
 
-export default test3DScene;
+export default init;

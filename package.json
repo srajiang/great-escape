@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/srajiang/jumpjump#readme",
   "dependencies": {
+    "postprocessing": "^6.10.0",
     "three": "^0.112.1"
   }
 }
