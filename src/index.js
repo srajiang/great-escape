@@ -1,4 +1,4 @@
-import init from './test';
+import init from './init';
 import Game from './Game';
 
 

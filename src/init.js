@@ -72,7 +72,11 @@ function init({ platforms, player }) {
   playerMesh.receiveShadow = false;
   scene.add(playerMesh);
 
-  playerMesh.position.set(player.X, player.Y, player.Z);
+  playerMesh.position.set(
+    player.pos._data[0],
+    player.pos._data[1],
+    player.pos._data[2]
+  );
 
 
   // -------------------------------------------------------------------- LIGHTS
@@ -99,8 +103,36 @@ function init({ platforms, player }) {
 
 
   //  ------------------------------------------------------------------- ACTION
-  renderer.render(scene, camera);
 
+  let prevTime = 0;
+  let dt;
+
+  function render(time) {
+
+    time *= 0.001; //convert time to seconds
+
+    // --------------------- get the change over time
+    dt = time - prevTime;
+    prevTime = time;
+
+    if (dt > .15) {  //limit in case update rate of > 1/5 of a second
+      dt = .15;
+    }
+
+    // -------------------- resets position each frame if player is moving
+    if (player.moving === true) {
+      // console.log('player moving');
+
+      player.updatePos(dt);
+      playerMesh.position.set(player.pos._data[0], player.pos._data[1], player.pos._data[2]); //redraw 
+    }
+
+    renderer.render(scene, camera);
+    requestAnimationFrame(render);
+  }
+    requestAnimationFrame(render);
+
+}
 
 
   // ----------------------------------------------------------- POST PROCESSING
@@ -111,26 +143,6 @@ function init({ platforms, player }) {
   //   window.innerHeight * renderer.getPixelRatio()
   // );
   // composer.addPass(pass);
-
-
-  // ----------- make the objects spin!
-
-  // function render(time) {
-  //   time *= 0.001; //converts time to seconds
-
-  //   cube.rotation.x = time;
-  //   cube.rotation.y = time;
-  //   cube2.rotation.x = time;
-  //   cube2.rotation.y = time;
-
-  //   renderer.render(scene, camera);
-
-  //   requestAnimationFrame(render);
-  // }
-
-  // requestAnimationFrame(render);
-
-}
 
 
 

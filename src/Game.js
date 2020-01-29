@@ -1,5 +1,7 @@
 import Player from './Player';
 import Platform from './Platform';
+import * as math from "mathjs";
+
 
 const PLATFORM_COUNT = 1;
 
@@ -45,12 +47,22 @@ Game.prototype.registerSpaceBarKeyPress = function({ type, code, timeStamp }) {
     this.keyUpTS = timeStamp;
   }
 
-  if (this.keyDownTS && this.keyUpTS) {
-    this.keyDelta = (this.keyUpTS - this.keyDownTS) / 1000; //convert to seconds;
-    console.log('keypressed seconds:', this.keyDelta);
+  if (this.keyDownTS && this.keyUpTS) {  //player has made a move
+    this.keyDelta = (this.keyUpTS - this.keyDownTS) / 1000; //convert to s;
+    console.log('velocity:', this.keyDelta);
+
+    //updates the Player object to trigger motion of the player piece
+    this.player.dir = this.player.getRandomDir();
+    this.player.vel = math.matrix([0, this.keyDelta, 1]);;
+    this.player.moving = true;
+
+    setTimeout(() => { //test 
+      this.player.moving = false;
+    }, 1000)
+   
+    clearTimeout();
   }
 
-  //eventually this will update the Player object by triggering the motion of the player piece
 
 }
 
