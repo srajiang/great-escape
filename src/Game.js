@@ -1,7 +1,6 @@
 import Player from './Player';
 import Platform from './Platform';
-import * as math from "mathjs";
-
+import * as THREE from "three";
 
 const PLATFORM_COUNT = 1;
 
@@ -9,7 +8,8 @@ function Game() {
 
   this.score = 0;
   this.streak = 0;
-  this.platforms = this.addPlatforms(); // testing a single platform
+  this.APlatforms = this.addPlatforms(); // active platforms
+  this.IPlatforms = this.addPlatforms();
   this.player = new Player();
 
   this.gameStarted = false;
@@ -48,18 +48,17 @@ Game.prototype.registerSpaceBarKeyPress = function({ type, code, timeStamp }) {
   }
 
   if (this.keyDownTS && this.keyUpTS) {  //player has made a move
-    this.keyDelta = (this.keyUpTS - this.keyDownTS) / 1000; //convert to s;
-    console.log('velocity:', this.keyDelta);
 
-    //updates the Player object to trigger motion of the player piece
-    this.player.dir = this.player.getRandomDir();
-    this.player.vel = math.matrix([0, this.keyDelta, 1]);;
+    this.keyDelta = (this.keyUpTS - this.keyDownTS) / 1000; //convert to s;
+    
+    if (this.keyDelta > 3) {
+      this.keyDelta = 3;
+    }
+
+    this.player.finalPos = new THREE.Vector3(this.player.pos.x, this.player.pos.y, this.player.pos.z + this.keyDelta)
+    this.player.vel.y = this.keyDelta * 4;
     this.player.moving = true;
 
-    setTimeout(() => { //test 
-      this.player.moving = false;
-    }, 1000)
-   
     clearTimeout();
   }
 
@@ -68,16 +67,34 @@ Game.prototype.registerSpaceBarKeyPress = function({ type, code, timeStamp }) {
 
 Game.prototype.addPlatforms = function() {
 
-  let platforms = [];
+  if (this.APlatforms === undefined) {  //game start
 
+    const start = new THREE.Vector3( 0, 0, -.4);
+    const next = new THREE.Vector3(0, 0, 0);
+    
+    let platforms = [];
+    let currPlat = true;
+    let nextPlat = true;
+    platforms.push(new Platform(true, currPlat, false, start));
 
-  for (let i = 0; i < PLATFORM_COUNT; i++ ) {
-
-    platforms.push( new Platform());
-
+    platforms.push(new Platform(true, false, nextPlat, next));
+    console.log('curr', platforms[0].active, platforms[0].curr);
+    console.log('next', platforms[1].active, platforms[1].next);
+    
+    return platforms;
+    
   }
+
+  
+
+
+  // for (let i = 0; i < PLATFORM_COUNT; i++ ) {
+
+  //   platforms.push( new Platform(true));
+
+  // }
   //makes a 8 PlatformObjects and returns them as an array to the main Game object
-  return platforms;
 }
+
 
 export default Game;

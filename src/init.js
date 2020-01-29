@@ -4,7 +4,7 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass'
 import Game from "./Game";
 
-function init({ platforms, player }) {
+function init({ APlatforms, player }) {
 
   // --------------------------------------------------CANVAS / RENDERER / SCENE
   
@@ -35,26 +35,26 @@ function init({ platforms, player }) {
 
   // -------- Create a plane that receives shadows (but does not cast them)
 
-  var planeGeometry = new THREE.PlaneBufferGeometry( 1000, 1000, 100, 100 );
-  var planeMaterial = new THREE.ShadowMaterial()
+  var planeGeometry = new THREE.PlaneBufferGeometry( 1.3, 1.3, 200, 200 );
+  var planeMaterial = new THREE.MeshPhongMaterial({ color: 0xff0000, opacity: .5 });
   var plane = new THREE.Mesh( planeGeometry, planeMaterial );
   plane.receiveShadow = true;
   plane.castShadow = false;
-  plane.rotation.set(-1.5,0,0);
-  plane.position.set(0,-.575,0);
+  plane.rotation.set(-1.545,0,0);
+  plane.position.set(0,-.09,0);
   scene.add( plane );
 
   // ---------------------------------------------------------- RENDER PLATFORMS
 
   let geometry, material, mesh; 
 
-  for (let platform of platforms) {
+  for (let platform of APlatforms) {
 
     geometry = new THREE.BoxGeometry(platform.W, platform.H, platform.D);
-    material = new THREE.MeshPhongMaterial({ color: platform.col });
+    material = new THREE.MeshPhongMaterial({ color: platform.col, opacity: .75 });
     mesh = new THREE.Mesh(geometry, material);
     mesh.castShadow = true;
-    mesh.receiveShadow = false;
+    mesh.receiveShadow = true;
     scene.add(mesh);
     mesh.position.set(platform.X, platform.Y, platform.Z)
 
@@ -73,9 +73,9 @@ function init({ platforms, player }) {
   scene.add(playerMesh);
 
   playerMesh.position.set(
-    player.pos._data[0],
-    player.pos._data[1],
-    player.pos._data[2]
+    player.pos.x,
+    player.pos.y,
+    player.pos.z
   );
 
 
@@ -86,7 +86,7 @@ function init({ platforms, player }) {
   const intensity = 1;
   const light = new THREE.DirectionalLight(color, intensity);
   light.position.set(-3, 4, -1.5);
-  // light.castShadow = true;
+  light.castShadow = true;
   scene.add(light);
 
   // --------------- Set up shadow properties for the light
@@ -121,10 +121,16 @@ function init({ platforms, player }) {
 
     // -------------------- resets position each frame if player is moving
     if (player.moving === true) {
-      // console.log('player moving');
 
-      player.updatePos(dt);
-      playerMesh.position.set(player.pos._data[0], player.pos._data[1], player.pos._data[2]); //redraw 
+      if (player.pos.y < player.finalPos.y) {   // ----- stops when player Y goes below initial y
+        player.pos.y = player.finalPos.y;
+        player.moving = false;
+      } else {
+        player.updatePos(dt);
+      }
+
+
+      playerMesh.position.set(player.pos.x, player.pos.y, player.pos.z); 
     }
 
     renderer.render(scene, camera);
