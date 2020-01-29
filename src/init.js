@@ -56,7 +56,7 @@ function init({ APlatforms, player }) {
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     scene.add(mesh);
-    mesh.position.set(platform.X, platform.Y, platform.Z)
+    mesh.position.set(platform.pos.x, platform.pos.y, platform.pos.z);
 
   }
 
@@ -125,7 +125,20 @@ function init({ APlatforms, player }) {
       if (player.pos.y < player.finalPos.y) {   // ----- stops when player Y goes below initial y
         player.pos.y = player.finalPos.y;
         player.moving = false;
+
+
+        // ----- for testing, print out next platform pos and player final pos
+        console.log('player is at', player.pos);
+        console.log('next platform is at', APlatforms[1].pos);
+        
+
+        // check delta
+        if ( Math.abs((APlatforms[1].pos.z - player.pos.z)) < .000000001) {
+          console.log('HIT THE CENTER!!!!');
+        }
+
       } else {
+        // console.log('player pos is', player.pos);
         player.updatePos(dt);
       }
 

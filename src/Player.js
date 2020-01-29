@@ -21,7 +21,7 @@ function Player() {
 
   this.updatePos = ( dt ) => {
 
-    console.log('before', this.pos);
+    // console.log('before', this.pos);
 
     // this.pos = math.add(this.pos, math.multiply(this.vel, dt));
     this.pos.z += .02;
@@ -33,7 +33,7 @@ function Player() {
 
     // this.vel = this.vel + (this.grav * dt); 
     // this.vel = math.add(this.vel, math.multiply(this.grav, dt));
-    console.log('after', this.pos);
+    // console.log('after', this.pos);
 
   }
 }

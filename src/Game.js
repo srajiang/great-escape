@@ -56,6 +56,8 @@ Game.prototype.registerSpaceBarKeyPress = function({ type, code, timeStamp }) {
     }
 
     this.player.finalPos = new THREE.Vector3(this.player.pos.x, this.player.pos.y, this.player.pos.z + this.keyDelta)
+    console.log('final pos is', this.player.finalPos);
+
     this.player.vel.y = this.keyDelta * 4;
     this.player.moving = true;
 
@@ -75,9 +77,10 @@ Game.prototype.addPlatforms = function() {
     let platforms = [];
     let currPlat = true;
     let nextPlat = true;
-    platforms.push(new Platform(true, currPlat, false, start));
 
+    platforms.push(new Platform(true, currPlat, false, start));
     platforms.push(new Platform(true, false, nextPlat, next));
+
     console.log('curr', platforms[0].active, platforms[0].curr);
     console.log('next', platforms[1].active, platforms[1].next);
     
@@ -85,16 +88,13 @@ Game.prototype.addPlatforms = function() {
     
   }
 
-  
 
-
-  // for (let i = 0; i < PLATFORM_COUNT; i++ ) {
-
-  //   platforms.push( new Platform(true));
-
-  // }
-  //makes a 8 PlatformObjects and returns them as an array to the main Game object
 }
 
+Game.prototype.checkLanding = function(platformPos, playerPos) {
+
+  
+
+}
 
 export default Game;

@@ -15,17 +15,18 @@ const HEIGHT = .15;
 
 function Platform( active = false , curr = false, next = false, initPos ) { 
 
-  this.active = active;  //platform state
-  this.curr = curr;
-  this.next = next;
+  this.active = active;  //state wrt camera
+  this.curr = curr;      // state wrt to player
+  this.next = next;      // state wrt to player
 
   this.H = HEIGHT;      // platform dimensions
   this.W = WIDTH_DEPTH;
   this.D = WIDTH_DEPTH;
   this.col = sample(COLORS);
-  this.X = initPos.x;
-  this.Y = initPos.y;
-  this.Z = initPos.z;
+  this.pos = initPos;
+  // this.X = initPos.x;
+  // this.Y = initPos.y;
+  // this.Z = initPos.z;
 
 }
 
