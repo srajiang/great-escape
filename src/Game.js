@@ -1,5 +1,6 @@
 import Player from './Player';
 import Platform from './Platform';
+import PlatformQueue from './PlatformQueue';
 import * as THREE from "three";
 
 const PLATFORM_COUNT = 1;
@@ -20,7 +21,7 @@ function Game() {
 } 
 
 Game.prototype.isOver = function() {
-  return this.score > 99998 || this.player.isOffPlatform() 
+  return this.score > 99998 
 }
 
 
@@ -61,9 +62,7 @@ Game.prototype.registerSpaceBarKeyPress = function({ type, code, timeStamp }) {
     this.player.vel.y = this.keyDelta * 4;
     this.player.moving = true;
 
-    clearTimeout();
   }
-
 
 }
 
@@ -74,15 +73,15 @@ Game.prototype.addPlatforms = function() {
     const start = new THREE.Vector3( 0, 0, -.4);
     const next = new THREE.Vector3(0, 0, 0);
     
-    let platforms = [];
+    let platforms = new PlatformQueue;
     let currPlat = true;
     let nextPlat = true;
 
-    platforms.push(new Platform(true, currPlat, false, start));
-    platforms.push(new Platform(true, false, nextPlat, next));
+    platforms.enQ(new Platform(true, currPlat, false, start));
+    platforms.enQ(new Platform(true, false, nextPlat, next));
 
-    console.log('curr', platforms[0].active, platforms[0].curr);
-    console.log('next', platforms[1].active, platforms[1].next);
+    console.log('next', platforms.items[1].active, platforms.items[1].next);
+    console.log('curr', platforms.items[0].active, platforms.items[0].curr);
     
     return platforms;
     
@@ -91,10 +90,5 @@ Game.prototype.addPlatforms = function() {
 
 }
 
-Game.prototype.checkLanding = function(platformPos, playerPos) {
-
-  
-
-}
 
 export default Game;

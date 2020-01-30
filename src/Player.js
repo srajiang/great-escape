@@ -34,7 +34,6 @@ function Player() {
     // this.vel = this.vel + (this.grav * dt); 
     // this.vel = math.add(this.vel, math.multiply(this.grav, dt));
     // console.log('after', this.pos);
-
   }
 }
 
@@ -46,9 +45,39 @@ Player.prototype.getRandomDir = () => {
 
 }
 
-Player.prototype.isOffPlatform = () => {
-  return false;
-  // needs to check that the player object is not on the same platform as the box
+Player.prototype.landedSafely = function( platform ) {  
+
+  //needs to be refactored to account for shift in X as well as Z
+
+  let dd;
+
+  if ( platform.pos.z < 0) {
+    dd = platform.pos.z - this.pos.z;
+  } else {
+    dd = Math.abs(platform.pos.z - this.pos.z);
+  }
+  console.log('dd', dd);
+  console.log('platform z', platform.pos.z);
+  let leeway = platform.pos.z + platform.W / 2 - .005 ;
+
+  console.log('leeway', leeway);
+  
+  if (dd < 0.000000001) {   //hit center
+
+    console.log('Bullseye!!')
+    return true;
+
+  } else if(dd  > leeway) {
+    return false; 
+  } 
+
+  return true;
+  
+};
+
+Player.prototype.stayedOnPlatform = function( platform ) {
+
+
 
 }
 
