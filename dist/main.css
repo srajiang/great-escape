@@ -35,7 +35,7 @@ body {
   background-image: linear-gradient(#FCF5DD, #FFEAEE);
 }
 
-.score {
+#score {
   font-size: 5rem;
   position: absolute;
   left: calc(50vw - (80 / 2)px);

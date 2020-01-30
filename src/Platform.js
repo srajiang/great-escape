@@ -23,9 +23,6 @@ function Platform( active = false, initPos = DEFAULT_POS ) {
   this.D = WIDTH_DEPTH;
   this.col = sample(COLORS);
   this.pos = initPos;
-  // this.X = initPos.x;
-  // this.Y = initPos.y;
-  // this.Z = initPos.z;
 
 }
 

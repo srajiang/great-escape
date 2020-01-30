@@ -2,7 +2,9 @@ import * as math from 'mathjs';
 import { sample } from './util';
 import * as THREE from 'three';
 
-function Player() {
+function Player(game) {
+
+  this.game = game;
 
   this.RT = .03;
   this.RB = .03;
@@ -23,32 +25,50 @@ function Player() {
 
     if ( this.dir === 'R') {
       this.pos.z += .02;
-
     } else {
-
       this.pos.x += .02;
     }
-
-
     this.pos.y = this.pos.y + (this.vel.y * dt);
     this.vel.y = this.vel.y + (this.grav.y * dt);
-    // this.vel = this.vel.add(this.grav.multiplyScalar(dt));
 
-    // this.vel = this.vel + (this.grav * dt); 
-    // this.vel = math.add(this.vel, math.multiply(this.grav, dt));
-    // console.log('after', this.pos);
   }
 }
 
-Player.prototype.getRandomDir = () => {
 
-  let dirs = ['L','R'];
-  console.log('DIRS', dirs);
-  return sample(dirs);
+Player.prototype.checkBullsEye = function () {
 
+  const MARGIN = .05;
+
+  let next = this.game .APlatforms.next()
+  let eye = next.pos;
+  eye.y += ( next.H / 2 );
+
+  let rangeX = { 
+    'max': (eye.x + MARGIN), 
+    'min': (eye.x - MARGIN)
+  } 
+  let rangeZ = {
+    'max': (eye.z + MARGIN),
+    'min': (eye.z - MARGIN)
+  } 
+
+  let myX = this.pos.x;
+  let myZ = this.pos.z;
+
+  if (myX < rangeX['max'] 
+    && myX > rangeX['min']
+    && myZ < rangeZ['max'] 
+    && myZ > rangeZ['min']
+) {
+  console.log('BULLSEYE!!!');
+  this.game.streak += 1;
+  console.log('streak', this.game.streak);
+  return true;
+}  
+  console.log('my pos', this.pos);
 }
 
-Player.prototype.landedSafelyOnNext = function( platform ) {  
+Player.prototype.landedSafelyOn = function( platform ) {  
 
   let dd, leeway, leewayMin, leewayMax, myPos;
   if ( this.dir === 'R') {
@@ -71,18 +91,14 @@ Player.prototype.landedSafelyOnNext = function( platform ) {
     // console.log('delta d', dd);
   }
   
-  if (dd < 0.000000001) {   //hit center
+  // this.checkBullsEye();
 
-    console.log('Bullseye!!')
-    return true;
-
-  } else if(myPos < leewayMin || myPos > leewayMax || dd < leeway ) {
+  if(myPos < leewayMin || myPos > leewayMax || dd < leeway ) {
     return false; 
   } 
-
   return true;
   
-};
+}
 
 Player.prototype.landedSafelyOnCurr = function( platform ) {
 
@@ -95,6 +111,8 @@ Player.prototype.calcNextPos = function() {
 
 
 }
+
+
 
 
 export default Player;

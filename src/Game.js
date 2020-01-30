@@ -11,7 +11,7 @@ function Game() {
   this.streak = 0;
   this.APlatforms = this.addPlatforms(); // active platforms
   this.IPlatforms = new PlatformQueue();
-  this.player = new Player();
+  this.player = new Player(this);
 
   this.gameStarted = false;
 
@@ -92,6 +92,12 @@ Game.prototype.addPlatforms = function() {
     
   }
 
+
+}
+
+Game.prototype.testFunc = function() {
+
+  console.log('woohoo, we can access game from player!');
 
 }
 

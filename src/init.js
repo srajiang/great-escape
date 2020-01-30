@@ -3,10 +3,10 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass'
 import Game from "./Game";
-import { calculateScore, sample } from './util';
+import { calculateScore, sample, checkBullsEye } from './util';
 import Platform from "./Platform";
 
-function init({ APlatforms, IPlatforms, player, score, streak}) {
+function init({ APlatforms, IPlatforms, player, score, streak }) {
   // --------------------------------------------------CANVAS / RENDERER / SCENE
 
   // ----------- set basic width and height
@@ -145,32 +145,25 @@ function init({ APlatforms, IPlatforms, player, score, streak}) {
         player.pos.y = player.finalPos.y;
         player.moving = false;
 
-        // ----- for testing, print out next platform pos and player final pos
-        // console.log("player is at", player.pos);
-        // console.log("next platform is at", APlatforms.next().pos);
-
         // check delta
-        if (player.landedSafelyOnNext(APlatforms.next())) {
+        if (player.landedSafelyOn(APlatforms.next())) {
 
               console.log('landed on next');
+              updateStreak();
 
+              console.log('streak', streak);
+              updateScore();
               addNextPlatform( APlatforms.next().pos );
-              score = calculateScore(score, streak); 
 
-
-          // if there is 1 item in the platforms Q 
-              //Don't do anything because the person has moved on the same platform 
-            
 
           console.log('score', score);
           // generate a new box (new next ) and change next -> curr
 
 
-        } else if (player.landedSafelyOnCurr(APlatforms.curr())) {
+        } else if (player.landedSafelyOn(APlatforms.curr())) {
 
           console.log('landed on curr')
 
-        
         } else {
           console.log("did not land safely. sorry, you died :(");
         }
@@ -189,6 +182,25 @@ function init({ APlatforms, IPlatforms, player, score, streak}) {
   requestAnimationFrame(render);
 
 
+  function updateScore () {
+
+    score = calculateScore(score, streak);
+    document.getElementById('score').innerHTML = score;
+
+  }
+
+  function updateStreak () {
+    let result = checkBullsEye(APlatforms.next(), player);
+    if (streak === 0 && result === 1) {
+      streak += 1;
+    } else if (streak > 0 && result === 1) {
+      streak += result;
+    } else if (streak > 0 && result === 0) {
+      streak = 0;
+    }
+  }
+
+
   // -------------------- sets the direction of the next platform + player
   function setNextPos( platform ) {  
 
@@ -204,7 +216,6 @@ function init({ APlatforms, IPlatforms, player, score, streak}) {
     }
 
   }
-
 
 
   function addPlatformToGame() {
