@@ -3,7 +3,7 @@ import Platform from './Platform';
 import PlatformQueue from './PlatformQueue';
 import * as THREE from "three";
 
-const PLATFORM_COUNT = 1;
+const LAUNCH_FACTOR = 4;
 
 function Game() {
 
@@ -22,6 +22,16 @@ function Game() {
 
 Game.prototype.isOver = function() {
   return this.score > 99998 
+}
+
+Game.prototype.setNextFinalPos = function() {
+  if (this.dir === 'L') {
+    this.player.finalPos = new THREE.Vector3(this.player.pos.x, this.player.pos.y, this.player.pos.z + this.keyDelta)
+    
+  } else {
+    this.player.finalPos = new THREE.Vector3(this.player.pos.x + this.keyDelta, this.player.pos.y, this.player.pos.z)
+  }
+  console.log(this.player.finalPos);
 }
 
 
@@ -56,10 +66,10 @@ Game.prototype.registerSpaceBarKeyPress = function({ type, code, timeStamp }) {
       this.keyDelta = 3;
     }
 
-    this.player.finalPos = new THREE.Vector3(this.player.pos.x, this.player.pos.y, this.player.pos.z + this.keyDelta)
-    console.log('final pos is', this.player.finalPos);
+    // this.player.finalPos = new THREE.Vector3(this.player.pos.x, this.player.pos.y, this.player.pos.z + this.keyDelta)
+    this.setNextFinalPos();
 
-    this.player.vel.y = this.keyDelta * 4;
+    this.player.vel.y = this.keyDelta * LAUNCH_FACTOR;
     this.player.moving = true;
 
   }

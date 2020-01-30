@@ -79,7 +79,6 @@ function init({ APlatforms, IPlatforms, player, score, streak}) {
   }
 
   // ------------------------------------------------------------- RENDER PLAYER
-
   let playerGeometry, playerMaterial, playerMesh;
 
   playerGeometry = new THREE.CylinderGeometry(
@@ -170,6 +169,7 @@ function init({ APlatforms, IPlatforms, player, score, streak}) {
         } else if (player.landedSafelyOnCurr(APlatforms.curr())) {
 
           console.log('landed on curr')
+
         
         } else {
           console.log("did not land safely. sorry, you died :(");
@@ -189,12 +189,14 @@ function init({ APlatforms, IPlatforms, player, score, streak}) {
   requestAnimationFrame(render);
 
 
-  function setNextPos( platform ) {
+  // -------------------- sets the direction of the next platform + player
+  function setNextPos( platform ) {  
 
-    let newPosVal = (Math.random() * .6) + platform.W / 2;
-    let dir = sample(['L', 'R']);
-    switch ( dir ) {
+    let minDistance = platform.W / 2 + APlatforms.curr().W / 2;
+    let newPosVal = (Math.random() * .6) + minDistance;
+    player.dir = sample(['L', 'R']);
 
+    switch ( player.dir ) { 
       case 'L':
         return platform.pos.add(new THREE.Vector3(newPosVal, 0, 0));
       case 'R':
@@ -215,8 +217,7 @@ function init({ APlatforms, IPlatforms, player, score, streak}) {
   function addNextPlatform( prevNextPos ) {
 
     addPlatformToGame();
-    // setNextPos(APlatforms.next());
-
+    setNextPos(APlatforms.next());
 
     console.log("active platforms", APlatforms.next());
     console.log('inactive platforms', APlatforms.curr());
