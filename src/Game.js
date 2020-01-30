@@ -1,7 +1,7 @@
 import Player from './Player';
 import Platform from './Platform';
-import * as math from "mathjs";
-
+import PlatformQueue from './PlatformQueue';
+import * as THREE from "three";
 
 const PLATFORM_COUNT = 1;
 
@@ -9,7 +9,8 @@ function Game() {
 
   this.score = 0;
   this.streak = 0;
-  this.platforms = this.addPlatforms(); // testing a single platform
+  this.APlatforms = this.addPlatforms(); // active platforms
+  this.IPlatforms = new PlatformQueue();
   this.player = new Player();
 
   this.gameStarted = false;
@@ -20,7 +21,7 @@ function Game() {
 } 
 
 Game.prototype.isOver = function() {
-  return this.score > 99998 || this.player.isOffPlatform() 
+  return this.score > 99998 
 }
 
 
@@ -48,36 +49,41 @@ Game.prototype.registerSpaceBarKeyPress = function({ type, code, timeStamp }) {
   }
 
   if (this.keyDownTS && this.keyUpTS) {  //player has made a move
-    this.keyDelta = (this.keyUpTS - this.keyDownTS) / 1000; //convert to s;
-    console.log('velocity:', this.keyDelta);
 
-    //updates the Player object to trigger motion of the player piece
-    this.player.dir = this.player.getRandomDir();
-    this.player.vel = math.matrix([0, this.keyDelta, 1]);;
+    this.keyDelta = (this.keyUpTS - this.keyDownTS) / 1000; //convert to s;
+    
+    if (this.keyDelta > 3) {
+      this.keyDelta = 3;
+    }
+
+    this.player.finalPos = new THREE.Vector3(this.player.pos.x, this.player.pos.y, this.player.pos.z + this.keyDelta)
+    console.log('final pos is', this.player.finalPos);
+
+    this.player.vel.y = this.keyDelta * 4;
     this.player.moving = true;
 
-    setTimeout(() => { //test 
-      this.player.moving = false;
-    }, 1000)
-   
-    clearTimeout();
   }
-
 
 }
 
 Game.prototype.addPlatforms = function() {
 
-  let platforms = [];
+  if (this.APlatforms === undefined) {  //game start
 
+    const curr = new THREE.Vector3( 0, 0, -.4);
+    const next = new THREE.Vector3(0, 0, 0);
+    
+    let platforms = new PlatformQueue;
 
-  for (let i = 0; i < PLATFORM_COUNT; i++ ) {
+    platforms.enQ(new Platform(true,  curr));
+    platforms.enQ(new Platform(true, next));
 
-    platforms.push( new Platform());
-
+    return platforms;
+    
   }
-  //makes a 8 PlatformObjects and returns them as an array to the main Game object
-  return platforms;
+
+
 }
+
 
 export default Game;

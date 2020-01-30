@@ -1,4 +1,6 @@
 import { sample } from './util'; 
+import * as THREE from "three";
+
 
 // ---------------------------------------------------------- PLATFORM CONSTANTS
 
@@ -6,26 +8,24 @@ const COLORS = [0xF95F7B, 0x3FF9D7, 0x6C8DFF, 0x67E0F0, 0xDEDEDE, 0xFFB800];
 const OBJ_SIZES = [1, 1.35, 1.5, 2, 2, 2.8, 2.8];
 const WIDTH_DEPTH = sample(OBJ_SIZES) / 10; 
 const HEIGHT = .15;
-const Y = -.5
+const DEFAULT_POS = new THREE.Vector3(0,0,0)
 
 // ---------------------------------------------------------- INITIAL OBJ CONSTS
-const START_POS = [.4, Y, 0];
+// const START_POS = new THREE.Vector3(0, 0.075, 0);
 
 
-function Platform() { 
+function Platform( active = false, initPos = DEFAULT_POS ) { 
 
-  this.H = HEIGHT;
+  this.inView = active;  //state wrt camera
+
+  this.H = HEIGHT;      // platform dimensions
   this.W = WIDTH_DEPTH;
   this.D = WIDTH_DEPTH;
   this.col = sample(COLORS);
-  this.X = START_POS[0];
-  this.Y = START_POS[1];
-  this.Z = START_POS[2];
-
-  // this needs to be eventually set by the player position
-  // this.X = null;
-  // this.Y = null;
-  // this.Z = null;
+  this.pos = initPos;
+  // this.X = initPos.x;
+  // this.Y = initPos.y;
+  // this.Z = initPos.z;
 
 }
 
