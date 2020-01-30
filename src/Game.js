@@ -10,7 +10,7 @@ function Game() {
   this.score = 0;
   this.streak = 0;
   this.APlatforms = this.addPlatforms(); // active platforms
-  this.IPlatforms = this.addPlatforms();
+  this.IPlatforms = new PlatformQueue();
   this.player = new Player();
 
   this.gameStarted = false;
@@ -70,19 +70,14 @@ Game.prototype.addPlatforms = function() {
 
   if (this.APlatforms === undefined) {  //game start
 
-    const start = new THREE.Vector3( 0, 0, -.4);
+    const curr = new THREE.Vector3( 0, 0, -.4);
     const next = new THREE.Vector3(0, 0, 0);
     
     let platforms = new PlatformQueue;
-    let currPlat = true;
-    let nextPlat = true;
 
-    platforms.enQ(new Platform(true, currPlat, false, start));
-    platforms.enQ(new Platform(true, false, nextPlat, next));
+    platforms.enQ(new Platform(true,  curr));
+    platforms.enQ(new Platform(true, next));
 
-    console.log('next', platforms.items[1].active, platforms.items[1].next);
-    console.log('curr', platforms.items[0].active, platforms.items[0].curr);
-    
     return platforms;
     
   }

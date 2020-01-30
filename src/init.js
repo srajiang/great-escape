@@ -3,9 +3,10 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass'
 import Game from "./Game";
-import { calculateScore } from './util';
+import { calculateScore, sample } from './util';
+import Platform from "./Platform";
 
-function init({ APlatforms, player, score, streak}) {
+function init({ APlatforms, IPlatforms, player, score, streak}) {
   // --------------------------------------------------CANVAS / RENDERER / SCENE
 
   // ----------- set basic width and height
@@ -44,10 +45,10 @@ function init({ APlatforms, player, score, streak}) {
 
   // -------- Create a plane that receives shadows (but does not cast them)
 
-  var planeGeometry = new THREE.PlaneBufferGeometry(1.3, 1.3, 200, 200);
+  var planeGeometry = new THREE.PlaneBufferGeometry(2.5, 2.5, 200, 200);
   var planeMaterial = new THREE.MeshPhongMaterial({
     color: 0xff0000,
-    opacity: 0.5
+    opacity: 0.3
   });
   var plane = new THREE.Mesh(planeGeometry, planeMaterial);
   plane.receiveShadow = true;
@@ -58,9 +59,9 @@ function init({ APlatforms, player, score, streak}) {
 
   // ---------------------------------------------------------- RENDER PLATFORMS
 
-  let geometry, material, mesh;
 
-  for (let platform of APlatforms.items) {
+  function addPlatformToScene(platform) {
+    let geometry, material, mesh;
     geometry = new THREE.BoxGeometry(platform.W, platform.H, platform.D);
     material = new THREE.MeshPhongMaterial({
       color: platform.col,
@@ -71,6 +72,10 @@ function init({ APlatforms, player, score, streak}) {
     mesh.receiveShadow = true;
     scene.add(mesh);
     mesh.position.set(platform.pos.x, platform.pos.y, platform.pos.z);
+  }
+
+  for (let platform of APlatforms.items) {
+    addPlatformToScene( platform );
   }
 
   // ------------------------------------------------------------- RENDER PLAYER
@@ -111,8 +116,11 @@ function init({ APlatforms, player, score, streak}) {
   // -------------------------------------------------------------------- CAMERA
   // ---------- set the camera
   camera.position.set(-20, 20, -20);
-  camera.lookAt(scene.position);
-
+  //camera.lookAt(scene.position);
+  camera.rotation.set(
+    -2.356194490192345,
+    -0.6154797086703874,
+    -2.6179938779914944);
   //  ------------------------------------------------------------------- ACTION
 
   let prevTime = 0;
@@ -132,6 +140,7 @@ function init({ APlatforms, player, score, streak}) {
 
     // -------------------- resets position each frame if player is moving
     if (player.moving === true) {
+
       if (player.pos.y < player.finalPos.y) {
         // ----- stops when player Y goes below initial y
         player.pos.y = player.finalPos.y;
@@ -142,17 +151,11 @@ function init({ APlatforms, player, score, streak}) {
         // console.log("next platform is at", APlatforms.next().pos);
 
         // check delta
-        if (player.landedSafely(APlatforms.next())) {
+        if (player.landedSafelyOnNext(APlatforms.next())) {
 
-              console.log('landed safely')
-              //INCREMENT SCORE
-              console.log("Platforms before deQ", APlatforms);
-              let temp = APlatforms.deQ()
-              console.log('Platforms after deQ', APlatforms)
-              APlatforms.enQ(temp);
-              console.log('Platforms after enQ');
+              console.log('landed on next');
 
-              //GENERATE A NEW BOX 
+              addNextPlatform( APlatforms.next().pos );
               score = calculateScore(score, streak); 
 
 
@@ -164,12 +167,12 @@ function init({ APlatforms, player, score, streak}) {
           // generate a new box (new next ) and change next -> curr
 
 
+        } else if (player.landedSafelyOnCurr(APlatforms.curr())) {
 
-        } else if (player.landedSafely(APlatforms.curr())) { // if they are still on the same platform as the current
-          console.log('moved on platform');
-          // end the game and flash a message saying you died.
+          console.log('landed on curr')
+        
         } else {
-          console.log("you died :(");
+          console.log("did not land safely. sorry, you died :(");
         }
 
       } else {
@@ -184,6 +187,43 @@ function init({ APlatforms, player, score, streak}) {
     requestAnimationFrame(render);
   }
   requestAnimationFrame(render);
+
+
+  function setNextPos( platform ) {
+
+    let newPosVal = (Math.random() * .6) + platform.W / 2;
+    let dir = sample(['L', 'R']);
+    switch ( dir ) {
+
+      case 'L':
+        return platform.pos.add(new THREE.Vector3(newPosVal, 0, 0));
+      case 'R':
+        return platform.pos.add(new THREE.Vector3(0, 0, newPosVal));
+    }
+
+  }
+
+
+
+  function addPlatformToGame() {
+
+    APlatforms.enQ(new Platform(true));  // adds a new platform w/ default pos (0,0,0)
+    IPlatforms.enQ(APlatforms.deQ());
+
+  }
+
+  function addNextPlatform( prevNextPos ) {
+
+    addPlatformToGame();
+    // setNextPos(APlatforms.next());
+
+
+    console.log("active platforms", APlatforms.next());
+    console.log('inactive platforms', APlatforms.curr());
+
+    addPlatformToScene( APlatforms.next())
+  } 
+
 }
 
 

@@ -12,7 +12,6 @@ PlatformQueue.prototype.enQ = function (ele){
 PlatformQueue.prototype.deQ = function() {
   let dqed = this.items[0];
   this.items = this.items.slice(1);
-  console.log(this.items);
   return dqed;
 };
 
@@ -27,7 +26,6 @@ PlatformQueue.prototype.next = function() {
 PlatformQueue.prototype.isEmpty = function() {
   return this.items.length === 0;
 }
-
 
 
 export default PlatformQueue;

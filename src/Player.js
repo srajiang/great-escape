@@ -45,17 +45,12 @@ Player.prototype.getRandomDir = () => {
 
 }
 
-Player.prototype.landedSafely = function( platform ) {  
+Player.prototype.landedSafelyOnNext = function( platform ) {  
 
   //needs to be refactored to account for shift in X as well as Z
 
-  let dd;
-
-  if ( platform.pos.z < 0) {
-    dd = platform.pos.z - this.pos.z;
-  } else {
-    dd = Math.abs(platform.pos.z - this.pos.z);
-  }
+  let dd = Math.abs(platform.pos.z - this.pos.z);
+  
   console.log('dd', dd);
   console.log('platform z', platform.pos.z);
   let leeway = platform.pos.z + platform.W / 2 - .005 ;
@@ -75,9 +70,9 @@ Player.prototype.landedSafely = function( platform ) {
   
 };
 
-Player.prototype.stayedOnPlatform = function( platform ) {
+Player.prototype.landedSafelyOnCurr = function( platform ) {
 
-
+  return false; 
 
 }
 
