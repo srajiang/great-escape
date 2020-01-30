@@ -3,10 +3,10 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass'
 import Game from "./Game";
-import { calculateScore, sample } from './util';
+import { calculateScore, sample, checkBullsEye } from './util';
 import Platform from "./Platform";
 
-function init({ APlatforms, IPlatforms, player, score, streak}) {
+function init({ APlatforms, IPlatforms, player, score, streak }) {
   // --------------------------------------------------CANVAS / RENDERER / SCENE
 
   // ----------- set basic width and height
@@ -154,8 +154,19 @@ function init({ APlatforms, IPlatforms, player, score, streak}) {
 
               console.log('landed on next');
 
-              addNextPlatform( APlatforms.next().pos );
+              
+              let result = checkBullsEye( APlatforms.next(), player);
+              if (streak === 0 && result === 1) {
+                streak += 1;
+              } else if (streak > 0 && result === 1) {
+                streak += result;
+              } else if (streak > 0 && result === 0) {
+                streak = 0;
+              }
+            
+              console.log('streak', streak);
               score = calculateScore(score, streak); 
+              addNextPlatform( APlatforms.next().pos );
 
 
           // if there is 1 item in the platforms Q 
