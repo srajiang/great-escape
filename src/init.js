@@ -145,43 +145,25 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
         player.pos.y = player.finalPos.y;
         player.moving = false;
 
-        // ----- for testing, print out next platform pos and player final pos
-        // console.log("player is at", player.pos);
-        // console.log("next platform is at", APlatforms.next().pos);
-
         // check delta
-        if (player.landedSafelyOnNext(APlatforms.next())) {
+        if (player.landedSafelyOn(APlatforms.next())) {
 
               console.log('landed on next');
+              updateStreak();
 
-              
-              let result = checkBullsEye( APlatforms.next(), player);
-              if (streak === 0 && result === 1) {
-                streak += 1;
-              } else if (streak > 0 && result === 1) {
-                streak += result;
-              } else if (streak > 0 && result === 0) {
-                streak = 0;
-              }
-            
               console.log('streak', streak);
-              score = calculateScore(score, streak); 
+              updateScore();
               addNextPlatform( APlatforms.next().pos );
 
-
-          // if there is 1 item in the platforms Q 
-              //Don't do anything because the person has moved on the same platform 
-            
 
           console.log('score', score);
           // generate a new box (new next ) and change next -> curr
 
 
-        } else if (player.landedSafelyOnCurr(APlatforms.curr())) {
+        } else if (player.landedSafelyOn(APlatforms.curr())) {
 
           console.log('landed on curr')
 
-        
         } else {
           console.log("did not land safely. sorry, you died :(");
         }
@@ -200,6 +182,25 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
   requestAnimationFrame(render);
 
 
+  function updateScore () {
+
+    score = calculateScore(score, streak);
+    document.getElementById('score').innerHTML = score;
+
+  }
+
+  function updateStreak () {
+    let result = checkBullsEye(APlatforms.next(), player);
+    if (streak === 0 && result === 1) {
+      streak += 1;
+    } else if (streak > 0 && result === 1) {
+      streak += result;
+    } else if (streak > 0 && result === 0) {
+      streak = 0;
+    }
+  }
+
+
   // -------------------- sets the direction of the next platform + player
   function setNextPos( platform ) {  
 
@@ -215,7 +216,6 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
     }
 
   }
-
 
 
   function addPlatformToGame() {

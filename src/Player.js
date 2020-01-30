@@ -68,7 +68,7 @@ Player.prototype.checkBullsEye = function () {
   console.log('my pos', this.pos);
 }
 
-Player.prototype.landedSafelyOnNext = function( platform ) {  
+Player.prototype.landedSafelyOn = function( platform ) {  
 
   let dd, leeway, leewayMin, leewayMax, myPos;
   if ( this.dir === 'R') {
