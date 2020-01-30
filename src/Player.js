@@ -11,7 +11,7 @@ function Player() {
 
   // ---------------------------------movement vars
   this.moving = false;
-  this.dir = null;
+  this.dir = 'R';
 
   this.pos = new THREE.Vector3(0, .115 ,-.4);
   this.finalPos;
@@ -21,14 +21,17 @@ function Player() {
 
   this.updatePos = ( dt ) => {
 
-    // console.log('before', this.pos);
+    if ( this.dir === 'R') {
+      this.pos.z += .02;
 
-    // this.pos = math.add(this.pos, math.multiply(this.vel, dt));
-    this.pos.z += .02;
+    } else {
+
+      this.pos.x += .02;
+    }
+
 
     this.pos.y = this.pos.y + (this.vel.y * dt);
     this.vel.y = this.vel.y + (this.grav.y * dt);
-
     // this.vel = this.vel.add(this.grav.multiplyScalar(dt));
 
     // this.vel = this.vel + (this.grav * dt); 
@@ -47,22 +50,33 @@ Player.prototype.getRandomDir = () => {
 
 Player.prototype.landedSafelyOnNext = function( platform ) {  
 
-  //needs to be refactored to account for shift in X as well as Z
+  let dd, leeway, leewayMin, leewayMax, myPos;
+  if ( this.dir === 'R') {
+    myPos = this.pos.z 
 
-  let dd = Math.abs(platform.pos.z - this.pos.z);
+    leewayMin = platform.pos.z - platform.W / 2 - .005;
+    leewayMax = platform.pos.z + platform.W / 2 - .005;
   
-  console.log('dd', dd);
-  console.log('platform z', platform.pos.z);
-  let leeway = platform.pos.z + platform.W / 2 - .005 ;
+  } else {
 
-  console.log('leeway', leeway);
+    myPos = this.pos.x;
+    leewayMin = platform.pos.x - platform.W / 2 - .005;
+    leewayMax = platform.pos.x + platform.W / 2 - .005;
+
+    // console.log('platform pos x',  platform.pos.x);
+    // console.log('player position x', this.pos.x);
+    // console.log('leeway', leeway);
+    // console.log('leeway min', leewayMin);
+    // console.log('leeway max', leewayMax);
+    // console.log('delta d', dd);
+  }
   
   if (dd < 0.000000001) {   //hit center
 
     console.log('Bullseye!!')
     return true;
 
-  } else if(dd  > leeway) {
+  } else if(myPos < leewayMin || myPos > leewayMax || dd < leeway ) {
     return false; 
   } 
 
@@ -73,6 +87,12 @@ Player.prototype.landedSafelyOnNext = function( platform ) {
 Player.prototype.landedSafelyOnCurr = function( platform ) {
 
   return false; 
+
+}
+
+Player.prototype.calcNextPos = function() {
+
+
 
 }
 
