@@ -1,3 +1,4 @@
+import Platform from "./Platform";
 
 function PlatformQueue() {
   this.items = [];
@@ -21,6 +22,10 @@ PlatformQueue.prototype.curr = function() {
 
 PlatformQueue.prototype.next = function() {
   return this.items[1];
+}
+
+PlatformQueue.prototype.last = function() {
+  return this.items[this.items.length -1];
 }
 
 PlatformQueue.prototype.isEmpty = function() {

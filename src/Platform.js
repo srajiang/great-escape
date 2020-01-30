@@ -24,6 +24,8 @@ function Platform( active = false, initPos = DEFAULT_POS ) {
   this.col = sample(COLORS);
   this.pos = initPos;
 
+  this.id = null;
+
 }
 
 Platform.prototype.setPos = ( playerPos ) => {

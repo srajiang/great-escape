@@ -63,6 +63,7 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
   function addPlatformToScene(platform) {
     let geometry, material, mesh;
     geometry = new THREE.BoxGeometry(platform.W, platform.H, platform.D);
+    geometry.computeBoundingSphere();
     material = new THREE.MeshPhongMaterial({
       color: platform.col,
       opacity: 0.75
@@ -70,12 +71,19 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
     mesh = new THREE.Mesh(geometry, material);
     mesh.castShadow = true;
     mesh.receiveShadow = true;
+
     scene.add(mesh);
     mesh.position.set(platform.pos.x, platform.pos.y, platform.pos.z);
+
+    return mesh.id;
   }
 
-  for (let platform of APlatforms.items) {
-    addPlatformToScene( platform );
+  for (let i = 0; i < APlatforms.items.length; i++ ) {
+    let platform = APlatforms.items[i];
+    let platformId = addPlatformToScene( platform );
+    APlatforms.items[i].id = platformId;      //assigns unique id tying scene obj to the Game Object
+    console.log('this objects ID is!', APlatforms.items[i].id);
+  
   }
 
   // ------------------------------------------------------------- RENDER PLAYER
@@ -115,12 +123,30 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
   // -------------------------------------------------------------------- CAMERA
   // ---------- set the camera
   camera.position.set(-20, 20, -20);
+  // camera.position.set(-19.8, 20, -19.8); // test camera move
   //camera.lookAt(scene.position);
   camera.rotation.set(
     -2.356194490192345,
     -0.6154797086703874,
     -2.6179938779914944);
-  //  ------------------------------------------------------------------- ACTION
+ 
+  // --------- set initial frustum
+  let frustum = new THREE.Frustum();
+  let cameraViewProjectionMatrix = new THREE.Matrix4();
+
+  camera.updateMatrixWorld();
+  console.log('matrix world', camera.matrixWorld);
+  camera.matrixWorldInverse.getInverse(camera.matrixWorld);
+  console.log('matrix world inverse', camera.matrixWorldInverse);
+
+  cameraViewProjectionMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+  console.log('camera view projection matrix', cameraViewProjectionMatrix);
+
+  frustum.setFromMatrix( cameraViewProjectionMatrix );
+
+
+  //  -------------------------------------------------------ACTION RENDER START
+  //  --------------------------------------------------------------------------
 
   let prevTime = 0;
   let dt;
@@ -154,7 +180,7 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
               console.log('streak', streak);
               updateScore();
               addNextPlatform( APlatforms.next().pos );
-
+              recenterCamera();
 
           console.log('score', score);
           // generate a new box (new next ) and change next -> curr
@@ -169,7 +195,7 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
         }
 
       } else {
-        // console.log('player pos is', player.pos);
+       
         player.updatePos(dt);
       }
 
@@ -179,8 +205,12 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
     renderer.render(scene, camera);
     requestAnimationFrame(render);
   }
-  requestAnimationFrame(render);
 
+  requestAnimationFrame(render); // kicks off the animation loop
+
+
+  //-----------------------------------------------------------ACTION RENDER END
+  //----------------------------------------------------------------------------
 
   function updateScore () {
 
@@ -217,7 +247,7 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
 
   }
 
-
+  // ----------------------adds a new platform to the Game Object
   function addPlatformToGame() {
 
     APlatforms.enQ(new Platform(true));  // adds a new platform w/ default pos (0,0,0)
@@ -225,16 +255,52 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
 
   }
 
-  function addNextPlatform( prevNextPos ) {
+  // ---------------------adds new platform to the scene
+  function addNextPlatform( ) {
 
     addPlatformToGame();
     setNextPos(APlatforms.next());
 
-    console.log("active platforms", APlatforms.next());
-    console.log('inactive platforms', APlatforms.curr());
+    console.log('inactive platform', IPlatforms.last().pos);
 
-    addPlatformToScene( APlatforms.next())
-  } 
+    let newPlatformId = addPlatformToScene( APlatforms.next() )
+    APlatforms.next().id = newPlatformId;
+    console.log('FROM ADD NEXT PLATFORM', APlatforms.next().id);
+  }
+  
+  // --------------------recenter camera based on the current and next platforms
+  function recenterCamera() {
+
+    console.log("active platform next", APlatforms.next().pos);
+    console.log('active platform curr', APlatforms.curr().pos);
+
+    console.log('object to check', APlatforms.next());
+
+    console.log('LOOKING FOR ID', APlatforms.next().id);
+
+    let object = scene.getObjectById(APlatforms.next().id);
+    console.log('OBJECT FOUND', object);
+
+    if (frustum.intersectsObject(object) ) {
+      console.log('IN FRAME');
+    } else {
+      console.log('OUT OF FRAME');
+
+    }
+    // whats the pos of the curr, whats the pos of the next is outside of the camera frame
+
+    // find the midpoint of that
+
+    // center camera to move
+
+
+  }
+
+  function detect() {
+    
+
+  }
+
 
 }
 
