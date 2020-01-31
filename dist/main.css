@@ -1,8 +1,9 @@
-body {
+body, h1, p, h2{
   font-family: 'Open Sans Condensed', sans-serif;
 
   margin: 0;
-  padding: 0;
+  /* padding: 0; */
+  box-sizing: border-box;
   background-color: transparent;
 }
 
@@ -32,8 +33,63 @@ body {
   justify-content: center;
   align-items: center;
 
+  width: 100vw;
+  height: 100vh;
   background-image: linear-gradient(#FCF5DD, #FFEAEE);
 }
+.game-over-wrapper {
+  display: relative;
+}
+
+.game-over-overlay {
+  display: none;
+  position: absolute;
+  background-color: black;
+  border-radius: .5rem;
+  opacity: 30%;
+  height: 800px;
+  width: 450px;
+  margin-top: 7px;
+
+  text-align: center;
+  color:white;
+  
+}
+
+.game-over-overlay > h1 {
+  padding-top: 15vh;
+  font-size: 5rem;
+}
+
+.try-again {
+  display: none;
+  cursor: pointer;
+
+  border: none;
+
+  position: absolute;
+  font-family: 'Open Sans Condensed';
+
+  background-color: white;
+  opacity: .85;
+  border-radius: .25rem;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px;
+
+  font-size: 1rem;
+  letter-spacing: .1rem;
+  outline: none;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+
+  transition: all .3s ease;
+}
+
+.try-again:hover {
+  opacity: 1;
+}
+
 
 #score {
   font-size: 5rem;

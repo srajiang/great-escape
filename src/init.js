@@ -5,13 +5,15 @@ import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass'
 import Game from "./Game";
 import { calculateScore, sample, checkBullsEye } from './util';
 import Platform from "./Platform";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 function init({ APlatforms, IPlatforms, player, score, streak }) {
+
   // --------------------------------------------------CANVAS / RENDERER / SCENE
 
   // ----------- set basic width and height
-  const width = 600;
-  const height = 1000;
+  const width = 450;
+  const height = 800;
   const aspect = width / height;
   const D = 1;
   const Y = -0.5;
@@ -40,6 +42,33 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
 
   // ---------- create a scene, the root of a form of scene graph
   const scene = new THREE.Scene();
+
+  // ------------------------------------------------- ADD LOADER + IMPORT MODEL
+
+  // var loader = new GLTFLoader();
+  // var TLoader = new THREE.TextureLoader();
+  // var CMaterial; 
+
+  // TLoader.load("../models/textures/croissant-texture.jpeg", (texture) => {
+  //   CMaterial = new THREE.MeshBasicMaterial({
+  //     map: texture
+  //   });
+  // });
+
+  // loader.load( '../models/scene.gltf', function( gltf ) {
+
+  //   let mesh = gltf.scene;
+  //   mesh.material = CMaterial;
+  //   mesh.position.set(0,0,0);
+  //   scene.add(mesh);
+  //   console.log(scene);
+
+  // }, undefined, function( error) {
+  //   console.log('error loading model', error);
+  // })
+  
+
+
 
   // --------------------------------------------------------------------- FLOOR
 
@@ -155,6 +184,11 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
   let dt;
 
   function render(time) {
+
+    if (player.dead) {     // if player is dead, break out of render loop
+      return;
+    }
+
     time *= 0.001; //convert time to seconds
 
     // --------------------- get the change over time
@@ -183,25 +217,24 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
               console.log('streak', streak);
               updateScore();
               addNextPlatform( APlatforms.next().pos );
-              // recenterCamera();
 
           console.log('score', score);
 
 
-        } else if (player.landedSafelyOn(APlatforms.curr())) {
+        // } else if (player.landedSafelyOn(APlatforms.curr())) {
 
-          console.log('landed on curr')
+        //   console.log('landed on curr')
 
         } else {
-          console.log("did not land safely. sorry, you died :(");
+          player.dead = true;
         }
 
       } else {
-       
         player.updatePos(dt);
       }
 
       playerMesh.position.set(player.pos.x, player.pos.y, player.pos.z);
+
     }
 
     renderer.render(scene, camera);
@@ -254,7 +287,7 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
     }
     let pN = APlatforms.next().pos;
 
-    recenterCamera(pC, pN);
+    recenterCamera(pC, pN);    //resets the camera position
   }
 
   // ----------------------adds a new platform to the Game Object
@@ -282,15 +315,6 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
   function recenterCamera() {
 
     let playerMesh = scene.getObjectByName("player", true);
-
-    console.log(playerMesh);
-
-
-    // if (frustum.intersectsObject(object) ) {
-    //   console.log('IN FRAME');
-    // } else {
-    //   console.log('OUT OF FRAME');
-    // }
 
     let newCamPos = camera.position.clone();
 
@@ -320,11 +344,6 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
 
 
   }
-
-  function detect() {   
-
-  }
-
 
 }
 

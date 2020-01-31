@@ -1,5 +1,3 @@
-import * as math from 'mathjs';
-import { sample } from './util';
 import * as THREE from 'three';
 
 function Player(game) {
@@ -20,6 +18,10 @@ function Player(game) {
   this.finalPos;
   this.vel = new THREE.Vector3(0, 1, 0);
   this.grav = new THREE.Vector3(0, -9.8, 0);
+
+
+  // ---------------------------------player state
+  this.dead = false;
 
 
   this.updatePos = ( dt ) => {
