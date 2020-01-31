@@ -62,7 +62,7 @@ Game.prototype.registerSpaceBarKeyPress = function({ type, code, timeStamp }) {
   }
 
   if (this.keyDownTS && this.keyUpTS) {  //player has made a move
-    document.getElementById("jump").play();
+   
 
     this.keyDelta = (this.keyUpTS - this.keyDownTS) / 1000; //convert to s;
     

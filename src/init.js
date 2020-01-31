@@ -6,6 +6,7 @@ import Game from "./Game";
 import { calculateScore, sample, checkBullsEye } from './util';
 import Platform from "./Platform";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 
 function init({ APlatforms, IPlatforms, player, score, streak }) {
 
@@ -53,21 +54,62 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
   //   CMaterial = new THREE.MeshBasicMaterial({
   //     map: texture
   //   });
+    
+  //   console.log("material", CMaterial);
+  //     loader.load( '../models/scene.gltf', function( gltf ) {
+
+  //       console.log('gltf', gltf);
+
+  //       // let mesh = gltf.scene;
+
+  //       // console.log('3d scene', mesh);
+
+  //       // mesh.material = CMaterial;
+  //       // mesh.geometry = new THREE.CylinderGeometry(.5, .5, .5);
+  //       // mesh.position.set(0,0,0);
+  //       // mesh.castShadow = true;
+  //       scene.add(gltf.scene);
+  //       console.log(scene);
+
+  //     }, undefined, function( error) {
+  //       console.log('error loading model', error);
+  //   })
+
+
+
   // });
 
-  // loader.load( '../models/scene.gltf', function( gltf ) {
+  var loader = new FBXLoader();
+  var TLoader = new THREE.TextureLoader();
+  var CMaterial;
 
-  //   let mesh = gltf.scene;
-  //   mesh.material = CMaterial;
-  //   mesh.position.set(0,0,0);
-  //   scene.add(mesh);
-  //   console.log(scene);
+  TLoader.load(
+    "../models/croissant/textures/internal_ground_ao_texture.jpeg",
+    texture => {
+      CMaterial = new THREE.MeshBasicMaterial({
+        map: texture
+      });
 
-  // }, undefined, function( error) {
-  //   console.log('error loading model', error);
-  // })
-  
+      console.log("material", CMaterial);
+      loader.load(
+        "../models/croissant/source/Croissant.fbx",
+        function(fbx) {
 
+          console.log("fbx", fbx);
+
+          let mesh = fbx.children[0];
+          mesh.scale.multiplyScalar(.0005);
+          mesh.position.set(.5, .5, .5)
+          scene.add(mesh);
+          console.log(scene);
+        },
+        undefined,
+        function(error) {
+          console.log("error loading model", error);
+        }
+      );
+    }
+  );
 
 
   // --------------------------------------------------------------------- FLOOR
