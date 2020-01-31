@@ -18,9 +18,10 @@ function Platform( active = false, initPos = DEFAULT_POS ) {
 
   this.inView = active;  //state wrt camera
 
+  this.WIDTH_DEPTH = sample(OBJ_SIZES) / 10;
   this.H = HEIGHT;      // platform dimensions
-  this.W = WIDTH_DEPTH;
-  this.D = WIDTH_DEPTH;
+  this.W = this.WIDTH_DEPTH;
+  this.D = this.WIDTH_DEPTH;
   this.col = sample(COLORS);
   this.pos = initPos;
 

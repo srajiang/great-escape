@@ -17,11 +17,11 @@ PlatformQueue.prototype.deQ = function() {
 };
 
 PlatformQueue.prototype.curr = function() {
-  return this.items[0];
+  return this.items[this.items.length - 2];
 };
 
 PlatformQueue.prototype.next = function() {
-  return this.items[1];
+  return this.items[this.items.length - 1];
 }
 
 PlatformQueue.prototype.last = function() {
