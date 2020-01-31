@@ -31,7 +31,6 @@ Game.prototype.setNextFinalPos = function() {
   } else {
     this.player.finalPos = new THREE.Vector3(this.player.pos.x + this.keyDelta, this.player.pos.y, this.player.pos.z)
   }
-  console.log(this.player.finalPos);
 }
 
 
@@ -95,11 +94,6 @@ Game.prototype.addPlatforms = function() {
 
 }
 
-Game.prototype.testFunc = function() {
-
-  console.log('woohoo, we can access game from player!');
-
-}
 
 
 export default Game;

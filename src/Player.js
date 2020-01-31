@@ -14,6 +14,7 @@ function Player(game) {
   // ---------------------------------movement vars
   this.moving = false;
   this.dir = 'R';
+  this.id = null;
 
   this.pos = new THREE.Vector3(0, .115 ,-.4);
   this.finalPos;
