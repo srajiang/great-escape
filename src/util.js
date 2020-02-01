@@ -3,7 +3,6 @@ export const sample = (array) => {
 }
 
 export const calculateScore = (currScore, currStreak) => {
-
   return currScore + Math.pow(2, currStreak);  
 }
 
@@ -11,10 +10,7 @@ export const calculateScore = (currScore, currStreak) => {
 export const checkBullsEye = (platform, player) => {
 
   const MARGIN = .01;
-  // console.log('PLATFORM', platform.pos);
-  // console.log('PLAYER', player.pos);
   let eye = platform.pos;
-  // eye.y += (platform.H / 2);
 
   let rangeX = {
     'max': (eye.x + MARGIN),
@@ -38,7 +34,8 @@ export const checkBullsEye = (platform, player) => {
     && myZ < rangeZ['max']
     && myZ > rangeZ['min']
   ) {
-    console.log('BULLSEYE!!!');
+
+    document.getElementById("land-bullseye").play(); //play bullseye sound
     return 1;
   }
   return 0;  

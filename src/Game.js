@@ -4,6 +4,8 @@ import PlatformQueue from './PlatformQueue';
 import * as THREE from "three";
 
 const LAUNCH_FACTOR = 4;
+const HIGH_SCORE = 99999;
+
 
 function Game() {
 
@@ -21,7 +23,7 @@ function Game() {
 } 
 
 Game.prototype.isOver = function() {
-  return this.score > 99998 
+  return this.score > HIGH_SCORE; 
 }
 
 Game.prototype.setNextFinalPos = function() {
@@ -42,6 +44,8 @@ Game.prototype.registerSpaceBarKeyPress = function({ type, code, timeStamp }) {
 
   }
 
+  if (this.player.moving === true) return;   //if player is already moving, space bar doesn't trigger movement
+
   if (this.keyDownTS && this.keyUpTS && this.keyDelta) {  //reset if already exist
     this.keyDownTS = undefined;
     this.keyUpTS = undefined;
@@ -58,6 +62,7 @@ Game.prototype.registerSpaceBarKeyPress = function({ type, code, timeStamp }) {
   }
 
   if (this.keyDownTS && this.keyUpTS) {  //player has made a move
+   
 
     this.keyDelta = (this.keyUpTS - this.keyDownTS) / 1000; //convert to s;
     
@@ -65,9 +70,7 @@ Game.prototype.registerSpaceBarKeyPress = function({ type, code, timeStamp }) {
       this.keyDelta = 3;
     }
 
-    // this.player.finalPos = new THREE.Vector3(this.player.pos.x, this.player.pos.y, this.player.pos.z + this.keyDelta)
     this.setNextFinalPos();
-
     this.player.vel.y = this.keyDelta * LAUNCH_FACTOR;
     this.player.moving = true;
 

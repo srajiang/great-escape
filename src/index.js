@@ -11,10 +11,12 @@ console.log(game.isOver());
 document.addEventListener('DOMContentLoaded', () => {
   init(game);
   
+
+  // -------------------------------------------------- KEYBOARD ACTIONS
+  document.addEventListener('keydown', (e) => game.registerSpaceBarKeyPress(e));
+  document.addEventListener('keyup', (e) => game.registerSpaceBarKeyPress(e));
+
 })
 
-// -------------------------------------------------- KEYBOARD ACTIONS
-document.addEventListener('keydown', (e) => game.registerSpaceBarKeyPress(e));
-document.addEventListener('keyup', (e) => game.registerSpaceBarKeyPress(e));
 
 

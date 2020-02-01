@@ -4,7 +4,7 @@
   "description": "App for jumping",
   "main": "jump.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/srajiang/jumpjump#readme",
   "dependencies": {
-    "mathjs": "^6.5.0",
     "postprocessing": "^6.10.0",
     "three": "^0.112.1"
   }
