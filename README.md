@@ -1,10 +1,10 @@
-# Great Bento Escape
+# Great Croissant Escape
 
-You are a little tamago roll trying to escape the bento. Get points for leaping successfully from platter to platter in a bid for your freedom. Don't fall off the sushi platters! 
+You are little croissant trying to escape the bakery. Get points for leaping successfully from platter to platter in a bid for your freedom. Don't fall off the boxes or risk being eaten! 
 
 ## Background
 
-A popular WeChat mini program game called Jump Jump became very popular earlier this year and is frustrating, delightful and addictive. I wanted to see what it takes to make a truly delightful game play experience so I built a game which shares a similar mechanic.  
+A popular WeChat mini program game called Jump Jump took the world by storm last year and is frustrating, delightful and addictive. It is itself a copy of the game "Bottleflip" by the French gamemakers Ketchapp, a testament to how a simple game premise and some delightful mechanics can be endlessly reinvented and enjoyed. I wanted to see what it takes to make a delightful game play experience so I built a game which shares a similar mechanic.  
 
 Original Jump Jump (Tiao Yi Tiao) 
 https://www.youtube.com/watch?v=Ee3IOH-ILuI
