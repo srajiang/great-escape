@@ -50,7 +50,7 @@ Game.prototype.registerSpaceBarKeyPress = function({ type, code, timeStamp }) {
     this.keyDownTS = undefined;
     this.keyUpTS = undefined;
     this.keyDelta = undefined;
-  }
+  }  
 
   if (type === "keydown" && code === "Space" && !this.keyDownTS) {
     this.keyDownTS = timeStamp;
@@ -63,10 +63,11 @@ Game.prototype.registerSpaceBarKeyPress = function({ type, code, timeStamp }) {
 
   if (this.keyDownTS && this.keyUpTS) {  //player has made a move
    
+    document.getElementById("grunt-1").play(); // SOUND
 
     this.keyDelta = (this.keyUpTS - this.keyDownTS) / 1000; //convert to s;
     
-    if (this.keyDelta > 3) {
+    if (this.keyDelta > 3) { 
       this.keyDelta = 3;
     }
 

@@ -139,7 +139,7 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
        playerMesh.material.map = texture;
        playerMesh.scale.multiplyScalar(0.0005);
        playerMesh.position.set(player.pos.x, player.pos.y, player.pos.z);
-       playerMesh.rotation.set(1.5708, 3.14159, 0);
+       playerMesh.rotation.set(1.5708, 3.14159, 1);
        playerMesh.name = "player";
        scene.add(playerMesh);
 

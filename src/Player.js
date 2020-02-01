@@ -85,16 +85,8 @@ Player.prototype.landedSafelyOn = function( platform ) {
     myPos = this.pos.x;
     leewayMin = platform.pos.x - platform.W / 2 - .005;
     leewayMax = platform.pos.x + platform.W / 2 - .005;
-
-    // console.log('platform pos x',  platform.pos.x);
-    // console.log('player position x', this.pos.x);
-    // console.log('leeway', leeway);
-    // console.log('leeway min', leewayMin);
-    // console.log('leeway max', leewayMax);
-    // console.log('delta d', dd);
+ 
   }
-  
-  // this.checkBullsEye();
 
   if(myPos < leewayMin || myPos > leewayMax || dd < leeway ) {
     return false; 

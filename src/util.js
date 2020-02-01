@@ -34,7 +34,7 @@ export const checkBullsEye = (platform, player) => {
     && myZ > rangeZ['min']
   ) {
 
-    document.getElementById("land-bullseye").play(); //play bullseye sound
+    document.getElementById("land-bullseye").play(); //SOUND
     return 1;
   }
   return 0;  
