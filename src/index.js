@@ -1,5 +1,6 @@
 import init from './init';
 import Game from './Game';
+import { toggleGameState } from './util';
 
 
 // ----------------------------------------------- GAME STATE VARIABLES
@@ -15,6 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // -------------------------------------------------- KEYBOARD ACTIONS
   document.addEventListener('keydown', (e) => game.registerSpaceBarKeyPress(e));
   document.addEventListener('keyup', (e) => game.registerSpaceBarKeyPress(e));
+
+
+  // ------------------------------------------------------ RESTART GAME
+  document.getElementsByClassName('try-again')[0].addEventListener("click", function() {
+    game.player.dead = false;
+    toggleGameState(false, true);
+  })
 
 })
 
