@@ -3,7 +3,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass'
 import Game from "./Game";
-import { calculateScore, sample, checkBullsEye } from './util';
+import { calculateScore, sample, checkBullsEye, toggleGameState } from './util';
 import Platform from "./Platform";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
@@ -44,74 +44,6 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
   // ---------- create a scene, the root of a form of scene graph
   const scene = new THREE.Scene();
 
-  // ------------------------------------------------- ADD LOADER + IMPORT MODEL
-
-  // var loader = new GLTFLoader();
-  // var TLoader = new THREE.TextureLoader();
-  // var CMaterial; 
-
-  // TLoader.load("../models/textures/croissant-texture.jpeg", (texture) => {
-  //   CMaterial = new THREE.MeshBasicMaterial({
-  //     map: texture
-  //   });
-    
-  //   console.log("material", CMaterial);
-  //     loader.load( '../models/scene.gltf', function( gltf ) {
-
-  //       console.log('gltf', gltf);
-
-  //       // let mesh = gltf.scene;
-
-  //       // console.log('3d scene', mesh);
-
-  //       // mesh.material = CMaterial;
-  //       // mesh.geometry = new THREE.CylinderGeometry(.5, .5, .5);
-  //       // mesh.position.set(0,0,0);
-  //       // mesh.castShadow = true;
-  //       scene.add(gltf.scene);
-  //       console.log(scene);
-
-  //     }, undefined, function( error) {
-  //       console.log('error loading model', error);
-  //   })
-
-
-
-  // });
-
-  var loader = new FBXLoader();
-  var TLoader = new THREE.TextureLoader();
-  var CMaterial;
-
-  TLoader.load(
-    "../models/croissant/textures/internal_ground_ao_texture.jpeg",
-    texture => {
-      CMaterial = new THREE.MeshBasicMaterial({
-        map: texture
-      });
-
-      console.log("material", CMaterial);
-      loader.load(
-        "../models/croissant/source/Croissant.fbx",
-        function(fbx) {
-
-          console.log("fbx", fbx);
-
-          let mesh = fbx.children[0];
-          mesh.scale.multiplyScalar(.0005);
-          mesh.position.set(.5, .5, .5)
-          scene.add(mesh);
-          console.log(scene);
-        },
-        undefined,
-        function(error) {
-          console.log("error loading model", error);
-        }
-      );
-    }
-  );
-
-
   // --------------------------------------------------------------------- FLOOR
 
   // -------- Create a plane that receives shadows (but does not cast them)
@@ -137,11 +69,11 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
     geometry.computeBoundingSphere();
     material = new THREE.MeshPhongMaterial({
       color: platform.col,
-      opacity: 0.75
+      opacity: .9
     });
     mesh = new THREE.Mesh(geometry, material);
     mesh.castShadow = true;
-    mesh.receiveShadow = true;
+    mesh.receiveShadow = true;    
 
     scene.add(mesh);
     mesh.position.set(platform.pos.x, platform.pos.y, platform.pos.z);
@@ -156,26 +88,56 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
   }
 
   // ------------------------------------------------------------- RENDER PLAYER
-  let playerGeometry, playerMaterial, playerMesh;
+  let playerMesh;
 
-  playerGeometry = new THREE.CylinderGeometry(
-    player.RT,
-    player.RB,
-    player.H,
-    32
-  );
-  playerMaterial = new THREE.MeshLambertMaterial({ color: player.col });
-  playerMesh = new THREE.Mesh(playerGeometry, playerMaterial);
+   var loader = new FBXLoader();
+   var TLoader = new THREE.TextureLoader();
 
-  playerMesh.castShadow = true;
-  playerMesh.receiveShadow = false;
-  playerGeometry.computeBoundingSphere();
-  player.id = playerMesh.id;
-  playerMesh.name = "player";
+   let texture = TLoader.load("../models/croissant/textures/Texture.jpg");
+
+   loader.load(
+     "../models/croissant/source/Croissant.fbx",
+     function(fbx) {
+
+       playerMesh = fbx.children[0];
+       playerMesh.receiveShadow = true;
+       playerMesh.castShadow = true;
+       playerMesh.geometry.computeBoundingSphere();
+
+       player.id = playerMesh.id;
+       playerMesh.material.map = texture;
+       playerMesh.scale.multiplyScalar(0.0005);
+       playerMesh.position.set(player.pos.x, player.pos.y, player.pos.z);
+       playerMesh.rotation.set(1.5708, 3.14159, 1);
+       playerMesh.name = "player";
+       scene.add(playerMesh);
+
+     },
+     undefined,
+     function(error) {
+       console.log("error loading model", error);
+     }
+   );
+
+  // --------- original test object cylinder
+  // playerGeometry = new THREE.CylinderGeometry(
+  //   player.RT,
+  //   player.RB,
+  //   player.H,
+  //   32
+  // );
+  // playerMaterial = new THREE.MeshLambertMaterial({ color: player.col });
+  // playerMesh = new THREE.Mesh(playerGeometry, playerMaterial);
+
+  // playerMesh.castShadow = true;
+  // playerMesh.receiveShadow = false;
+  // playerGeometry.computeBoundingSphere();
+  // player.id = playerMesh.id;
+  // playerMesh.name = "player";
   
-  scene.add(playerMesh);
+  // scene.add(playerMesh);
 
-  playerMesh.position.set(player.pos.x, player.pos.y, player.pos.z);
+  // playerMesh.position.set(player.pos.x, player.pos.y, player.pos.z);
 
   // -------------------------------------------------------------------- LIGHTS
 
@@ -186,6 +148,9 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
   light.position.set(-3, 4, -1.5);
   light.castShadow = true;
   scene.add(light);
+
+  const amblight = new THREE.AmbientLight(0x404040, 1); // soft white light
+  scene.add(amblight); 
 
   // --------------- Set up shadow properties for the light
   light.shadow.mapSize.width = 2048; // default
@@ -209,12 +174,8 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
   let cameraViewProjectionMatrix = new THREE.Matrix4();
 
   camera.updateMatrixWorld();
-  // console.log('matrix world', camera.matrixWorld);
   camera.matrixWorldInverse.getInverse(camera.matrixWorld);
-  // console.log('matrix world inverse', camera.matrixWorldInverse);
-
   cameraViewProjectionMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
-  // console.log('camera view projection matrix', cameraViewProjectionMatrix);
 
   frustum.setFromMatrix( cameraViewProjectionMatrix );
 
@@ -228,6 +189,8 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
   function render(time) {
 
     if (player.dead) {     // if player is dead, break out of render loop
+      toggleGameState(true);
+      document.getElementById('eaten').play()  // SOUND
       return;
     }
 
@@ -253,6 +216,8 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
         // check delta
         if (player.landedSafelyOn(APlatforms.next())) {
 
+              document.getElementById("bloop").play(); //SOUND
+
               console.log('landed on next');
               updateStreak();
 
@@ -274,7 +239,6 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
       } else {
         player.updatePos(dt);
       }
-
       playerMesh.position.set(player.pos.x, player.pos.y, player.pos.z);
 
     }
@@ -373,22 +337,9 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
 
     camera.position.copy(newCamPos);
 
-
-
-
-
-
-    // whats the pos of the curr, whats the pos of the next is outside of the camera frame
-
-    // find the midpoint of that
-
-    // center camera to move
-
-
   }
 
 }
-
 
   // ----------------------------------------------------------- POST PROCESSING
   // var composer = new EffectComposer(renderer);

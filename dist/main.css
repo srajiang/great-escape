@@ -7,6 +7,10 @@ body, h1, p, h2{
   background-color: transparent;
 }
 
+body {
+  position: relative;
+}
+
 #c {
   border-radius: .5rem;
   background-image: linear-gradient(#95ACFF 50%, lightpink)
@@ -35,7 +39,7 @@ body, h1, p, h2{
 
   width: 100vw;
   height: 100vh;
-  background-image: linear-gradient(#FCF5DD, #ffd3db);
+  background-image: linear-gradient(#fceab0, #ffd3db);
 }
 .game-over-wrapper {
   display: relative;
@@ -98,4 +102,11 @@ body, h1, p, h2{
   top: 5rem;
   color: white;
   letter-spacing: .3rem;
+}
+
+#croissant-sticker {
+  transform: scale(.7);
+  position: absolute;
+  z-index: 1;
+  left: 5rem;
 }

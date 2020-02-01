@@ -2,6 +2,7 @@ import Player from './Player';
 import Platform from './Platform';
 import PlatformQueue from './PlatformQueue';
 import * as THREE from "three";
+import { sample } from './util';
 
 const LAUNCH_FACTOR = 4;
 const HIGH_SCORE = 99999;
@@ -50,7 +51,7 @@ Game.prototype.registerSpaceBarKeyPress = function({ type, code, timeStamp }) {
     this.keyDownTS = undefined;
     this.keyUpTS = undefined;
     this.keyDelta = undefined;
-  }
+  }  
 
   if (type === "keydown" && code === "Space" && !this.keyDownTS) {
     this.keyDownTS = timeStamp;
@@ -61,13 +62,17 @@ Game.prototype.registerSpaceBarKeyPress = function({ type, code, timeStamp }) {
     this.keyUpTS = timeStamp;
   }
 
-  if (this.keyDownTS && this.keyUpTS) {  //player has made a move
-   
 
-    this.keyDelta = (this.keyUpTS - this.keyDownTS) / 1000; //convert to s;
+  if (this.keyDownTS && this.keyUpTS) {  //player has made a move
     
-    if (this.keyDelta > 3) {
-      this.keyDelta = 3;
+    this.keyDelta = (this.keyUpTS - this.keyDownTS) / 1000; //convert to s;
+
+    if (this.keyDelta > 2.5) { 
+      this.keyDelta = 2.5;
+    }
+
+    if (this.keyDelta > 0.4) {
+      document.getElementById("grunt-1").play(); // SOUND
     }
 
     this.setNextFinalPos();
