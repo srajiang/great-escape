@@ -18,12 +18,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ------------------------------------------------------ RESTART GAME
   document.getElementsByClassName('try-again')[0].addEventListener("click", function() {
-   
+    
+    document.getElementById('eaten').pause();
     toggleGameState(false, true);
     game = new Game();
     document.getElementById("score").innerHTML = game.score;
     init(game);
-    
+
   })
 
 })

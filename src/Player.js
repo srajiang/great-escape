@@ -62,13 +62,13 @@ Player.prototype.checkBullsEye = function () {
     && myX > rangeX['min']
     && myZ < rangeZ['max'] 
     && myZ > rangeZ['min']
-) {
-  console.log('BULLSEYE!!!');
-  this.game.streak += 1;
-  console.log('streak', this.game.streak);
-  return true;
-}  
-  console.log('my pos', this.pos);
+  ) {
+    console.log('BULLSEYE!!!');
+    this.game.streak += 1;
+    console.log('streak', this.game.streak);
+    return true;
+  }  
+
 }
 
 Player.prototype.landedSafelyOn = function( platform ) {  

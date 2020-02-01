@@ -8,7 +8,7 @@ export const calculateScore = (currScore, currStreak) => {
 
 export const checkBullsEye = (platform, player) => {
 
-  const MARGIN = .01;
+  const MARGIN = .03;
   let eye = platform.pos;
 
   let rangeX = {

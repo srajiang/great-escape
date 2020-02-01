@@ -15,7 +15,6 @@ const COLORS = [
   0xffa500
 ];
 const OBJ_SIZES = [1, 1.35, 1.5, 2, 2, 2.8, 2.8, 2.8, 2.8];
-const WIDTH_DEPTH = sample(OBJ_SIZES) / 10; 
 const HEIGHT = .15;
 const DEFAULT_POS = new THREE.Vector3(0,0,0)
 

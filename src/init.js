@@ -44,37 +44,6 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
   // ---------- create a scene, the root of a form of scene graph
   const scene = new THREE.Scene();
 
-  // ------------------------------------------------- ADD LOADER + IMPORT MODEL
- 
-  // var loader = new FBXLoader();
-  // var TLoader = new THREE.TextureLoader();
-
-  // let texture = TLoader.load("../models/croissant/textures/Texture.jpg");
-
-
-  // loader.load(
-  //   "../models/croissant/source/Croissant.fbx",
-  //   function(fbx) {
-    
-  //     let mesh = fbx.children[0];
-  //     // mesh.receiveShadow = true;
-  //     mesh.castShadow = true;
-  //     mesh.material.map = texture;
-  //     mesh.scale.multiplyScalar(0.0005);
-  //     mesh.position.set(0.3, 0.3, 0.3);
-  //     mesh.rotation.set(1.5708, 3.14159, 0);
-  //     scene.add(mesh);
-  
-  //   },
-  //   undefined,
-  //   function(error) {
-  //     console.log("error loading model", error);
-  //   }
-  // );
-
-  
-
-
   // --------------------------------------------------------------------- FLOOR
 
   // -------- Create a plane that receives shadows (but does not cast them)
@@ -221,6 +190,7 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
 
     if (player.dead) {     // if player is dead, break out of render loop
       toggleGameState(true);
+      document.getElementById('eaten').play()  // SOUND
       return;
     }
 
@@ -245,6 +215,8 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
 
         // check delta
         if (player.landedSafelyOn(APlatforms.next())) {
+
+              document.getElementById("bloop").play(); //SOUND
 
               console.log('landed on next');
               updateStreak();
@@ -365,22 +337,9 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
 
     camera.position.copy(newCamPos);
 
-
-
-
-
-
-    // whats the pos of the curr, whats the pos of the next is outside of the camera frame
-
-    // find the midpoint of that
-
-    // center camera to move
-
-
   }
 
 }
-
 
   // ----------------------------------------------------------- POST PROCESSING
   // var composer = new EffectComposer(renderer);
