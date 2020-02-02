@@ -1,6 +1,6 @@
 # Great Croissant Escape
 
-You are little croissant trying to escape the bakery. Get points for leaping successfully from platter to platter in a bid for your freedom. Don't fall off the boxes or risk being eaten! 
+You are little croissant trying to escape the bakery. Get points for leaping successfully over pastry boxes in a bid for your freedom. Don't fall off the boxes or risk being eaten! 
 
 ## Background
 
