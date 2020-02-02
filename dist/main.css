@@ -105,15 +105,24 @@ body {
   letter-spacing: .3rem;
 }
 
-#croissant-sticker {
+#croissant-sticker-win {
   top: -4.5rem;
   left: -8rem;
   transform: scale(.7);
   position: absolute;
   z-index: 1;
-  
 
 }
+
+#croissant-sticker-lose {
+  display: none;
+  top: -4.5rem;
+  left: -8rem;
+  transform: scale(.7);
+  position: absolute;
+  z-index: 1;
+}
+
 
 #volume-icon {
   color: white;

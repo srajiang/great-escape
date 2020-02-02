@@ -59,3 +59,16 @@ export const toggleGameState = (playerIsDead, playerRestart) => {
   }
 
 }
+
+export const toggleAvatar = (playerDead) => {
+
+  if (playerDead) {
+    document.getElementById("croissant-sticker-lose").style.display = "block";
+    document.getElementById("croissant-sticker-win").style.display = "none";
+  } else {
+    document.getElementById("croissant-sticker-lose").style.display = "none";
+    document.getElementById("croissant-sticker-win").style.display = "block";
+  }
+
+
+}

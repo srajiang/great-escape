@@ -26,8 +26,6 @@ function Player(game) {
 
   this.updatePos = ( dt ) => {
 
-    console.log('UPDATE');
-
     if ( this.dir === 'R') {
       this.pos.z += .02;
     } else {
