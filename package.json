@@ -4,8 +4,7 @@
   "description": "App for jumping",
   "main": "jump.js",
   "scripts": {
-    "start": "node main.js",
-    "postinstall": "webpack"
+    "start": "node main.js"
   },
   "repository": {
     "type": "git",
