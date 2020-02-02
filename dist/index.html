@@ -4,25 +4,28 @@
 
   <!-- favicons -->
     <link rel="shortcut icon" href="/logo.ico">
-    <link rel="icon" sizes="16x16 32x32 64x64" href="/logo.ico">
-    <link rel="icon" type="image/png" sizes="196x196" href="/favicon-192.png">
-    <link rel="icon" type="image/png" sizes="160x160" href="/favicon-160.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
-    <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+    <link rel="icon" sizes="16x16 32x32 64x64" href="/media/logo.ico">
+    <link rel="icon" type="image/png" sizes="196x196" href="/media/favicon-192.png">
+    <link rel="icon" type="image/png" sizes="160x160" href="/media/favicon-160.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/media/favicon-96.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="/media/favicon-64.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/media/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/media/favicon-16.png">
     <link rel="apple-touch-icon" href="/favicon-57.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/favicon-114.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/favicon-72.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/favicon-144.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/favicon-60.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/favicon-120.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/favicon-76.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/favicon-152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/media/favicon-114.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/media/favicon-72.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/media/favicon-144.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/media/favicon-60.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/media/favicon-120.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/media/favicon-76.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/media/favicon-152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/media/favicon-180.png">
     <meta name="msapplication-TileColor" content="#FFFFFF">
     <meta name="msapplication-TileImage" content="/favicon-144.png">
     <meta name="msapplication-config" content="/browserconfig.xml">
+  
+    <!-- fa -->
+    <script src="https://kit.fontawesome.com/589c0c4018.js" crossorigin="anonymous" sameSite="None"></script>
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,11 +47,6 @@
     <code>audio</code> element.
   </audio>
 
-  <audio volume="1" id="bounce" src="/media/bounce.wav">
-    Your browser does not support the
-    <code>audio</code> element.
-  </audio>
-
   <audio volume="1" id="grunt-1" src="/media/grunt-1.mp3">
     Your browser does not support the
     <code>audio</code> element.
@@ -64,15 +62,14 @@
     <code>audio</code> element.
   </audio>
 
-
-  <img id ="croissant-sticker" src="/media/kawaii_croissant.png" alt="cute croissant image">
   <div class="game-wrapper">
-
+    
     <div class="canvas-wrapper">
+      <img id ="croissant-sticker" src="/media/kawaii_croissant.png" alt="cute croissant image">
+      <div id="volume-icon"><i sameSite="None" class="fas fa-volume-up"></i></div>
       <div id="score">0</div>
       <canvas id="c"></canvas>
-      <p>Press SpaceBar to jump</p>
-
+      <p>Press spacebar to jump</p>
 
     </div>
     <div class="game-over-overlay">

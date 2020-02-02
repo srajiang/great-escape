@@ -7,6 +7,7 @@ import { calculateScore, sample, checkBullsEye, toggleGameState } from './util';
 import Platform from "./Platform";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
+import { PlaneHelper } from "three";
 
 function init({ APlatforms, IPlatforms, player, score, streak }) {
 
@@ -25,6 +26,7 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
     canvas,
     alpha: true,
     antialias: true
+
   });
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.BasicShadowMap;
@@ -48,13 +50,13 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
 
   // -------- Create a plane that receives shadows (but does not cast them)
 
-  var planeGeometry = new THREE.PlaneBufferGeometry(400, 400, 200, 200);
+  var planeGeometry = new THREE.PlaneBufferGeometry(800, 800, 200, 200);
   var planeMaterial = new THREE.ShadowMaterial({
     
     opacity: 0.3
   });
   var plane = new THREE.Mesh(planeGeometry, planeMaterial);
-  plane.receiveShadow = true;
+  // plane.receiveShadow = true;
   plane.castShadow = false;
   plane.rotation.set(-1.545, 0, 0);
   plane.position.set(0, -0.09, 0);
@@ -106,8 +108,9 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
 
        player.id = playerMesh.id;
        playerMesh.material.map = texture;
+       playerMesh.material.depthTest = false;
        playerMesh.scale.multiplyScalar(0.0005);
-       playerMesh.position.set(player.pos.x, player.pos.y, player.pos.z);
+       playerMesh.position.set(player.pos.x, .125, player.pos.z);
        playerMesh.rotation.set(1.5708, 3.14159, 1);
        playerMesh.name = "player";
        scene.add(playerMesh);
@@ -206,41 +209,77 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
     }
 
     // -------------------- resets position each frame if player is moving
-    if (player.moving === true) {
+    // if (player.moving === true) {
 
-      if (player.pos.y < player.finalPos.y) {
-        // ----- stops when player Y goes below initial y
-        player.pos.y = player.finalPos.y;
-        player.moving = false;
+    //   if (player.pos.y < player.finalPos.y) {
+    //     // ----- checks when player Y goes below initial y
+    //     player.pos.y = player.finalPos.y;
+    //     player.moving = false;
 
-        // check delta
+    //     // check delta
+    //     if (player.landedSafelyOn(APlatforms.next())) {
+
+    //       document.getElementById("bloop").play(); //SOUND
+
+    //       // console.log('landed on next');
+    //       updateStreak();
+
+    //       // console.log('streak', streak);
+    //       updateScore();
+    //       addNextPlatform( APlatforms.next().pos );
+
+    //       // console.log('score', score);
+
+
+    //     // } else if (player.landedSafelyOn(APlatforms.curr())) {
+
+    //     //   console.log('landed on curr')
+
+    //     } else {
+    //       player.moving = false;  
+    //       player.dead = true;    
+    //     }
+
+    //   } else {
+    //     player.updatePos(dt);
+    //   }
+    //   playerMesh.position.set(player.pos.x, player.pos.y, player.pos.z);
+
+    // }
+
+    if (player.moving === true) {    // until the spacebar is pressed the player is not moving
+
+      if (player.pos.y < player.finalPos.y) {  // ready to evaluate landing
+        
         if (player.landedSafelyOn(APlatforms.next())) {
-
-              document.getElementById("bloop").play(); //SOUND
-
-              console.log('landed on next');
-              updateStreak();
-
-              console.log('streak', streak);
-              updateScore();
-              addNextPlatform( APlatforms.next().pos );
-
-          console.log('score', score);
-
-
-        // } else if (player.landedSafelyOn(APlatforms.curr())) {
-
-        //   console.log('landed on curr')
-
+          
+          player.pos.y = .125; 
+          player.moving = false;
+  
+          // console.log('landed safely', player.pos.y);
+          
+          document.getElementById("bloop").play(); //SOUND
+          
+          updateStreak();  // update actions
+          updateScore();
+          addNextPlatform( APlatforms.next().pos );
+          
         } else {
-          player.dead = true;
-        }
+          // console.log('didnt land safely');
 
-      } else {
-        player.updatePos(dt);
+          setTimeout(() => {
+            player.dead = true;
+          }, 500);
+          clearTimeout();
+        }            
       }
-      playerMesh.position.set(player.pos.x, player.pos.y, player.pos.z);
+    }
 
+    if (player.moving === true) {
+      // console.log('ABOUT TO UPDATE FROM LOOP');
+      player.updatePos(dt);
+      playerMesh.position.set(player.pos.x, player.pos.y, player.pos.z);
+    
     }
 
     renderer.render(scene, camera);
@@ -318,24 +357,61 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
   }
   
   // --------------------recenter camera based on the current and next platforms
+  let prevDeltaX = 0;
+  let prevDeltaZ = 0;
+  let prevDir = 'R';
+
+  const cameraPos = camera.position.clone();
+  console.log(cameraPos);
+
   function recenterCamera() {
 
-    let playerMesh = scene.getObjectByName("player", true);
-
     let newCamPos = camera.position.clone();
+  
+    if ( player.dir === 'L' && prevDir === 'L') {
 
-    if ( player.dir === 'L') {
-      let deltaX = (APlatforms.next().pos.x - playerMesh.position.x);
-      newCamPos.x += deltaX;
-      console.log('dx',deltaX);
+      let deltaX = (APlatforms.next().pos.x - playerMesh.position.x) / 2;
+
+      newCamPos.x += deltaX + prevDeltaX;
+      prevDeltaX = deltaX;
+
+    } else if (player.dir === 'R' && prevDir === 'R') {
+
+      let deltaZ = (APlatforms.next().pos.z - playerMesh.position.z ) / 2;
+
+      newCamPos.z += deltaZ + prevDeltaZ;
+      prevDeltaZ = deltaZ;
       
-    } else {
-      let deltaZ = (APlatforms.next().pos.z - playerMesh.position.z );
-      newCamPos.z += deltaZ;
-      console.log('dz', deltaZ);
-    }
+    } else if (player.dir === 'R' && prevDir === 'L') {
 
+      let deltaZ = (APlatforms.next().pos.z - playerMesh.position.z);
+      let deltaX = prevDeltaX / 2;
+      newCamPos.z += deltaZ;
+      newCamPos.x += deltaX;
+
+      prevDeltaZ = deltaZ / 2;
+      prevDeltaX = deltaX;
+
+      prevDir = player.dir;
+
+    } else if (player.dir === 'L' && prevDir === 'R') {
+
+
+      let deltaX = (APlatforms.next().pos.x - playerMesh.position.x);
+      let deltaZ = prevDeltaZ / 2;
+      newCamPos.x += deltaX;
+      newCamPos.z += deltaZ;
+      
+
+      prevDeltaX = deltaX / 2;
+      prevDeltaZ = deltaZ;
+
+      prevDir = player.dir;
+
+    }
+    // console.log("world pos before",camera.getWorldPosition());
     camera.position.copy(newCamPos);
+    // console.log("world pos after",camera.getWorldPosition());
 
   }
 

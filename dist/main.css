@@ -13,7 +13,7 @@ body {
 
 #c {
   border-radius: .5rem;
-  background-image: linear-gradient(#95ACFF 50%, lightpink)
+  background-image: linear-gradient(#849FF9 50%, lightpink)
 }
 
 .canvas-wrapper {
@@ -23,12 +23,14 @@ body {
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding-top: 5vh;
+  padding-top: 3vh;
 
 }
 
 .canvas-wrapper p {
+  padding-top: .75rem;
   font-size: 1.5rem;
+  
 }
 
 .game-wrapper {
@@ -47,14 +49,13 @@ body {
 
 .game-over-overlay {
   display: none;
+  top: 7vh;
   position: absolute;
   background-color: black;
   border-radius: .5rem;
   opacity: 30%;
   height: 800px;
   width: 450px;
-  margin-top: 7px;
-
   text-align: center;
   color:white;
   
@@ -77,7 +78,7 @@ body {
   background-color: white;
   opacity: .85;
   border-radius: .25rem;
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px;
+  box-shadow: rgba(129, 108, 108, 0.2) 0px 4px 8px;
 
   font-size: 1rem;
   letter-spacing: .1rem;
@@ -105,8 +106,26 @@ body {
 }
 
 #croissant-sticker {
+  top: -4.5rem;
+  left: -8rem;
   transform: scale(.7);
   position: absolute;
   z-index: 1;
-  left: 5rem;
+  
+
+}
+
+#volume-icon {
+  color: white;
+  cursor: pointer;
+  transition: all .3s ease;
+
+  opacity: 50%;
+  position: absolute;
+  bottom: 7vh;
+  right: 1.5vw;
+}
+
+#volume-icon:hover {
+  opacity: 90%;
 }
