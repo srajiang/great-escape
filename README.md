@@ -14,7 +14,6 @@ The premise of the game is fairly simple, the user holds their finger/mouse on t
 This game features:
 
 * Smooth visual style, elements appearing in the view in an isometric pattern. 
-* Background color gradient change over time as you progress through the game. 
 * Sound elements that reinforce the reward of landing on the mark (i.e. right on the center of the platform).
 * Delightful physics of launching the character, the flip, and the landing.
 
