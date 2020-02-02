@@ -4,7 +4,7 @@
   "description": "App for jumping",
   "main": "jump.js",
   "scripts": {
-    "start": "echo \"Error: no test specified\" && exit 1"
+    "start": "node main.js"
   },
   "repository": {
     "type": "git",
