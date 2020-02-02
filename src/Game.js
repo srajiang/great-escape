@@ -29,10 +29,10 @@ Game.prototype.isOver = function() {
 
 Game.prototype.setNextFinalPos = function() {
   if (this.dir === 'L') {
-    this.player.finalPos = new THREE.Vector3(this.player.pos.x, this.player.pos.y, this.player.pos.z + this.keyDelta)
+    this.player.finalPos = new THREE.Vector3(this.player.pos.x, .125, this.player.pos.z + this.keyDelta)
     
   } else {
-    this.player.finalPos = new THREE.Vector3(this.player.pos.x + this.keyDelta, this.player.pos.y, this.player.pos.z)
+    this.player.finalPos = new THREE.Vector3(this.player.pos.x + this.keyDelta, .125, this.player.pos.z)
   }
 }
 

@@ -23,11 +23,6 @@ export const checkBullsEye = (platform, player) => {
   let myX = player.pos.x;
   let myZ = player.pos.z;
 
-  // console.log('rangeX', rangeX);
-  // console.log('rangeZ', rangeZ);
-  // console.log('myX', myX);
-  // console.log('myZ', myZ);
-
   if (myX < rangeX['max']
     && myX > rangeX['min']
     && myZ < rangeZ['max']

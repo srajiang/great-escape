@@ -14,7 +14,7 @@ function Player(game) {
   this.dir = 'R';
   this.id = null;
 
-  this.pos = new THREE.Vector3(0, .115 ,-.4);
+  this.pos = new THREE.Vector3(0, .125 ,-.4);
   this.finalPos;
   this.vel = new THREE.Vector3(0, 1, 0);
   this.grav = new THREE.Vector3(0, -9.8, 0);
@@ -26,6 +26,8 @@ function Player(game) {
 
   this.updatePos = ( dt ) => {
 
+    console.log('UPDATE');
+
     if ( this.dir === 'R') {
       this.pos.z += .02;
     } else {
@@ -33,7 +35,6 @@ function Player(game) {
     }
     this.pos.y = this.pos.y + (this.vel.y * dt);
     this.vel.y = this.vel.y + (this.grav.y * dt);
-
   }
 }
 
@@ -73,40 +74,24 @@ Player.prototype.checkBullsEye = function () {
 
 Player.prototype.landedSafelyOn = function( platform ) {  
 
-  let dd, leeway, leewayMin, leewayMax, myPos;
-  if ( this.dir === 'R') {
-    myPos = this.pos.z 
+  let leewayMinX, leewayMaxX, myPosX, leewayMinZ, leewayMaxZ, myPosZ;
 
-    leewayMin = platform.pos.z - platform.W / 2 - .005;
-    leewayMax = platform.pos.z + platform.W / 2 - .005;
+    myPosZ = this.pos.z 
+
+    leewayMinZ = platform.pos.z - platform.W / 2 + .005;
+    leewayMaxZ = platform.pos.z + platform.W / 2 - .005;
   
-  } else {
+    myPosX = this.pos.x;
+    leewayMinX = platform.pos.x - platform.W / 2 + .005;
+    leewayMaxX = platform.pos.x + platform.W / 2 - .005;
 
-    myPos = this.pos.x;
-    leewayMin = platform.pos.x - platform.W / 2 - .005;
-    leewayMax = platform.pos.x + platform.W / 2 - .005;
- 
-  }
 
-  if(myPos < leewayMin || myPos > leewayMax || dd < leeway ) {
+  if (myPosX < leewayMinX || myPosX > leewayMaxX || myPosZ < leewayMinZ || myPosZ > leewayMaxZ || this.pos.y < 0 ) {
     return false; 
   } 
   return true;
   
 }
-
-Player.prototype.landedSafelyOnCurr = function( platform ) {
-
-  return false; 
-
-}
-
-Player.prototype.calcNextPos = function() {
-
-
-
-}
-
 
 
 
