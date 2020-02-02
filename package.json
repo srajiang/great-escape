@@ -2,9 +2,9 @@
   "name": "jump-jump",
   "version": "1.0.0",
   "description": "App for jumping",
-  "main": "main.js",
+  "main": "jump.js",
   "scripts": {
-    "start": "node main.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",

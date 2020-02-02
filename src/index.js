@@ -1,6 +1,6 @@
 import init from './init';
 import Game from './Game';
-import { toggleGameState } from './util';
+import { toggleGameState, toggleAvatar } from './util';
 
 
 // ----------------------------------------------- GAME STATE VARIABLES
@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     toggleGameState(false, true);
     game = new Game();
     document.getElementById("score").innerHTML = game.score;
+    toggleAvatar(game.player.dead);
     init(game);
 
   })

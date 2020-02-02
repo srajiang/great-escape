@@ -3,7 +3,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass'
 import Game from "./Game";
-import { calculateScore, sample, checkBullsEye, toggleGameState } from './util';
+import { calculateScore, sample, checkBullsEye, toggleGameState, toggleAvatar } from './util';
 import Platform from "./Platform";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
@@ -40,7 +40,7 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
     D,
     -D,
     1,
-    1000
+    100
   );
 
   // ---------- create a scene, the root of a form of scene graph
@@ -193,7 +193,10 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
 
     if (player.dead) {     // if player is dead, break out of render loop
       toggleGameState(true);
-      document.getElementById('eaten').play()  // SOUND
+      document.getElementById('eaten').play()  // SOUND 
+
+      toggleAvatar(player.dead);
+    
       return;
     }
 
