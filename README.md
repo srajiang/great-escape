@@ -16,6 +16,7 @@ This game features:
 * Smooth visual style, elements appearing in the view in an isometric pattern. 
 * Sound elements that reinforce the reward of landing on the mark (i.e. right on the center of the platform).
 * Delightful physics of launching the character, the flip, and the landing.
+* Randomly generated boxes with varying difficulties of player action required to land a jump successfully based on the camera position, distance, and the player's own starting velocity. 
 
 ## Game Components
 
