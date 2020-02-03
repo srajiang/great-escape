@@ -2,6 +2,12 @@
 
 You are little croissant trying to escape the bakery. Get points for leaping successfully on pastry boxes in a bid for your freedom. Don't fall off the boxes or risk being eaten! 
 
+<img height="500" alt="Screen Shot 2020-02-02 at 4 24 52 PM" src="https://user-images.githubusercontent.com/55667998/73617951-a3b4a980-45d8-11ea-9f5b-fcf20cd5f584.png"> <img height="500" alt="Screen Shot 2020-02-02 at 4 24 09 PM" src="https://user-images.githubusercontent.com/55667998/73617955-a6af9a00-45d8-11ea-9661-367b2b442683.png">
+
+
+
+
+
 ## Background
 
 A popular WeChat mini program game called Jump Jump took the world by storm last year and is frustrating, delightful and addictive. It is itself a copy of the game "Bottleflip" by the French gamemakers Ketchapp, a testament to how a simple game premise and some delightful mechanics can be endlessly reinvented and enjoyed. I wanted to see what it takes to make a delightful game play experience so I built a game which shares a similar mechanic.  
@@ -58,8 +64,11 @@ This game features:
 
 ## UI Components
 
-* 3D game assets rendered in 3.js
-* Sounds
+* All 3D game assets rendered in three.js. Three.js is a cross-browser JavaScript library and Application Programming Interface (API) used to create and display animated 3D computer graphics in a web browser. Three.js uses WebGL. 
+* Sound Assets - FreeSound.com
+* Credit to CupcakeJuice [deviantart](https://www.deviantart.com/cupcakejuice/art/Cute-Croissant-194136322) for the basis of my "Frenchified croissant". 
+* Credit to Anastasia Shedu [modeler](https://sketchfab.com/Anastasia.Shedu) for the low-poly croissant model used in this game.
+
 
 
 
