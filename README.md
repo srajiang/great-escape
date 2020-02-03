@@ -1,5 +1,5 @@
 
-# Great Croissant Escape 
+# Great Croissant Escape <img width="450" align="right" alt="Screen Shot 2020-02-02 at 10 50 46 PM" src="https://user-images.githubusercontent.com/55667998/73631661-81d61980-460e-11ea-9773-4b7402efa436.png">
 
 ### [Live Link Here](https://srajiang.github.io/great-escape/dist/)
 
