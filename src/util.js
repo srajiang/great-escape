@@ -69,14 +69,29 @@ export const toggleAvatar = (playerDead) => {
     document.getElementById("croissant-sticker-lose").style.display = "none";
     document.getElementById("croissant-sticker-win").style.display = "block";
   }
-
-
 }
 
-export const toggleSound = () => {
+export const toggleSound = (e) => {
 
-  let soundToggle = document.getElementById("volume-icon-on");
-  console.log(soundToggle.style);
+  switch (e.target.id) {
+
+    case 'volume-icon-on':
+      e.target.style.display = 'none';
+      document.getElementById("volume-icon-off").style.display = 'block';
+      mutePage(true);
+      break;
+    case 'volume-icon-off':
+      e.target.style.display = "none";
+      document.getElementById("volume-icon-on").style.display = "block";
+      document.getElementById("menu").play();      // SOUND
+      mutePage(false);
+      break;
+  }
   
-  
+}
+
+export const mutePage = (muted) => {
+
+  document.querySelectorAll("audio").forEach(ele => (ele.muted = muted));
+
 }

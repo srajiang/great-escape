@@ -4,7 +4,6 @@ import { toggleGameState, toggleAvatar, toggleSound } from './util';
 
 // -------------------------------------------------------- GAME STATE VARIABLES
 var game = new Game();
-console.log('game stats:', game.score, game.streak);
 
 // ------------------------------------------------------------------- INIT GAME 
 document.addEventListener('DOMContentLoaded', () => {
@@ -18,10 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // ------------------------------------------------------------ VOLUME CONTROL
 
   let soundToggle = document.getElementById('volume-icon');
-  soundToggle.addEventListener('click', () => {
+  soundToggle.addEventListener('click', (e) => {
 
-    toggleSound();
-    // toggle sound icon
+    toggleSound(e);
 
 
   })
