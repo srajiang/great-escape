@@ -24,6 +24,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   })
 
+  // ---------------------------------------------------------------- START GAME
+
+  document.getElementsByClassName('start-game')[0].addEventListener('click', function() {
+
+    document.getElementsByClassName('game-start-overlay')[0].style.display = 'none';
+    document.getElementsByClassName('start-game')[0].style.display = 'none';
+    
+  })
 
   // -------------------------------------------------------------- RESTART GAME
   document.getElementsByClassName('try-again')[0].addEventListener("click", function() {

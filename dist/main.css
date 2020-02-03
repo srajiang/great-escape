@@ -86,9 +86,31 @@ body {
   opacity: 60%;
 }
 
+.game-start-overlay {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  top: 0;
+  position: absolute;
+  background-color: black;
+  border-radius: .5rem;
+  opacity: 40%;
+  height: 800px;
+  width: 450px;
+  text-align: center;
+  color:white; 
 
-.game-over-wrapper {
-  display: relative;
+}
+
+.game-start-overlay > h1 {
+  padding-top: 18vh;
+  font-size: 3.5rem;
+}
+
+.game-start-overlay > p {
+
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 .game-over-overlay {
@@ -110,7 +132,7 @@ body {
   font-size: 5rem;
 }
 
-.try-again {
+.try-again, .start-game {
   display: none;
   cursor: pointer;
 
@@ -135,7 +157,11 @@ body {
   transition: all .3s ease;
 }
 
-.try-again:hover {
+.start-game {
+  display: block;
+}
+
+.try-again:hover, .start-game:hover {
   opacity: 1;
 }
 
