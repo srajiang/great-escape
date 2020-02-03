@@ -25,9 +25,9 @@ This game features:
 ## Game Stills
 
 <p align="center">
-   <img height="400" alt="Screen Shot 2020-02-02 at 10 45 19 PM" src="https://user-images.githubusercontent.com/55667998/73631436-cf9e5200-460d-11ea-9213-92869e140b4e.png">
-   <img height="400" alt="Screen Shot 2020-02-02 at 10 47 23 PM" src="https://user-images.githubusercontent.com/55667998/73631498-01171d80-460e-11ea-9904-2a85bb2963ae.png">
-   <img height="400" alt="Screen Shot 2020-01-31 at 7 15 39 PM" src="https://user-images.githubusercontent.com/55667998/73618617-b41b5300-45dd-11ea-924f-e1a922419209.png">
+   <img height="350" alt="Screen Shot 2020-02-02 at 10 45 19 PM" src="https://user-images.githubusercontent.com/55667998/73631436-cf9e5200-460d-11ea-9213-92869e140b4e.png">
+   <img height="350" alt="Screen Shot 2020-02-02 at 10 47 23 PM" src="https://user-images.githubusercontent.com/55667998/73631498-01171d80-460e-11ea-9904-2a85bb2963ae.png">
+   <img height="350" alt="Screen Shot 2020-01-31 at 7 15 39 PM" src="https://user-images.githubusercontent.com/55667998/73618617-b41b5300-45dd-11ea-924f-e1a922419209.png">
 </p>
 
 ## Game Components
