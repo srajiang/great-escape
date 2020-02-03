@@ -1,7 +1,10 @@
 
-# Great Croissant Escape
+# Great Croissant Escape 
+
+### [Live Link Here](https://srajiang.github.io/great-escape/dist/)
 
 You are little croissant trying to escape the bakery. Get points for leaping successfully on pastry boxes in a bid for your freedom. Don't fall off the boxes or risk being eaten! 
+
 
 ## Background
 
