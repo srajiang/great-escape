@@ -365,7 +365,6 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
   let prevDir = 'R';
 
   const cameraPos = camera.position.clone();
-  console.log(cameraPos);
 
   function recenterCamera() {
 

@@ -46,8 +46,6 @@ body {
 
   border: 2px solid brown;
 
-  /* flex-direction: column; */
-
   width: 100vw;
   height: 100vh;
   background-image: linear-gradient(#fceab0, #ffbfc9);

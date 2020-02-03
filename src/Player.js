@@ -63,7 +63,6 @@ Player.prototype.checkBullsEye = function () {
     && myZ > rangeZ['min']
   ) {
     this.game.streak += 1;
-    console.log('streak', this.game.streak);
     return true;
   }  
 
