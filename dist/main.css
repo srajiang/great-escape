@@ -23,14 +23,19 @@ body {
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding-top: 3vh;
+  /* padding-top: 3vh; */
+  /* margin-top: 2rem; */
 
+ 
 }
 
 .canvas-wrapper p {
   padding-top: .75rem;
   font-size: 1.5rem;
-  
+}
+
+.wrapper {
+  position: relative;
 }
 
 .game-wrapper {
@@ -49,7 +54,7 @@ body {
 
 .game-over-overlay {
   display: none;
-  top: 7vh;
+  top: 0;
   position: absolute;
   background-color: black;
   border-radius: .5rem;
@@ -62,7 +67,7 @@ body {
 }
 
 .game-over-overlay > h1 {
-  padding-top: 15vh;
+  padding-top: 18vh;
   font-size: 5rem;
 }
 
