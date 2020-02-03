@@ -1,11 +1,7 @@
+
 # Great Croissant Escape
 
 You are little croissant trying to escape the bakery. Get points for leaping successfully on pastry boxes in a bid for your freedom. Don't fall off the boxes or risk being eaten! 
-
-<img height="500" align="right" alt="Screen Shot 2020-02-02 at 4 24 52 PM" src="https://user-images.githubusercontent.com/55667998/73617951-a3b4a980-45d8-11ea-9f5b-fcf20cd5f584.png">
-
-
-
 
 
 ## Background
@@ -24,15 +20,11 @@ This game features:
 * Delightful physics of launching the character, the flip, and the landing.
 * Randomly generated boxes with varying difficulties of player action required to land a jump successfully based on the camera position, distance, and the player's own starting velocity. 
 
-## Game Components
+## Game Stills
 
-* GameManager
-  * Variables 
-      * Game
-      * Game Started
-      * Game Ended
-  * Functions
-      * Responsible for intializing a new game, starting and ending the game when the Score maxes or when player falls.     
+
+## Game Components
+   
 * Game
   * Variables
       * TotalScore, with a max 99,999
