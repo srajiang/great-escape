@@ -36,7 +36,6 @@ Game.prototype.setNextFinalPos = function() {
   }
 }
 
-
 Game.prototype.registerSpaceBarKeyPress = function({ type, code, timeStamp }) {
 
   if (code === "Space" && !this.gameStarted) {   //starts the game on initial spacebar keypress

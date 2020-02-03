@@ -38,7 +38,7 @@ export const checkBullsEye = (platform, player) => {
 
 export const toggleGameState = (playerIsDead, playerRestart) => {
 
-  if ( playerIsDead) {
+  if (playerIsDead) {
 
     let gameover = document.getElementsByClassName("game-over-overlay")[0];
     let tryAgain = document.getElementsByClassName("try-again")[0];
