@@ -66,8 +66,8 @@ This game features:
 
 * All 3D game assets rendered in three.js. Three.js is a cross-browser JavaScript library and Application Programming Interface (API) used to create and display animated 3D computer graphics in a web browser. Three.js uses WebGL. 
 * Sound Assets - FreeSound.com
-* Credit to CupcakeJuice [deviantart](https://www.deviantart.com/cupcakejuice/art/Cute-Croissant-194136322) for the basis of my "Frenchified croissant". 
-* Credit to Anastasia Shedu [modeler](https://sketchfab.com/Anastasia.Shedu) for the low-poly croissant model used in this game.
+* Credit to [CupcakeJuice](https://www.deviantart.com/cupcakejuice/art/Cute-Croissant-194136322) for the basis of my "Frenchified croissant" avatar. 
+* Credit to Anastasia Shedu ([3D - modeler](https://sketchfab.com/Anastasia.Shedu)) for the low-poly croissant model used in this game.
 
 
 
