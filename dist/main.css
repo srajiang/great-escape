@@ -44,11 +44,9 @@ body {
   justify-content: center;
   align-items: center;
 
-  border: 2px solid brown;
-
   width: 100vw;
   height: 100vh;
-  background-image: linear-gradient(#fceab0, #ffbfc9);
+  background-image: linear-gradient(white, #f796a0);
 }
 
 #title {
@@ -61,7 +59,7 @@ body {
 #title > h1 {
   font-size: 3rem; 
   color: brown;
-  opacity: 30%;
+  opacity: 35%;
   line-height: 3.5rem;
 }
 
