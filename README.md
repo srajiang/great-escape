@@ -22,6 +22,12 @@ This game features:
 
 ## Game Stills
 
+<p align="center">
+   <img height="400" alt="Screen Shot 2020-02-02 at 4 22 31 PM" src="https://user-images.githubusercontent.com/55667998/73618634-d7de9900-45dd-11ea-8d5a-5dab155fbb5b.png">
+   <img height="400" alt="Screen Shot 2020-01-31 at 7 15 39 PM" src="https://user-images.githubusercontent.com/55667998/73618617-b41b5300-45dd-11ea-924f-e1a922419209.png">
+</p>
+
+
 
 ## Game Components
    
