@@ -2,7 +2,7 @@
 
 You are little croissant trying to escape the bakery. Get points for leaping successfully on pastry boxes in a bid for your freedom. Don't fall off the boxes or risk being eaten! 
 
-<img height="500" alt="Screen Shot 2020-02-02 at 4 24 52 PM" src="https://user-images.githubusercontent.com/55667998/73617951-a3b4a980-45d8-11ea-9f5b-fcf20cd5f584.png"> <img height="500" alt="Screen Shot 2020-02-02 at 4 24 09 PM" src="https://user-images.githubusercontent.com/55667998/73617955-a6af9a00-45d8-11ea-9661-367b2b442683.png">
+<img height="500" align="right" alt="Screen Shot 2020-02-02 at 4 24 52 PM" src="https://user-images.githubusercontent.com/55667998/73617951-a3b4a980-45d8-11ea-9f5b-fcf20cd5f584.png">
 
 
 
