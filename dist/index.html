@@ -35,42 +35,63 @@
   <script src="main.js"></script>
   <link rel="stylesheet" type="text/css" href="main.css">
   <style>
-    @import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300&display=swap');
+    @import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300i&display=swap');
   </style>
   <title>Great Croissant Escape</title>
   
 </head>
 <body>
   <!-- AUDIO FILES -->
-  <audio volume="1" id="land-bullseye" src="media/bullseye.wav">
+  <audio volume="0.01" id="land-bullseye" src="media/bullseye.wav">
     Your browser does not support the
     <code>audio</code> element.
   </audio>
 
-  <audio volume="1" id="grunt-1" src="media/grunt-1.mp3">
+  <audio volume="0.01" id="grunt-1" src="media/grunt-1.mp3">
     Your browser does not support the
     <code>audio</code> element.
   </audio>
 
-  <audio volume="1" id="eaten" src="media/eaten.wav">
+  <audio volume="0.01" id="eaten" src="media/eaten.wav">
     Your browser does not support the
     <code>audio</code> element.
   </audio>
 
-  <audio volume="1" id="bloop" src="media/lowbloop.wav">
+  <audio volume="0.01" id="bloop" src="media/lowbloop.wav">
     Your browser does not support the
     <code>audio</code> element.
   </audio>
   
-  <audio volume="1" id="menu" src="media/menu.wav">
+  <audio volume="0.01" id="menu" src="media/menu.wav">
     Your browser does not support the
     <code>audio</code> element.
   </audio>
 
+  <!-- GAME CONTENT -->
+
+  
   <div class="game-wrapper">
-    
+
     <div class="wrapper">
+
+      
+
       <div class="canvas-wrapper">
+
+        <div id="title">
+          <h1>The</h1>
+          <h1>Great</h1>
+          <h1>Croissant</h1>
+          <h1>Escape</h1>
+
+          <div id="ext-links">
+            <a target="_blank" href="https://github.com/srajiang"><i class="fab fa-github"></i></a>
+            <a target="_blank" href="https://www.linkedin.com/in/sjiang8/"><i class="fab fa-linkedin-in"></i></a>
+            <a target="_blank" href="https://angel.co/sarah-jiang-1"><i class="fab fa-angellist"></i></a>
+          </div>
+
+        </div>
+
         <img id ="croissant-sticker-win" src="media/kawaii_croissant_win.png" alt="cute croissant image">
         <img id ="croissant-sticker-lose" src="media/kawaii_croissant_lose.png" alt="cute croissant image">
        
@@ -93,6 +114,8 @@
         <p>Les humains ont gagné cette fois...</p>
         <p>(The humans won this time..)</p>
       </div>
+
+
     </div>
     
     <button class="try-again">TRY AGAIN</button>
