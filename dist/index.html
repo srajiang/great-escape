@@ -64,20 +64,25 @@
 
   <div class="game-wrapper">
     
-    <div class="canvas-wrapper">
-      <img id ="croissant-sticker-win" src="media/kawaii_croissant_win.png" alt="cute croissant image">
-      <img id ="croissant-sticker-lose" src="media/kawaii_croissant_lose.png" alt="cute croissant image">
-      <div id="volume-icon"><i sameSite="None" class="fas fa-volume-up"></i></div>
-      <div id="score">0</div>
-      <canvas id="c"></canvas>
-      <p>Press spacebar to jump</p>
+    <div class="wrapper">
+      <div class="canvas-wrapper">
+        <img id ="croissant-sticker-win" src="media/kawaii_croissant_win.png" alt="cute croissant image">
+        <img id ="croissant-sticker-lose" src="media/kawaii_croissant_lose.png" alt="cute croissant image">
+        <div id="volume-icon"><i sameSite="None" class="fas fa-volume-up"></i></div>
+        <div id="score">0</div>
 
+        <canvas id="c"></canvas>
+        
+        <p>Press spacebar to jump</p>
+      </div>
+    
+      <div class="game-over-overlay">
+        <h1>Zut alors!</h1>
+        <p>Les humains ont gagné cette fois...</p>
+        <p>(The humans won this time..)</p>
+      </div>
     </div>
-    <div class="game-over-overlay">
-      <h1>Zut alors!</h1>
-      <p>Les humains ont gagné cette fois...</p>
-      <p>(The humans won this time..)</p>
-    </div>
+    
     <button class="try-again">TRY AGAIN</button>
     
   </div>
