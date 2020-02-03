@@ -2,12 +2,9 @@ import * as THREE from "three";
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass'
-import Game from "./Game";
 import { calculateScore, sample, checkBullsEye, toggleGameState, toggleAvatar } from './util';
 import Platform from "./Platform";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
-import { PlaneHelper } from "three";
 
 function init({ APlatforms, IPlatforms, player, score, streak }) {
 
@@ -29,7 +26,7 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
 
   });
   renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.BasicShadowMap;
+  // renderer.shadowMap.type = THREE.BasicShadowMap;
 
   renderer.setSize(width, height);
 
@@ -74,7 +71,7 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
       opacity: .9
     });
     mesh = new THREE.Mesh(geometry, material);
-    mesh.castShadow = true;
+    // mesh.castShadow = true;
     mesh.receiveShadow = true;    
 
     scene.add(mesh);
@@ -152,14 +149,17 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
   light.castShadow = true;
   scene.add(light);
 
-  const amblight = new THREE.AmbientLight(0x404040, 1); // soft white light
+  const amblight = new THREE.AmbientLight(0x404040, .8); // soft white light
   scene.add(amblight); 
 
   // --------------- Set up shadow properties for the light
   light.shadow.mapSize.width = 2048; // default
   light.shadow.mapSize.height = 2048; // default
-  light.shadow.camera.near = 0.5; // default
-  light.shadow.camera.far = 500; // default
+  light.shadow.camera.near = .05; // default
+  light.shadow.camera.far = 10; // default
+  // light.shadow.opacity = 0.1;
+  
+  
 
   // -------------------------------------------------------------------- CAMERA
   // ---------- set the camera
@@ -410,7 +410,7 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
       prevDeltaZ = deltaZ;
 
       prevDir = player.dir;
-
+ 
     }
     // console.log("world pos before",camera.getWorldPosition());
     camera.position.copy(newCamPos);

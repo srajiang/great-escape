@@ -72,3 +72,11 @@ export const toggleAvatar = (playerDead) => {
 
 
 }
+
+export const toggleSound = () => {
+
+  let soundToggle = document.getElementById("volume-icon-on");
+  console.log(soundToggle.style);
+  
+  
+}
