@@ -1,22 +1,31 @@
 import init from './init';
 import Game from './Game';
-import { toggleGameState, toggleAvatar } from './util';
+import { toggleGameState, toggleAvatar, toggleSound } from './util';
 
-
-// ----------------------------------------------- GAME STATE VARIABLES
+// -------------------------------------------------------- GAME STATE VARIABLES
 var game = new Game();
-console.log('game stats:', game.score, game.streak);
 
-// --------------------------------------------------------- INIT GAME 
+// ------------------------------------------------------------------- INIT GAME 
 document.addEventListener('DOMContentLoaded', () => {
   init(game);
   
-  // -------------------------------------------------- KEYBOARD ACTIONS
+  // ---------------------------------------------------------- KEYBOARD ACTIONS
   document.addEventListener('keydown', (e) => game.registerSpaceBarKeyPress(e));
   document.addEventListener('keyup', (e) => game.registerSpaceBarKeyPress(e));
+  
+
+  // ------------------------------------------------------------ VOLUME CONTROL
+
+  let soundToggle = document.getElementById('volume-icon');
+  soundToggle.addEventListener('click', (e) => {
+
+    toggleSound(e);
 
 
-  // ------------------------------------------------------ RESTART GAME
+  })
+
+
+  // -------------------------------------------------------------- RESTART GAME
   document.getElementsByClassName('try-again')[0].addEventListener("click", function() {
     
     document.getElementById('eaten').pause();

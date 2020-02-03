@@ -61,6 +61,11 @@
     Your browser does not support the
     <code>audio</code> element.
   </audio>
+  
+  <audio volume="1" id="menu" src="media/menu.wav">
+    Your browser does not support the
+    <code>audio</code> element.
+  </audio>
 
   <div class="game-wrapper">
     
@@ -68,12 +73,19 @@
       <div class="canvas-wrapper">
         <img id ="croissant-sticker-win" src="media/kawaii_croissant_win.png" alt="cute croissant image">
         <img id ="croissant-sticker-lose" src="media/kawaii_croissant_lose.png" alt="cute croissant image">
-        <div id="volume-icon"><i sameSite="None" class="fas fa-volume-up"></i></div>
+       
         <div id="score">0</div>
 
         <canvas id="c"></canvas>
         
-        <p>Press spacebar to jump</p>
+        <div class="controls">
+          <div>Press spacebar to jump</div>
+          <div id="volume-icon">
+            <i id="volume-icon-on" sameSite="None" class="fas fa-volume-up"></i>
+            <i id="volume-icon-off" class="fas fa-volume-mute"></i>
+          </div>
+        </div>
+       
       </div>
     
       <div class="game-over-overlay">

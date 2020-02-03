@@ -13,7 +13,7 @@ body {
 
 #c {
   border-radius: .5rem;
-  background-image: linear-gradient(#849FF9 50%, lightpink)
+  background-image: linear-gradient(#849FF9 50%, #ffb2bd)
 }
 
 .canvas-wrapper {
@@ -46,7 +46,7 @@ body {
 
   width: 100vw;
   height: 100vh;
-  background-image: linear-gradient(#fceab0, #ffd3db);
+  background-image: linear-gradient(#fceab0, #ffbfc9);
 }
 .game-over-wrapper {
   display: relative;
@@ -130,16 +130,32 @@ body {
 
 
 #volume-icon {
-  color: white;
+
+  color: black;
   cursor: pointer;
   transition: all .3s ease;
 
   opacity: 50%;
-  position: absolute;
-  bottom: 7vh;
-  right: 1.5vw;
+  position: relative;
+
+  padding-left: 1rem;
+}
+
+#volume-icon-on {
+  display: block;
+}
+
+#volume-icon-off {
+  display: none;
 }
 
 #volume-icon:hover {
   opacity: 90%;
+}
+
+.controls {
+  display: flex;
+  padding-top: 1rem;
+
+  font-size: 20px;
 }
