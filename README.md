@@ -33,7 +33,8 @@ This game features:
 ### Technologies / Features
 
 #### Smooth visual style
-* Built with vanilla Javascript and vanilla DOM manipulation in conjunction with Three.js WEBGL canvas
+* Modern minimal design aesthetic.
+* Built with vanilla Javascript and vanilla DOM manipulation in conjunction with Three.js / WEBGL canvas
 
 #### Sound elements which enhance gameplay 
 * There are non-intrusive sound effects accompanying launch, landing, and hitting the bullseye as a user. 
