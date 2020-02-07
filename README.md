@@ -1,9 +1,9 @@
 
 # Great Croissant Escape <img width="450" align="right" alt="Screen Shot 2020-02-02 at 10 50 46 PM" src="https://user-images.githubusercontent.com/55667998/73631661-81d61980-460e-11ea-9773-4b7402efa436.png">
 
-### [Live Link Here](https://srajiang.github.io/great-escape/dist/)
+### [Live](https://srajiang.github.io/great-escape/dist/)
 
-You are little croissant trying to escape the bakery. Get points for leaping successfully on pastry boxes in a bid for your freedom. Don't fall off the boxes or risk being eaten! 
+You are a little croissant trying to escape the bakery. Get points for leaping successfully on pastry boxes in a bid for your freedom. Don't fall off the boxes or risk being eaten by a hungry human! 
 
 
 ## Background
@@ -29,6 +29,16 @@ This game features:
    <img height="350" alt="Screen Shot 2020-02-02 at 10 47 23 PM" src="https://user-images.githubusercontent.com/55667998/73631498-01171d80-460e-11ea-9904-2a85bb2963ae.png">
    <img height="350" alt="Screen Shot 2020-01-31 at 7 15 39 PM" src="https://user-images.githubusercontent.com/55667998/73618617-b41b5300-45dd-11ea-924f-e1a922419209.png">
 </p>
+
+### Technologies / Features
+
+#### Smooth visual style
+* Built with vanilla Javascript and vanilla DOM manipulation in conjunction with Three.js WEBGL canvase
+
+#### Sound elements which enhance gameplay 
+* There are non-intrusive sound effects accompanying launch, landing, and hitting the bullseye as a user. 
+* From a user-experience standpoint, I have also included and option for the user to disable sound / audio throughout the game
+
 
 ## Game Components
    
@@ -57,6 +67,7 @@ This game features:
       * Formulas for jump action: 
          * Update position: J<sup>1</sup> = J + DeltaT * Velocity (every frame position changes)
          * Update velocity: V<sup>1</sup> = V + DeltaT * Gravity  (every frame velocity changes)    
+         
 
 ## UI Components
 
