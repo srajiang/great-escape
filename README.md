@@ -61,7 +61,7 @@ This game features:
 * Player
    * CalculateNewPos - takes a prev X<sup>0</sup> and a Velocity and calculates a new final position. 
    * landedSafelyOn: Compares position of the player to the platform. 
-      * Vars 
+      * Variables
          * DeltaT - time passed between re-renders / updates to the frame
          * Velocity - determined by the user on mouse-down
          * Gravity - Gravity vector 
