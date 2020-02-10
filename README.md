@@ -37,7 +37,7 @@ This game features:
 * Built with vanilla Javascript and vanilla DOM manipulation in conjunction with Three.js / WEBGL canvas
 
 #### Sound elements which enhance gameplay 
-* There are non-intrusive sound effects accompanying launch, landing, and hitting the bullseye as a user. 
+* Non-intrusive sound effects accompanying launch, landing, and hitting the bullseye as a user. 
 * From a user-experience standpoint, I have also included and option for the user to disable sound / audio throughout the game
 
 
