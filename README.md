@@ -1,7 +1,7 @@
 
 # Great Croissant Escape <img width="450" align="right" alt="Screen Shot 2020-02-02 at 10 50 46 PM" src="https://user-images.githubusercontent.com/55667998/73631661-81d61980-460e-11ea-9773-4b7402efa436.png">
 
-### [Live](https://srajiang.github.io/great-escape/dist/)
+### [Try out, Great Croissant Escape!](https://srajiang.github.io/great-escape/dist/)
 
 You are a little croissant trying to escape the bakery. Get points for leaping successfully on pastry boxes in a bid for your freedom. Don't fall off the boxes or risk being eaten by a hungry human! 
 
