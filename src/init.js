@@ -119,7 +119,7 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
      }
    );
 
-  // --------- original test object cylinder
+  // --------------------------------------------- ORIGINAL TEST OBJECT CYLINDER
   // playerGeometry = new THREE.CylinderGeometry(
   //   player.RT,
   //   player.RB,
@@ -364,8 +364,6 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
   let prevDeltaZ = 0;
   let prevDir = 'R';
 
-  const cameraPos = camera.position.clone();
-
   function recenterCamera() {
 
     let newCamPos = camera.position.clone();
@@ -414,7 +412,6 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
     // console.log("world pos before",camera.getWorldPosition());
     camera.position.copy(newCamPos);
     // console.log("world pos after",camera.getWorldPosition());
-
   }
 
 }
