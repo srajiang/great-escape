@@ -114,14 +114,17 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
    );
 
   // ------------------------------------------------------- RENDER LANDING RING
-  let ringGeometry, ringMaterial, ringMesh;
-  ringGeometry = new THREE.PlaneGeometry( 20, 20 );
-  ringMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+  let ringGeometry, ringMaterial, ringMesh, ringTexture, diffuse;
+  ringGeometry = new THREE.PlaneGeometry( .5, .5 );
+  diffuse = new THREE.TextureLoader().load("../dist/media/diffuse-map.png");
+  ringTexture = new THREE.TextureLoader().load("../dist/media/landing-ring.png");
+  ringMaterial = new THREE.MeshBasicMaterial({ map: diffuse, alphaMap: ringTexture, transparent:true });
   ringMesh = new THREE.Mesh( ringGeometry, ringMaterial );
+  ringMesh.castShadow = false;
+  console.log(ringTexture);
   scene.add( ringMesh );
-  ringMesh.position.set(0, 0, 0);
-
-
+  ringMesh.position.set(0, .125, 0);
+  ringMesh.rotation.set(1.5708, 3.14159, 1);
 
   // --------------------------------------------- ORIGINAL TEST OBJECT CYLINDER
   // playerGeometry = new THREE.CylinderGeometry(
