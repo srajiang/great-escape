@@ -25,7 +25,6 @@ function Player(game) {
 
 
   this.updatePos = ( dt ) => {
-
     if ( this.dir === 'R') {
       this.pos.z += .02;
     } else {
@@ -37,35 +36,30 @@ function Player(game) {
 }
 
 
-Player.prototype.checkBullsEye = function () {
+Player.prototype.checkBullsEye = (platform, player) => {
+  const MARGIN = .03;
+  let eye = platform.pos;
 
-  const MARGIN = .05;
-
-  let next = this.game .APlatforms.next()
-  let eye = next.pos;
-  eye.y += ( next.H / 2 );
-
-  let rangeX = { 
-    'max': (eye.x + MARGIN), 
+  let rangeX = {
+    'max': (eye.x + MARGIN),
     'min': (eye.x - MARGIN)
-  } 
+  }
   let rangeZ = {
     'max': (eye.z + MARGIN),
     'min': (eye.z - MARGIN)
-  } 
+  }
 
-  let myX = this.pos.x;
-  let myZ = this.pos.z;
+  let myX = player.pos.x;
+  let myZ = player.pos.z;
 
-  if (myX < rangeX['max'] 
+  if (myX < rangeX['max']  // bullseye!
     && myX > rangeX['min']
-    && myZ < rangeZ['max'] 
+    && myZ < rangeZ['max']
     && myZ > rangeZ['min']
   ) {
-    this.game.streak += 1;
-    return true;
-  }  
-
+    return 1;
+  }
+  return 0;
 }
 
 Player.prototype.landedSafelyOn = function( platform ) {  

@@ -1,11 +1,10 @@
 import * as THREE from "three";
-import { calculateScore, sample, checkBullsEye, toggleGameState, toggleAvatar } from './util';
+import { calculateScore, sample, checkBullsEye, triggerBullsEyeFx, toggleGameState, toggleAvatar } from './util';
 import Platform from "./Platform";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 
 function init({ APlatforms, IPlatforms, player, score, streak }) {
   // --------------------------------------------------CANVAS / RENDERER / SCENE
-
   // ----------- set basic width and height
   const width = 450;
   const height = 800;
@@ -22,8 +21,6 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
 
   });
   renderer.shadowMap.enabled = true;
-  // renderer.shadowMap.type = THREE.BasicShadowMap;
-
   renderer.setSize(width, height);
 
   // ---------- make an orthographic camera
@@ -41,11 +38,10 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
 
   // --------------------------------------------------------------------- FLOOR
 
-  // -------- Create a plane that receives shadows (but does not cast them)
+  // -------- Create a plane
 
   var planeGeometry = new THREE.PlaneBufferGeometry(800, 800, 200, 200);
   var planeMaterial = new THREE.ShadowMaterial({
-    
     opacity: 0.3
   });
   var plane = new THREE.Mesh(planeGeometry, planeMaterial);
@@ -68,10 +64,8 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
     });
     mesh = new THREE.Mesh(geometry, material);
     mesh.receiveShadow = true;    
-
-    scene.add(mesh);
     mesh.position.set(platform.pos.x, platform.pos.y, platform.pos.z);
-
+    scene.add(mesh);
     return mesh.id;
   }
 
@@ -80,6 +74,9 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
     let platformId = addPlatformToScene( platform );
     APlatforms.items[i].id = platformId;      //assigns unique id tying scene obj to the Game Object  
   }
+
+  // -------------------------------------------------------------- PLAYER GROUP
+  let playerGroup = new THREE.Group();  
 
   // ------------------------------------------------------------- RENDER PLAYER
   let playerMesh;
@@ -101,11 +98,10 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
        playerMesh.material.map = texture;
        playerMesh.material.depthTest = false;
        playerMesh.scale.multiplyScalar(0.0005);
-       playerMesh.position.set(player.pos.x, .125, player.pos.z);
+       playerMesh.position.set(0,0,0);
        playerMesh.rotation.set(1.5708, 3.14159, 1);
        playerMesh.name = "player";
-       scene.add(playerMesh);
-
+       playerGroup.add(playerMesh);
      },
      undefined,
      function(error) {
@@ -113,7 +109,7 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
      }
    );
 
-  // ------------------------------------------------------- RENDER LANDING RING
+  // ------------------------------------------------------ RENDER BULLSEYE RING
   let ringGeometry, ringMaterial, ringMesh, ringTexture, diffuse;
   ringGeometry = new THREE.PlaneGeometry( .5, .5 );
   diffuse = new THREE.TextureLoader().load("../dist/media/diffuse-map.png");
@@ -121,33 +117,15 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
   ringMaterial = new THREE.MeshBasicMaterial({ map: diffuse, alphaMap: ringTexture, transparent:true });
   ringMesh = new THREE.Mesh( ringGeometry, ringMaterial );
   ringMesh.castShadow = false;
-  console.log(ringTexture);
-  scene.add( ringMesh );
-  ringMesh.position.set(0, .125, 0);
   ringMesh.rotation.set(1.5708, 3.14159, 1);
+  ringMaterial.opacity = 0;
+  playerGroup.add(ringMesh);
 
-  // --------------------------------------------- ORIGINAL TEST OBJECT CYLINDER
-  // playerGeometry = new THREE.CylinderGeometry(
-  //   player.RT,
-  //   player.RB,
-  //   player.H,
-  //   32
-  // );
-  // playerMaterial = new THREE.MeshLambertMaterial({ color: player.col });
-  // playerMesh = new THREE.Mesh(playerGeometry, playerMaterial);
-
-  // playerMesh.castShadow = true;
-  // playerMesh.receiveShadow = false;
-  // playerGeometry.computeBoundingSphere();
-  // player.id = playerMesh.id;
-  // playerMesh.name = "player";
-  
-  // scene.add(playerMesh);
-
-  // playerMesh.position.set(player.pos.x, player.pos.y, player.pos.z);
+  // ------------------------------------------------- ADD PLAYER GROUP TO SCENE
+  playerGroup.position.set(player.pos.x, 0.125, player.pos.z);
+  scene.add(playerGroup);
 
   // -------------------------------------------------------------------- LIGHTS
-
   // ---------- create the lights
   const color = 0xffffff;
   const intensity = 1;
@@ -163,21 +141,16 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
   light.shadow.mapSize.width = 2048; // default
   light.shadow.mapSize.height = 2048; // default
   light.shadow.camera.near = .05; // default
-  light.shadow.camera.far = 10; // default
-  // light.shadow.opacity = 0.1;
+  light.shadow.camera.far = 10; // default  
   
-  
-
   // -------------------------------------------------------------------- CAMERA
   // ---------- set the camera
   camera.position.set(-20, 20, -20);
-  // camera.position.set(-19.8, 20, -19.8); // test camera move
-  //camera.lookAt(scene.position);
-
   camera.rotation.set(
     -2.356194490192345,
     -0.6154797086703874,
-    -2.6179938779914944);
+    -2.6179938779914944)
+  ;
  
   // --------- set initial frustum
   let frustum = new THREE.Frustum();
@@ -201,9 +174,7 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
     if (player.dead) {     // if player is dead, break out of render loop
       toggleGameState(true);
       document.getElementById('eaten').play()  // SOUND 
-
       toggleAvatar(player.dead);
-    
       return;
     }
 
@@ -214,68 +185,24 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
     prevTime = time;
 
     if (dt > 0.15) {
-      //limit in case update rate of > 1/5 of a second
-      dt = 0.15;
+      dt = 0.15;  //limit in case update rate of > 1/5 of a second
     }
 
-    // -------------------- resets position each frame if player is moving
-    // if (player.moving === true) {
-
-    //   if (player.pos.y < player.finalPos.y) {
-    //     // ----- checks when player Y goes below initial y
-    //     player.pos.y = player.finalPos.y;
-    //     player.moving = false;
-
-    //     // check delta
-    //     if (player.landedSafelyOn(APlatforms.next())) {
-
-    //       document.getElementById("bloop").play(); //SOUND
-
-    //       // console.log('landed on next');
-    //       updateStreak();
-
-    //       // console.log('streak', streak);
-    //       updateScore();
-    //       addNextPlatform( APlatforms.next().pos );
-
-    //       // console.log('score', score);
-
-
-    //     // } else if (player.landedSafelyOn(APlatforms.curr())) {
-
-    //     //   console.log('landed on curr')
-
-    //     } else {
-    //       player.moving = false;  
-    //       player.dead = true;    
-    //     }
-
-    //   } else {
-    //     player.updatePos(dt);
-    //   }
-    //   playerMesh.position.set(player.pos.x, player.pos.y, player.pos.z);
-
-    // }
-
     if (player.moving === true) {    // until the spacebar is pressed the player is not moving
-
       if (player.pos.y < player.finalPos.y) {  // ready to evaluate landing
-        
         if (player.landedSafelyOn(APlatforms.next())) {
           
           player.pos.y = .125; 
           player.moving = false;
   
-          // console.log('landed safely', player.pos.y);
+          console.log('landed safely', player.pos.y);
           
           document.getElementById("bloop").play(); //SOUND
-          
           updateStreak();  // update actions
           updateScore();
           addNextPlatform( APlatforms.next().pos );
-          
         } else {
-          // console.log('didnt land safely');
+          console.log('didnt land safely');
 
           setTimeout(() => {
             player.dead = true;
@@ -286,16 +213,13 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
     }
 
     if (player.moving === true) {
-      // console.log('ABOUT TO UPDATE FROM LOOP');
       player.updatePos(dt);
-      playerMesh.position.set(player.pos.x, player.pos.y, player.pos.z);
-    
+      playerGroup.position.set(player.pos.x, player.pos.y, player.pos.z);
     }
 
     renderer.render(scene, camera);
     requestAnimationFrame(render);
   }
-
   requestAnimationFrame(render); // kicks off the animation loop
 
 
@@ -310,8 +234,9 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
   }
 
   function updateStreak () {
-    let result = checkBullsEye(APlatforms.next(), player);
+    let result = player.checkBullsEye(APlatforms.next(), player);
     if (streak === 0 && result === 1) {
+      triggerBullsEyeFx(ringMaterial);
       streak += 1;
     } else if (streak > 0 && result === 1) {
       streak += result;
@@ -325,7 +250,6 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
   function setNextPos( platform ) {  
  
     APlatforms.next().pos = APlatforms.curr().pos;
-
     let pC = APlatforms.curr().pos;
 
     let minDistance = platform.W / 2 + APlatforms.curr().W / 2;
@@ -347,20 +271,15 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
 
   // ----------------------adds a new platform to the Game Object
   function addPlatformToGame() {
-
-
     APlatforms.enQ(new Platform(true, new THREE.Vector3(0,0,0)));  // adds a new platform w/ default pos (0,0,0)
     let dequeuedRes = APlatforms.deQ();
     IPlatforms.enQ(dequeuedRes);
-
   }
 
   // ---------------------adds new platform to the scene
   function addNextPlatform( ) {
-
     addPlatformToGame();
     setNextPos(APlatforms.next());
-    
     let newPlatformId = addPlatformToScene( APlatforms.next() )
     APlatforms.next().id = newPlatformId;
 
