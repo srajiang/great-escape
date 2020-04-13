@@ -7,7 +7,6 @@ import { sample } from './util';
 const LAUNCH_FACTOR = 4;
 const HIGH_SCORE = 99999;
 
-
 function Game() {
 
   this.score = 0;

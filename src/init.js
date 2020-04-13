@@ -1,13 +1,9 @@
 import * as THREE from "three";
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
-import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass'
 import { calculateScore, sample, checkBullsEye, toggleGameState, toggleAvatar } from './util';
 import Platform from "./Platform";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 
 function init({ APlatforms, IPlatforms, player, score, streak }) {
-
   // --------------------------------------------------CANVAS / RENDERER / SCENE
 
   // ----------- set basic width and height
@@ -71,7 +67,6 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
       opacity: .9
     });
     mesh = new THREE.Mesh(geometry, material);
-    // mesh.castShadow = true;
     mesh.receiveShadow = true;    
 
     scene.add(mesh);
@@ -91,7 +86,6 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
 
    var loader = new FBXLoader();
    var TLoader = new THREE.TextureLoader();
-
    let texture = TLoader.load("../models/croissant/textures/Texture.jpg");
 
    loader.load(
@@ -118,6 +112,16 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
        console.log("error loading model", error);
      }
    );
+
+  // ------------------------------------------------------- RENDER LANDING RING
+  let ringGeometry, ringMaterial, ringMesh;
+  ringGeometry = new THREE.PlaneGeometry( 20, 20 );
+  ringMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+  ringMesh = new THREE.Mesh( ringGeometry, ringMaterial );
+  scene.add( ringMesh );
+  ringMesh.position.set(0, 0, 0);
+
+
 
   // --------------------------------------------- ORIGINAL TEST OBJECT CYLINDER
   // playerGeometry = new THREE.CylinderGeometry(
@@ -413,7 +417,6 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
     camera.position.copy(newCamPos);
     // console.log("world pos after",camera.getWorldPosition());
   }
-
 }
 
   // ----------------------------------------------------------- POST PROCESSING

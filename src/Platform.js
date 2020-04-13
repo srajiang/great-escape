@@ -19,8 +19,6 @@ const HEIGHT = .15;
 const DEFAULT_POS = new THREE.Vector3(0,0,0)
 
 // ---------------------------------------------------------- INITIAL OBJ CONSTS
-// const START_POS = new THREE.Vector3(0, 0.075, 0);
-
 
 function Platform( active = false, initPos = DEFAULT_POS ) { 
 

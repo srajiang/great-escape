@@ -25,19 +25,19 @@
     <meta name="msapplication-config" content="/browserconfig.xml">
   
     <!-- fa -->
-    <script src="https://kit.fontawesome.com/589c0c4018.js" crossorigin="anonymous" sameSite="None"></script>
+    <script src="https://kit.fontawesome.com/589c0c4018.js" crossorigin="anonymous"></script>
 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-  <!-- game logic -->
-  <script src="main.js"></script>
-  <link rel="stylesheet" type="text/css" href="main.css">
-  <style>
-    @import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,&display=swap');
-  </style>
-  <title>Great Croissant Escape</title>
+    <!-- game logic -->
+    <script src="bundle.js"></script>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <style>
+      @import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,&display=swap');
+    </style>
+    <title>Great Croissant Escape</title>
   
 </head>
 <body>
@@ -68,14 +68,9 @@
   </audio>
 
   <!-- GAME CONTENT -->
-
-  
   <div class="game-wrapper">
 
     <div class="wrapper">
-
-      
-
       <div class="canvas-wrapper">
 
         <div id="title">
@@ -83,13 +78,11 @@
           <h1>Great</h1>
           <h1>Croissant</h1>
           <h1>Escape</h1>
-
           <div id="ext-links">
             <a target="_blank" href="https://github.com/srajiang"><i class="fab fa-github"></i></a>
             <a target="_blank" href="https://www.linkedin.com/in/sjiang8/"><i class="fab fa-linkedin-in"></i></a>
             <a target="_blank" href="https://angel.co/sarah-jiang-1"><i class="fab fa-angellist"></i></a>
           </div>
-
         </div>
 
         <img id ="croissant-sticker-win" src="media/kawaii_croissant_win.png" alt="cute croissant image">
@@ -98,17 +91,15 @@
         <div id="score">0</div>
 
         <canvas id="c"></canvas>
-        
+  
         <div class="controls">
-          <div>Press spacebar to jump</div>
+          <div>Press and hold spacebar to jump farther</div>
           <div id="volume-icon">
             <i id="volume-icon-on" sameSite="None" class="fas fa-volume-up"></i>
-            <i id="volume-icon-off" class="fas fa-volume-mute"></i>
+            <i id="volume-icon-off" sameSite="None" class="fas fa-volume-mute"></i>
           </div>
         </div>
-       
       </div>
-
 
       <div class="game-start-overlay">
         <h1>L'heure est venue</h1>
@@ -123,8 +114,6 @@
         <p>Les humains ont gagné cette fois...</p>
         <p>(The humans won this time..)</p>
       </div>
-
-
     </div>
     
     <button class="try-again">TRY AGAIN</button>
