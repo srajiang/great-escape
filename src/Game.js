@@ -2,7 +2,6 @@ import Player from './Player';
 import Platform from './Platform';
 import PlatformQueue from './PlatformQueue';
 import * as THREE from "three";
-import { sample } from './util';
 
 const LAUNCH_FACTOR = 4;
 const HIGH_SCORE = 99999;
@@ -11,11 +10,11 @@ function Game() {
 
   this.score = 0;
   this.streak = 0;
-  this.APlatforms = this.addPlatforms(); // active platforms
-  this.IPlatforms = new PlatformQueue();
+  this.ActivePlatforms = this.addPlatforms(); // active platforms
+  this.InactivePlatforms = new PlatformQueue();
   this.player = new Player(this);
 
-  this.gameStarted = false;
+  this.gameActive = true;
 
   this.keyDownTS;  //mouse event variables
   this.keyUpTS;
@@ -37,9 +36,8 @@ Game.prototype.setNextFinalPos = function() {
 
 Game.prototype.registerSpaceBarKeyPress = function({ type, code, timeStamp }) {
 
-  if (code === "Space" && !this.gameStarted) {   //starts the game on initial spacebar keypress
-   
-    this.gameStarted = true;
+  if (code === "Space" && !this.gameActive) {   //starts the game on initial spacebar keypress
+    this.gameActive = true;
 
   }
 
@@ -56,27 +54,21 @@ Game.prototype.registerSpaceBarKeyPress = function({ type, code, timeStamp }) {
   }
 
   if (type === "keyup" && code === "Space" && !this.keyUpTS) {
-
     this.keyUpTS = timeStamp;
   }
 
 
   if (this.keyDownTS && this.keyUpTS) {  //player has made a move
-    
     this.keyDelta = (this.keyUpTS - this.keyDownTS) / 1000; //convert to s;
-
     if (this.keyDelta > 2.5) { 
       this.keyDelta = 2.5;
     }
-
     if (this.keyDelta > 0.4) {
       document.getElementById("grunt-1").play(); // SOUND
     }
-
     this.setNextFinalPos();
     this.player.vel.y = this.keyDelta * LAUNCH_FACTOR;
     this.player.moving = true;
-
   }
 
 }
@@ -84,17 +76,14 @@ Game.prototype.registerSpaceBarKeyPress = function({ type, code, timeStamp }) {
 Game.prototype.addPlatforms = function() {
 
   if (this.APlatforms === undefined) {  //game start
-
     const curr = new THREE.Vector3( 0, 0, -.4);
     const next = new THREE.Vector3(0, 0, 0);
-    
     let platforms = new PlatformQueue;
-
     platforms.enQ(new Platform(true,  curr));
     platforms.enQ(new Platform(true, next));
 
     return platforms;
-    
+  
   }
 
 
