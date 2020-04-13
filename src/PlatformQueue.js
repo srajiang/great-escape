@@ -1,8 +1,5 @@
-import Platform from "./Platform";
-
 function PlatformQueue() {
   this.items = [];
-  
 }
 
 PlatformQueue.prototype.enQ = function (ele){

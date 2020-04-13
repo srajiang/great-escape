@@ -18,11 +18,9 @@ function Player(game) {
   this.finalPos;
   this.vel = new THREE.Vector3(0, 1, 0);
   this.grav = new THREE.Vector3(0, -9.8, 0);
-
-
+  
   // ---------------------------------player state
-  this.dead = false;
-
+  this.active = false;
 
   this.updatePos = ( dt ) => {
     if ( this.dir === 'R') {
@@ -62,7 +60,7 @@ Player.prototype.checkBullsEye = (platform, player) => {
   return 0;
 }
 
-Player.prototype.landedSafelyOn = function( platform ) {  
+Player.prototype.landedSafelyOn = function(platform) {  
 
   let leewayMinX, leewayMaxX, myPosX, leewayMinZ, leewayMaxZ, myPosZ;
 
@@ -75,7 +73,7 @@ Player.prototype.landedSafelyOn = function( platform ) {
     leewayMinX = platform.pos.x - platform.W / 2 + .005;
     leewayMaxX = platform.pos.x + platform.W / 2 - .005;
 
-
+    console.log("my pos: z - ", myPosZ, 'my pos: x -', myPosX);
   if (myPosX < leewayMinX || myPosX > leewayMaxX || myPosZ < leewayMinZ || myPosZ > leewayMaxZ || this.pos.y < 0 ) {
     return false; 
   } 

@@ -1,9 +1,9 @@
 import * as THREE from "three";
-import { calculateScore, sample, checkBullsEye, triggerBullsEyeFx, toggleGameState, toggleAvatar } from './util';
+import { calculateScore, sample, triggerBullsEyeFx, toggleGameState, toggleAvatar } from './util';
 import Platform from "./Platform";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 
-function init({ APlatforms, IPlatforms, player, score, streak }) {
+function init({ gameActive, ActivePlatforms, InactivePlatforms, player, score, streak }) {
   // --------------------------------------------------CANVAS / RENDERER / SCENE
   // ----------- set basic width and height
   const width = 450;
@@ -69,10 +69,10 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
     return mesh.id;
   }
 
-  for (let i = 0; i < APlatforms.items.length; i++ ) {
-    let platform = APlatforms.items[i];
+  for (let i = 0; i < ActivePlatforms.items.length; i++ ) {
+    let platform = ActivePlatforms.items[i];
     let platformId = addPlatformToScene( platform );
-    APlatforms.items[i].id = platformId;      //assigns unique id tying scene obj to the Game Object  
+    ActivePlatforms.items[i].id = platformId;      //assigns unique id tying scene obj to the Game Object  
   }
 
   // -------------------------------------------------------------- PLAYER GROUP
@@ -171,17 +171,15 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
 
   function render(time) {
 
-    if (player.dead) {     // if player is dead, break out of render loop
+    if (player.active) {     // if game over, break out of render loop
       toggleGameState(true);
       document.getElementById('eaten').play()  // SOUND 
-      toggleAvatar(player.dead);
+      toggleAvatar(false);
       return;
     }
 
     time *= 0.001; //convert time to seconds
-
-    // --------------------- get the change over time
-    dt = time - prevTime;
+    dt = time - prevTime; // get change over time
     prevTime = time;
 
     if (dt > 0.15) {
@@ -189,34 +187,31 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
     }
 
     if (player.moving === true) {    // until the spacebar is pressed the player is not moving
-      if (player.pos.y < player.finalPos.y) {  // ready to evaluate landing
-        if (player.landedSafelyOn(APlatforms.next())) {
-          
+      if (player.pos.y < player.finalPos.y && gameActive) {  // player has dipped below the final y position calculated
+        if (player.landedSafelyOn(ActivePlatforms.next())) {
           player.pos.y = .125; 
           player.moving = false;
   
-          console.log('landed safely', player.pos.y);
+          // console.log('landed safely', player.pos.x, player.pos.z);
           
           document.getElementById("bloop").play(); //SOUND
           updateStreak();  // update actions
           updateScore();
-          addNextPlatform( APlatforms.next().pos );
+          addNextPlatform( ActivePlatforms.next().pos);
         } else {
-          console.log('didnt land safely');
-
+          // console.log('didnt land safely');
+          gameActive = false;
           setTimeout(() => {
-            player.dead = true;
+            player.active = true;
           }, 500);
           clearTimeout();
         }            
       }
     }
-
     if (player.moving === true) {
       player.updatePos(dt);
       playerGroup.position.set(player.pos.x, player.pos.y, player.pos.z);
     }
-
     renderer.render(scene, camera);
     requestAnimationFrame(render);
   }
@@ -234,7 +229,7 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
   }
 
   function updateStreak () {
-    let result = player.checkBullsEye(APlatforms.next(), player);
+    let result = player.checkBullsEye(ActivePlatforms.next(), player);
     if (streak === 0 && result === 1) {
       triggerBullsEyeFx(ringMaterial);
       streak += 1;
@@ -249,39 +244,38 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
   // -------------------- sets the direction of the next platform + player
   function setNextPos( platform ) {  
  
-    APlatforms.next().pos = APlatforms.curr().pos;
-    let pC = APlatforms.curr().pos;
-
-    let minDistance = platform.W / 2 + APlatforms.curr().W / 2;
+    ActivePlatforms.next().pos = ActivePlatforms.curr().pos;
+    let pC = ActivePlatforms.curr().pos;
+    let minDistance = platform.W / 2 + ActivePlatforms.curr().W / 2;
     let newPosVal = (Math.random() * .6) + minDistance;
     player.dir = sample(['L', 'R']);
 
     switch ( player.dir ) { 
       case 'L':
-        APlatforms.next().pos.add(new THREE.Vector3(newPosVal, 0, 0));
+        ActivePlatforms.next().pos.add(new THREE.Vector3(newPosVal, 0, 0));
         break; 
       case 'R':
-        APlatforms.next().pos.add(new THREE.Vector3(0, 0, newPosVal));
+        ActivePlatforms.next().pos.add(new THREE.Vector3(0, 0, newPosVal));
         break;
     }
-    let pN = APlatforms.next().pos;
+    let pN = ActivePlatforms.next().pos;
 
     recenterCamera(pC, pN);    //resets the camera position
   }
 
   // ----------------------adds a new platform to the Game Object
   function addPlatformToGame() {
-    APlatforms.enQ(new Platform(true, new THREE.Vector3(0,0,0)));  // adds a new platform w/ default pos (0,0,0)
-    let dequeuedRes = APlatforms.deQ();
-    IPlatforms.enQ(dequeuedRes);
+    ActivePlatforms.enQ(new Platform(true, new THREE.Vector3(0,0,0)));  // adds a new platform w/ default pos (0,0,0)
+    let dequeuedRes = ActivePlatforms.deQ();
+    InactivePlatforms.enQ(dequeuedRes);
   }
 
   // ---------------------adds new platform to the scene
   function addNextPlatform( ) {
     addPlatformToGame();
-    setNextPos(APlatforms.next());
-    let newPlatformId = addPlatformToScene( APlatforms.next() )
-    APlatforms.next().id = newPlatformId;
+    setNextPos(ActivePlatforms.next());
+    let newPlatformId = addPlatformToScene( ActivePlatforms.next() )
+    ActivePlatforms.next().id = newPlatformId;
 
   }
   
@@ -296,21 +290,21 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
   
     if ( player.dir === 'L' && prevDir === 'L') {
 
-      let deltaX = (APlatforms.next().pos.x - playerMesh.position.x) / 2;
+      let deltaX = (ActivePlatforms.next().pos.x - playerMesh.position.x) / 2;
 
       newCamPos.x += deltaX + prevDeltaX;
       prevDeltaX = deltaX;
 
     } else if (player.dir === 'R' && prevDir === 'R') {
 
-      let deltaZ = (APlatforms.next().pos.z - playerMesh.position.z ) / 2;
+      let deltaZ = (ActivePlatforms.next().pos.z - playerMesh.position.z ) / 2;
 
       newCamPos.z += deltaZ + prevDeltaZ;
       prevDeltaZ = deltaZ;
       
     } else if (player.dir === 'R' && prevDir === 'L') {
 
-      let deltaZ = (APlatforms.next().pos.z - playerMesh.position.z);
+      let deltaZ = (ActivePlatforms.next().pos.z - playerMesh.position.z);
       let deltaX = prevDeltaX / 2;
       newCamPos.z += deltaZ;
       newCamPos.x += deltaX;
@@ -323,7 +317,7 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
     } else if (player.dir === 'L' && prevDir === 'R') {
 
 
-      let deltaX = (APlatforms.next().pos.x - playerMesh.position.x);
+      let deltaX = (ActivePlatforms.next().pos.x - playerMesh.position.x);
       let deltaZ = prevDeltaZ / 2;
       newCamPos.x += deltaX;
       newCamPos.z += deltaZ;
@@ -340,16 +334,5 @@ function init({ APlatforms, IPlatforms, player, score, streak }) {
     // console.log("world pos after",camera.getWorldPosition());
   }
 }
-
-  // ----------------------------------------------------------- POST PROCESSING
-  // var composer = new EffectComposer(renderer);
-  // composer.addPass(new RenderPass(scene, camera));
-  // var pass = new SMAAPass(
-  //   window.innerWidth * renderer.getPixelRatio(),
-  //   window.innerHeight * renderer.getPixelRatio()
-  // );
-  // composer.addPass(pass);
-
-
 
 export default init;

@@ -27,7 +27,6 @@ export const toggleGameState = (playerIsDead, playerRestart) => {
     gameover.style.display = "none";
     tryAgain.style.display = "none";
   }
-
 }
 
 export const toggleAvatar = (playerDead) => {

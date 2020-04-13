@@ -10,11 +10,11 @@ function Game() {
 
   this.score = 0;
   this.streak = 0;
-  this.APlatforms = this.addPlatforms(); // active platforms
-  this.IPlatforms = new PlatformQueue();
+  this.ActivePlatforms = this.addPlatforms(); // active platforms
+  this.InactivePlatforms = new PlatformQueue();
   this.player = new Player(this);
 
-  this.gameStarted = false;
+  this.gameActive = true;
 
   this.keyDownTS;  //mouse event variables
   this.keyUpTS;
@@ -36,8 +36,8 @@ Game.prototype.setNextFinalPos = function() {
 
 Game.prototype.registerSpaceBarKeyPress = function({ type, code, timeStamp }) {
 
-  if (code === "Space" && !this.gameStarted) {   //starts the game on initial spacebar keypress
-    this.gameStarted = true;
+  if (code === "Space" && !this.gameActive) {   //starts the game on initial spacebar keypress
+    this.gameActive = true;
 
   }
 
