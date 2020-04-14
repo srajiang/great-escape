@@ -20,7 +20,7 @@ function Player(game) {
   this.grav = new THREE.Vector3(0, -9.8, 0);
   
   // ---------------------------------player state
-  this.active = false;
+  this.active = true;
 
   this.updatePos = ( dt ) => {
     if ( this.dir === 'R') {
@@ -73,7 +73,6 @@ Player.prototype.landedSafelyOn = function(platform) {
     leewayMinX = platform.pos.x - platform.W / 2 + .005;
     leewayMaxX = platform.pos.x + platform.W / 2 - .005;
 
-    console.log("my pos: z - ", myPosZ, 'my pos: x -', myPosX);
   if (myPosX < leewayMinX || myPosX > leewayMaxX || myPosZ < leewayMinZ || myPosZ > leewayMaxZ || this.pos.y < 0 ) {
     return false; 
   } 

@@ -14,7 +14,7 @@ function Game() {
   this.InactivePlatforms = new PlatformQueue();
   this.player = new Player(this);
 
-  this.gameActive = true;
+  this.gameActive = false;
 
   this.keyDownTS;  //mouse event variables
   this.keyUpTS;
@@ -36,11 +36,7 @@ Game.prototype.setNextFinalPos = function() {
 
 Game.prototype.registerSpaceBarKeyPress = function({ type, code, timeStamp }) {
 
-  if (code === "Space" && !this.gameActive) {   //starts the game on initial spacebar keypress
-    this.gameActive = true;
-
-  }
-
+  if (!this.gameActive) return;  //if the game is not active, spacebar doesn't trigger
   if (this.player.moving === true) return;   //if player is already moving, space bar doesn't trigger movement
 
   if (this.keyDownTS && this.keyUpTS && this.keyDelta) {  //reset if already exist
@@ -52,11 +48,9 @@ Game.prototype.registerSpaceBarKeyPress = function({ type, code, timeStamp }) {
   if (type === "keydown" && code === "Space" && !this.keyDownTS) {
     this.keyDownTS = timeStamp;
   }
-
   if (type === "keyup" && code === "Space" && !this.keyUpTS) {
     this.keyUpTS = timeStamp;
   }
-
 
   if (this.keyDownTS && this.keyUpTS) {  //player has made a move
     this.keyDelta = (this.keyUpTS - this.keyDownTS) / 1000; //convert to s;
