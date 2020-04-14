@@ -3,7 +3,9 @@ import { calculateScore, sample, triggerBullsEyeFx, toggleGameState, toggleAvata
 import Platform from "./Platform";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 
-function init({ gameActive, ActivePlatforms, InactivePlatforms, player, score, streak }) {
+// { game.gameActive, game.ActivePlatforms, game.InactivePlatforms, player, game.score, game.streak }
+
+function init(game) {
   // --------------------------------------------------CANVAS / RENDERER / SCENE
   // ----------- set basic width and height
   const width = 450;
@@ -69,10 +71,10 @@ function init({ gameActive, ActivePlatforms, InactivePlatforms, player, score, s
     return mesh.id;
   }
 
-  for (let i = 0; i < ActivePlatforms.items.length; i++ ) {
-    let platform = ActivePlatforms.items[i];
+  for (let i = 0; i < game.ActivePlatforms.items.length; i++ ) {
+    let platform = game.ActivePlatforms.items[i];
     let platformId = addPlatformToScene( platform );
-    ActivePlatforms.items[i].id = platformId;      //assigns unique id tying scene obj to the Game Object  
+    game.ActivePlatforms.items[i].id = platformId;      //assigns unique id tying scene obj to the Game Object  
   }
 
   // -------------------------------------------------------------- PLAYER GROUP
@@ -94,7 +96,7 @@ function init({ gameActive, ActivePlatforms, InactivePlatforms, player, score, s
        playerMesh.castShadow = true;
        playerMesh.geometry.computeBoundingSphere();
 
-       player.id = playerMesh.id;
+       game.player.id = playerMesh.id;
        playerMesh.material.map = texture;
        playerMesh.material.depthTest = false;
        playerMesh.scale.multiplyScalar(0.0005);
@@ -122,7 +124,7 @@ function init({ gameActive, ActivePlatforms, InactivePlatforms, player, score, s
   playerGroup.add(ringMesh);
 
   // ------------------------------------------------- ADD PLAYER GROUP TO SCENE
-  playerGroup.position.set(player.pos.x, 0.125, player.pos.z);
+  playerGroup.position.set(game.player.pos.x, 0.125, game.player.pos.z);
   scene.add(playerGroup);
 
   // -------------------------------------------------------------------- LIGHTS
@@ -171,8 +173,8 @@ function init({ gameActive, ActivePlatforms, InactivePlatforms, player, score, s
 
   function render(time) {
 
-    if (player.active) {     // if game over, break out of render loop
-      toggleGameState(true);
+    if (!game.gameActive && !game.player.active) {     // if player is inactive, break out of render loop
+      toggleGameState(!game.player.active);
       document.getElementById('eaten').play()  // SOUND 
       toggleAvatar(false);
       return;
@@ -186,31 +188,31 @@ function init({ gameActive, ActivePlatforms, InactivePlatforms, player, score, s
       dt = 0.15;  //limit in case update rate of > 1/5 of a second
     }
 
-    if (player.moving === true) {    // until the spacebar is pressed the player is not moving
-      if (player.pos.y < player.finalPos.y && gameActive) {  // player has dipped below the final y position calculated
-        if (player.landedSafelyOn(ActivePlatforms.next())) {
-          player.pos.y = .125; 
-          player.moving = false;
+    if (game.player.moving === true) {    // until the spacebar is pressed the player is not moving
+      if (game.player.pos.y < game.player.finalPos.y && game.gameActive) {  // player has dipped below the final y position calculated
+        if (game.player.landedSafelyOn(game.ActivePlatforms.next())) {
+          game.player.pos.y = .125; 
+          game.player.moving = false;
   
-          // console.log('landed safely', player.pos.x, player.pos.z);
+          // console.log('landed safely', game.player.pos.x, game.player.pos.z);
           
           document.getElementById("bloop").play(); //SOUND
           updateStreak();  // update actions
           updateScore();
-          addNextPlatform( ActivePlatforms.next().pos);
+          addNextPlatform( game.ActivePlatforms.next().pos);
         } else {
           // console.log('didnt land safely');
-          gameActive = false;
+          game.gameActive = false;
           setTimeout(() => {
-            player.active = true;
+            game.player.active = false;
           }, 500);
           clearTimeout();
         }            
       }
     }
-    if (player.moving === true) {
-      player.updatePos(dt);
-      playerGroup.position.set(player.pos.x, player.pos.y, player.pos.z);
+    if (game.player.moving === true) {
+      game.player.updatePos(dt);
+      playerGroup.position.set(game.player.pos.x, game.player.pos.y, game.player.pos.z);
     }
     renderer.render(scene, camera);
     requestAnimationFrame(render);
@@ -223,20 +225,20 @@ function init({ gameActive, ActivePlatforms, InactivePlatforms, player, score, s
 
   function updateScore () {
 
-    score = calculateScore(score, streak);
-    document.getElementById('score').innerHTML = score;
+    game.score = calculateScore(game.score, game.streak);
+    document.getElementById('score').innerHTML = game.score;
 
   }
 
   function updateStreak () {
-    let result = player.checkBullsEye(ActivePlatforms.next(), player);
-    if (streak === 0 && result === 1) {
+    let result = game.player.checkBullsEye(game.ActivePlatforms.next(), game.player);
+    if (game.streak === 0 && result === 1) {
       triggerBullsEyeFx(ringMaterial);
-      streak += 1;
-    } else if (streak > 0 && result === 1) {
-      streak += result;
-    } else if (streak > 0 && result === 0) {
-      streak = 0;
+      game.streak += 1;
+    } else if (game.streak > 0 && result === 1) {
+      game.streak += result;
+    } else if (game.streak > 0 && result === 0) {
+      game.streak = 0;
     }
   }
 
@@ -244,38 +246,40 @@ function init({ gameActive, ActivePlatforms, InactivePlatforms, player, score, s
   // -------------------- sets the direction of the next platform + player
   function setNextPos( platform ) {  
  
-    ActivePlatforms.next().pos = ActivePlatforms.curr().pos;
-    let pC = ActivePlatforms.curr().pos;
-    let minDistance = platform.W / 2 + ActivePlatforms.curr().W / 2;
+    game.ActivePlatforms.next().pos = game.ActivePlatforms.curr().pos;
+    let pC = game.ActivePlatforms.curr().pos;
+    console.log('curr', pC)
+    let minDistance = platform.W / 2 + game.ActivePlatforms.curr().W / 2;
     let newPosVal = (Math.random() * .6) + minDistance;
-    player.dir = sample(['L', 'R']);
+    game.player.dir = sample(['L', 'R']);
 
-    switch ( player.dir ) { 
+    switch ( game.player.dir ) { 
       case 'L':
-        ActivePlatforms.next().pos.add(new THREE.Vector3(newPosVal, 0, 0));
+        game.ActivePlatforms.next().pos.add(new THREE.Vector3(newPosVal, 0, 0));
         break; 
       case 'R':
-        ActivePlatforms.next().pos.add(new THREE.Vector3(0, 0, newPosVal));
+        game.ActivePlatforms.next().pos.add(new THREE.Vector3(0, 0, newPosVal));
         break;
     }
-    let pN = ActivePlatforms.next().pos;
+    let pN = game.ActivePlatforms.next().pos;
 
+    console.log('current platform', pC, 'next platform', pN);
     recenterCamera(pC, pN);    //resets the camera position
   }
 
   // ----------------------adds a new platform to the Game Object
   function addPlatformToGame() {
-    ActivePlatforms.enQ(new Platform(true, new THREE.Vector3(0,0,0)));  // adds a new platform w/ default pos (0,0,0)
-    let dequeuedRes = ActivePlatforms.deQ();
-    InactivePlatforms.enQ(dequeuedRes);
+    game.ActivePlatforms.enQ(new Platform(true, new THREE.Vector3(0,0,0)));  // adds a new platform w/ default pos (0,0,0)
+    let dequeuedRes = game.ActivePlatforms.deQ();
+    game.InactivePlatforms.enQ(dequeuedRes);
   }
 
   // ---------------------adds new platform to the scene
   function addNextPlatform( ) {
     addPlatformToGame();
-    setNextPos(ActivePlatforms.next());
-    let newPlatformId = addPlatformToScene( ActivePlatforms.next() )
-    ActivePlatforms.next().id = newPlatformId;
+    setNextPos(game.ActivePlatforms.next());
+    let newPlatformId = addPlatformToScene( game.ActivePlatforms.next() )
+    game.ActivePlatforms.next().id = newPlatformId;
 
   }
   
@@ -288,23 +292,23 @@ function init({ gameActive, ActivePlatforms, InactivePlatforms, player, score, s
 
     let newCamPos = camera.position.clone();
   
-    if ( player.dir === 'L' && prevDir === 'L') {
+    if ( game.player.dir === 'L' && prevDir === 'L') {
 
-      let deltaX = (ActivePlatforms.next().pos.x - playerMesh.position.x) / 2;
+      let deltaX = (game.ActivePlatforms.next().pos.x - playerMesh.position.x) / 2;
 
       newCamPos.x += deltaX + prevDeltaX;
       prevDeltaX = deltaX;
 
-    } else if (player.dir === 'R' && prevDir === 'R') {
+    } else if (game.player.dir === 'R' && prevDir === 'R') {
 
-      let deltaZ = (ActivePlatforms.next().pos.z - playerMesh.position.z ) / 2;
+      let deltaZ = (game.ActivePlatforms.next().pos.z - playerMesh.position.z ) / 2;
 
       newCamPos.z += deltaZ + prevDeltaZ;
       prevDeltaZ = deltaZ;
       
-    } else if (player.dir === 'R' && prevDir === 'L') {
+    } else if (game.player.dir === 'R' && prevDir === 'L') {
 
-      let deltaZ = (ActivePlatforms.next().pos.z - playerMesh.position.z);
+      let deltaZ = (game.ActivePlatforms.next().pos.z - playerMesh.position.z);
       let deltaX = prevDeltaX / 2;
       newCamPos.z += deltaZ;
       newCamPos.x += deltaX;
@@ -312,12 +316,12 @@ function init({ gameActive, ActivePlatforms, InactivePlatforms, player, score, s
       prevDeltaZ = deltaZ / 2;
       prevDeltaX = deltaX;
 
-      prevDir = player.dir;
+      prevDir = game.player.dir;
 
-    } else if (player.dir === 'L' && prevDir === 'R') {
+    } else if (game.player.dir === 'L' && prevDir === 'R') {
 
 
-      let deltaX = (ActivePlatforms.next().pos.x - playerMesh.position.x);
+      let deltaX = (game.ActivePlatforms.next().pos.x - playerMesh.position.x);
       let deltaZ = prevDeltaZ / 2;
       newCamPos.x += deltaX;
       newCamPos.z += deltaZ;
@@ -326,7 +330,7 @@ function init({ gameActive, ActivePlatforms, InactivePlatforms, player, score, s
       prevDeltaX = deltaX / 2;
       prevDeltaZ = deltaZ;
 
-      prevDir = player.dir;
+      prevDir = game.player.dir;
  
     }
     // console.log("world pos before",camera.getWorldPosition());
