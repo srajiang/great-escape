@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+console.log('CUCUMBER RUNNER ACTIVE')
 var os = require("os");
 var child_process = require("child_process");
 var config_file =
@@ -15,6 +16,7 @@ if (os.platform() == "win32") {
 }
 
 for (var i in config.capabilities) {
+  console.log("PROCESS", i);
   var env = Object.create(process.env);
   env.TASK_ID = i.toString();
   var p = child_process.spawn(command, process.argv, { env: env });
