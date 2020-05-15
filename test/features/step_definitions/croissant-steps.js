@@ -21,7 +21,7 @@ module.exports = function () {
   });
 
   this.Then(/^I should see user instructions "([^"]*)"$/, function (instructMatch, next) {
-      let instruct = this.driver.findElement(By.id("player-instruct"));
+      let instruct = this.driver.findElement({ id: "player-instruct"});
       assert.equal(
         instruct,
         instructMatch,
@@ -31,7 +31,7 @@ module.exports = function () {
   });  
 
   this.Then(/^Volume off icon should not be displayed$/, function() {
-    let volumeIcon = this.driver.findElement(By.id("volume-icon-off"));
+    let volumeIcon = this.driver.findElement({ id: "volume-icon-off"});
     let display = window.getComputedStyle(volumeIcon).display;
     assert.equal(
       display,
