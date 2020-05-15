@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    environment {
+        BUILD_ID="dontKillMe"
+        JENKINS_NODE_COOKIE="dontKillMe"
+    }
     tools {nodejs "NodeJS"}
     stages {
         stage('build') {
