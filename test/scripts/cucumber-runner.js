@@ -33,7 +33,7 @@ for (var i in config.capabilities) {
 
   env.TASK_ID = i.toString();
 
-  var p = child_process.spawn(command, process.argv, { env: env, detached: true });
+  var p = child_process.spawn(command, process.argv, { env: env });
 
   p.on('exit', (code, signal) => console.log('code', code, 'signal', signal));
   p.on('error', () => console.log('there was an error with childprocess'));
