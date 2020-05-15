@@ -35,7 +35,7 @@ for (var i in config.capabilities) {
   env.JENKINS_NODE_COOKIE = 'dontKillMe';
   env.BUILD_ID= 'dontKillMe';
 
-  var p = child_process.spawn(command, process.argv, { env: env });
+  var p = child_process.spawn(command, process.argv, { env: env, detached: true });
 
   p.on('exit', (code, signal) => console.log('code', code, 'signal', signal));
   p.on('error', () => console.log('there was an error with childprocess'));
