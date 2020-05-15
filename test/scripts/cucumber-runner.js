@@ -6,7 +6,7 @@ var config_file =
 var config = require(config_file).config;
 var command = "/usr/bin/env";
 
-process.argv[1] = "./node_modules/cucumber/bin/cucumber.js";
+process.argv[1] = "./node_modules/cucumber/bin/cucumber.js"; 
 
 for (var i in config.capabilities) {  
   var env = Object.create(process.env);
@@ -15,7 +15,7 @@ for (var i in config.capabilities) {
   var p = child_process.spawn(command, process.argv, { env: env });
 
   // p.on('exit', (code, signal) => console.log('exited with code:', code, 'and signal:', signal));
-  // p.on('error', () => console.log('there was an error with childprocess'));
+  // p.on('error', () => console.log('error spawning child process'));
   
   p.stdout.pipe(process.stdout);
 }
