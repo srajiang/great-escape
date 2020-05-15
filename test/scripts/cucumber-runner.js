@@ -14,11 +14,8 @@ for (var i in config.capabilities) {
 
   var p = child_process.spawn(command, process.argv, { env: env });
 
-  p.on('exit', (code, signal) => console.log('exited with code:', code, 'and signal:', signal));
-  p.on('error', () => console.log('there was an error with childprocess'));
-  p.stdout.on("data", (data) => {
-    console.log(`childprocess stdout:\n${data}`);
-  });
+  // p.on('exit', (code, signal) => console.log('exited with code:', code, 'and signal:', signal));
+  // p.on('error', () => console.log('there was an error with childprocess'));
   
   p.stdout.pipe(process.stdout);
 }
