@@ -32,15 +32,16 @@ module.exports = function () {
       })
   });  
 
-  // this.Then(/^Volume off icon should not be displayed$/, function() {
-  //   let volumeIcon = this.driver.findElement({ id: "volume-icon-off"});
-  //   let display = window.getComputedStyle(volumeIcon).display;
-  //   assert.equal(
-  //     display,
-  //     'none',
-  //     next,
-  //     'Expected display to be none'
-  //   )
-  // });
+  this.Then(/^Volume off icon should not be displayed$/, function() {
+    let volumeIcon = this.driver.findElement({ id: "volume-icon-off"});
+    volumeIcon.isDisplayed().then(function (isDisplayed) {
+       assert.equal(
+         isDisplayed,
+         false,
+         next,
+         "Expected element to not be displayed"
+       );
+     }); 
+  });
 
 };
