@@ -7,9 +7,14 @@ var config_file =
 var config = require(config_file).config;
 var command = "/usr/bin/env";
 
+
+console.log('os', os);
+console.log('config file path', config_file)
+
 process.argv[0] = "node";
 // process.argv[1] = "./node_modules/cucumber/bin/cucumber.js";
-process.argv[1] = "/Users/sarahjiang/.jenkins/tools/jenkins.plugins.nodejs.tools.NodeJSInstallation/NodeJS/lib/node_modules/cucumber/bin/cucumber.js";
+process.argv[1] = "node_modules/cucumber/bin/cucumber.js";
+// process.argv[1] = "/Users/sarahjiang/.jenkins/tools/jenkins.plugins.nodejs.tools.NodeJSInstallation/NodeJS/lib/node_modules/cucumber/bin/cucumber.js";
 
 // Check if os is windows
 if (os.platform() == "win32") {
