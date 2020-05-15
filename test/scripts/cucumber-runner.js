@@ -32,8 +32,6 @@ for (var i in config.capabilities) {
   // console.log('env', env);
 
   env.TASK_ID = i.toString();
-  env.JENKINS_NODE_COOKIE = 'dontKillMe';
-  env.BUILD_ID= 'dontKillMe';
 
   var p = child_process.spawn(command, process.argv, { env: env, detached: true });
 
