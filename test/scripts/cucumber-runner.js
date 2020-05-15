@@ -11,8 +11,8 @@ var command = "/usr/bin/env";
 // console.log('argv1 before', process.argv[1]);
 
 // process.argv[0] = "node";
-// process.argv[1] = "./node_modules/cucumber/bin/cucumber.js";
-process.argv[1] = "/Users/sarahjiang/.jenkins/tools/jenkins.plugins.nodejs.tools.NodeJSInstallation/NodeJS/lib/node_modules/cucumber/bin/cucumber.js";
+process.argv[1] = "./node_modules/cucumber/bin/cucumber.js";
+// process.argv[1] = "/Users/sarahjiang/.jenkins/tools/jenkins.plugins.nodejs.tools.NodeJSInstallation/NodeJS/lib/node_modules/cucumber/bin/cucumber.js";
 
 // console.log("argv0 after", process.argv[0]);
 // console.log("argv1 after", process.argv[1]);
@@ -27,9 +27,9 @@ for (var i in config.capabilities) {
   
   console.log("PROCESS", config.capabilities[i].browserName);
 
-  console.log('process env', process.env);
+  // console.log('process env', process.env);
   var env = Object.create(process.env);
-  console.log('env', env);
+  // console.log('env', env);
 
   env.TASK_ID = i.toString();
   env.JENKINS_NODE_COOKIE = 'dontKillMe';

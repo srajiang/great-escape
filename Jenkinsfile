@@ -17,7 +17,7 @@ pipeline {
                     sh 'export JENKINS_NODE_COOKIE=dontKillMe'
                     sh 'export BUILD_ID=dontKillMe'
                     sh 'npm install'
-                    sh 'npm run local'
+                    sh 'npm run parallel'
                 }
             }
         }
