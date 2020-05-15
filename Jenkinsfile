@@ -2,7 +2,7 @@ pipeline {
     agent any
     tools {nodejs "NodeJS"}
     triggers {
-      pollSCM('')  //enables polling, allowing post-commit hook to be handled
+      pollSCM('')  //enables polling, allowing post-commit hook
     }
     stages {
         stage('browserstack-tests') {
