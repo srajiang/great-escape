@@ -21,25 +21,26 @@ module.exports = function () {
   });
 
   this.Then(/^I should see user instructions "([^"]*)"$/, function (instructMatch, next) {
-      let instruct = this.driver.findElement({ id: "player-instruct"}).textContent;
-      console.log('TEXT CONTENT', instruct);
-      assert.equal(
-        instruct,
-        instructMatch,
-        next,
-        "Expected content to be: " + instructMatch
-      );
+      let ele = this.driver.findElement({ id: 'player-instruct'});
+      ele.getText().then(function (instruct) {
+        assert.equal(
+          instruct,
+          instructMatch,
+          next,
+          "Expected content to be: " + instructMatch
+        );
+      })
   });  
 
-  this.Then(/^Volume off icon should not be displayed$/, function() {
-    let volumeIcon = this.driver.findElement({ id: "volume-icon-off"});
-    let display = window.getComputedStyle(volumeIcon).display;
-    assert.equal(
-      display,
-      'none',
-      next,
-      'Expected display to be none'
-    )
-  });
+  // this.Then(/^Volume off icon should not be displayed$/, function() {
+  //   let volumeIcon = this.driver.findElement({ id: "volume-icon-off"});
+  //   let display = window.getComputedStyle(volumeIcon).display;
+  //   assert.equal(
+  //     display,
+  //     'none',
+  //     next,
+  //     'Expected display to be none'
+  //   )
+  // });
 
 };
