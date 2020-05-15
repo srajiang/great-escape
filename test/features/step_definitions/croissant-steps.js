@@ -34,7 +34,7 @@ module.exports = function () {
 
   this.Then(/^Volume off icon should not be displayed$/, function() {
     let volumeIcon = this.driver.findElement({ id: "volume-icon-off"});
-    volumeIcon.isDisplayed().then(function (isDisplayed) {
+    volumeIcon.isDisplayed().then(function (isDisplayed, next) {
        assert.equal(
          isDisplayed,
          false,
