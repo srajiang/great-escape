@@ -2,7 +2,6 @@ exports.config = {
   user: "sarahjiang1",
   key: "s5yXSauqiUo8xAD2zz2F",
   server: "hub-cloud.browserstack.com",
-
   commonCapabilities: {
     name: "parallel_test",
     build: "cucumber-js-browserstack",
