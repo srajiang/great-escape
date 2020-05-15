@@ -12,7 +12,6 @@ console.log('argv1 before', process.argv[1]);
 
 // process.argv[0] = "node";
 // process.argv[1] = "./node_modules/cucumber/bin/cucumber.js";
-// process.argv[1] = "./lib/node_modules/cucumber/bin/cucumber.js";
 process.argv[1] = "/Users/sarahjiang/.jenkins/tools/jenkins.plugins.nodejs.tools.NodeJSInstallation/NodeJS/lib/node_modules/cucumber/bin/cucumber.js";
 
 console.log("argv0 after", process.argv[0]);
@@ -25,13 +24,20 @@ if (os.platform() == "win32") {
 
 for (var i in config.capabilities) {
   console.log("PROCESS", config.capabilities[i].browserName);
-  var env = Object.create(process.env);
 
-  console.log(env);
+  console.log('process env', process.env);
+  var env = Object.create(process.env);
+  console.log('env', env);
 
   env.TASK_ID = i.toString();
 
   var p = child_process.spawn(command, process.argv, { env: env });
 
+  p.on('exit', (code, signal) => console.log('code', code, 'signal', signal));
+  p.on('error', () => console.log('there was an error with childprocess'));
+  p.stdout.on("data", (data) => {
+    console.log(`childprocess stdout:\n${data}`);
+  });
+  
   p.stdout.pipe(process.stdout);
 }
