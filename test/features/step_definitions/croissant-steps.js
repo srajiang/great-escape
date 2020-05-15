@@ -21,12 +21,13 @@ module.exports = function () {
   });
 
   this.Then(/^I should see user instructions "([^"]*)"$/, function (instructMatch, next) {
-      let instruct = this.driver.findElement({ id: "player-instruct"});
+      let instruct = this.driver.findElement({ id: "player-instruct"}).textContent;
+      console.log('TEXT CONTENT', instruct);
       assert.equal(
         instruct,
         instructMatch,
         next,
-        "Expected content to be" + instructMatch
+        "Expected content to be: " + instructMatch
       );
   });  
 
