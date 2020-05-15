@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack --watch --mode=development",
     "local": "cross-env CONFIG_FILE=local ./node_modules/cucumber/bin/cucumber.js test/features/local.feature",
-    "parallel": "cross-env CONFIG_FILE=parallel ./test/scripts/cucumber-runner.js test/features/single.feature"
+    "parallel": "cross-env CONFIG_FILE=parallel ./test/scripts/cucumber-runner.js ./test/features/single.feature"
   },
   "repository": {
     "type": "git",
