@@ -3,7 +3,6 @@ pipeline {
     tools {nodejs "NodeJS"}
     triggers {
       pollSCM('')  //enables polling, allowing post-commit hook to be handled
-      githubPush
     }
     stages {
         stage('browserstack-tests') {

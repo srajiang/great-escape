@@ -9,9 +9,9 @@ var command = "/usr/bin/env";
 process.argv[1] = "./node_modules/cucumber/bin/cucumber.js";
 
 // Check if os is windows
-if (os.platform() == "win32") {
-  command = process.argv.shift();
-}
+// if (os.platform() == "win32") {
+//   command = process.argv.shift();
+// }
 
 for (var i in config.capabilities) {  
   var env = Object.create(process.env);
