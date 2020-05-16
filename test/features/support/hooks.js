@@ -47,7 +47,7 @@ var myHooks = function () {
       if (bs_local) {
         bs_local.stop(callback);
       }
-      // else callback();
+      else callback();
     });
   });
 };
