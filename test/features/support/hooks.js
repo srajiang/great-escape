@@ -42,13 +42,18 @@ var myHooks = function () {
     }
   });
 
+//   this.After(function (scenario, callback) {
+//     this.driver.quit().then(function () {
+//       if (bs_local) {
+//         bs_local.stop(callback);
+//       }
+//       else callback();
+//     });
+//   });
+// };
+
   this.After(function (scenario, callback) {
-    this.driver.quit().then(function () {
-      if (bs_local) {
-        bs_local.stop(callback);
-      }
-      else callback();
-    });
+    this.driver.quit()
   });
 };
 
