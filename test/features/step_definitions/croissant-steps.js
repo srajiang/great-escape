@@ -32,12 +32,14 @@ module.exports = function () {
       })
   });  
 
-  this.Then(/^Volume off icon should not be displayed$/, function() {
+  this.Then(/^Volume off icon should not be displayed$/, function(next) {
     let volumeIcon = this.driver.findElement({ id: "volume-icon-off"});
     volumeIcon.isDisplayed().then(function (isDisplayed) {
        assert.equal(
          isDisplayed,
-         false
+         false, 
+         next,
+         "Expected volume to not be displayed"
        );
      }); 
   });
