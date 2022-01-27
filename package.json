@@ -21,7 +21,7 @@
   "dependencies": {
     "browserstack-local": "^1.4.5",
     "cross-env": "^7.0.2",
-    "three": "^0.112.1",
+    "three": "^0.137.0",
     "webpack": "^4.42.1"
   },
   "devDependencies": {
